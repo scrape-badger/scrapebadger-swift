@@ -1,3 +1,47 @@
+# ScrapeBadger Swift SDK
+
+[![version](https://img.shields.io/github/v/release/scrape-badger/scrapebadger-swift?label=version)](https://github.com/scrape-badger/scrapebadger-swift) [![CI](https://img.shields.io/github/actions/workflow/status/scrape-badger/scrapebadger-swift/ci.yml?label=CI)](https://github.com/scrape-badger/scrapebadger-swift/actions) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+Official **Swift** SDK for [ScrapeBadger](https://scrapebadger.com) — one API key for
+30+ scraping APIs: Twitter/X, Reddit, Facebook, Instagram, TikTok, YouTube, Amazon, eBay,
+Walmart, Vinted, Google (18 products), Bing, Yahoo, ChatGPT, Perplexity, real estate, and
+any URL via the general Web Scraping API. Generated from the ScrapeBadger OpenAPI spec —
+always in sync with the API. ⚠️ This repository is regenerated automatically; don't send
+PRs here, request changes via the [roadmap](https://github.com/scrape-badger/roadmap).
+
+📚 [API docs](https://docs.scrapebadger.com) · 🧰 [All SDKs](https://scrapebadger.com/sdks) · 🔑 [Get an API key](https://scrapebadger.com/auth/signup) — 1,000 free credits
+
+## 🚀 Install
+
+```
+.package(url: "https://github.com/scrape-badger/scrapebadger-swift", from: "0.1.0")
+```
+
+## ⚡ Quick start
+
+```swift
+import ScrapeBadger
+
+ScrapeBadgerAPI.customHeaders["X-API-Key"] = "YOUR_API_KEY"
+
+TwitterAPI.twitterGetUserByUsername(username: "elonmusk") { data, error in
+    if let data { print(data) }
+    if let error { print("error: \(error)") }
+}
+```
+
+Every scraper is available as its own API class (`TwitterApi`, `AmazonApi`, `GoogleApi`, …)
+with one method per endpoint — the full list is in the reference below.
+
+## 🛠 Development
+
+```sh
+swift build   # compile
+swift test    # tests
+```
+
+---
+
 # Swift5 API client for ScrapeBadger
 
 Unified credit-based scraping API. https://docs.scrapebadger.com
