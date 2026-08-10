@@ -12,9 +12,9 @@ import AnyCodable
 
 public struct HTTPValidationError: Codable, JSONEncodable, Hashable {
 
-    public var detail: [ValidationError]?
+    public var detail: [HTTPValidationErrorDetail]?
 
-    public init(detail: [ValidationError]? = nil) {
+    public init(detail: [HTTPValidationErrorDetail]? = nil) {
         self.detail = detail
     }
 

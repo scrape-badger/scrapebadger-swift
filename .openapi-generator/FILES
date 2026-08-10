@@ -54,6 +54,7 @@ ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleUpdate.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleValidateRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleValidateResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/HTTPValidationError.swift
+ScrapeBadger/Classes/OpenAPIs/Models/HTTPValidationErrorDetail.swift
 ScrapeBadger/Classes/OpenAPIs/Models/PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/StreamMonitorCreate.swift
 ScrapeBadger/Classes/OpenAPIs/Models/StreamMonitorListResponse.swift
@@ -62,7 +63,6 @@ ScrapeBadger/Classes/OpenAPIs/Models/StreamMonitorUpdate.swift
 ScrapeBadger/Classes/OpenAPIs/Models/SubscriptionInfo.swift
 ScrapeBadger/Classes/OpenAPIs/Models/TweetDeliveryLogListResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/TweetDeliveryLogResponse.swift
-ScrapeBadger/Classes/OpenAPIs/Models/ValidationError.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ValidationErrorLocInner.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookCreate.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookListItem.swift
@@ -97,6 +97,7 @@ docs/FilterRuleValidateRequest.md
 docs/FilterRuleValidateResponse.md
 docs/GoogleAPI.md
 docs/HTTPValidationError.md
+docs/HTTPValidationErrorDetail.md
 docs/IdealistaAPI.md
 docs/ImmobiliareAPI.md
 docs/InstagramAPI.md
@@ -116,7 +117,6 @@ docs/TikTokAPI.md
 docs/TweetDeliveryLogListResponse.md
 docs/TweetDeliveryLogResponse.md
 docs/TwitterAPI.md
-docs/ValidationError.md
 docs/ValidationErrorLocInner.md
 docs/VintedAPI.md
 docs/WalmartAPI.md
