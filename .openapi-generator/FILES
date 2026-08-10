@@ -17,6 +17,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/DepopAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/DuckDuckGoAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/EBayAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/FacebookAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/GeminiAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/GoogleAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/IdealistaAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/ImmobiliareAPI.swift
@@ -24,6 +25,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/InstagramAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/LeboncoinAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/LinkedInAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/LoopNetAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/PerplexityAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/RealtorAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/RedditAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/RedfinAPI.swift
@@ -95,6 +97,7 @@ docs/FilterRuleResponse.md
 docs/FilterRuleUpdate.md
 docs/FilterRuleValidateRequest.md
 docs/FilterRuleValidateResponse.md
+docs/GeminiAPI.md
 docs/GoogleAPI.md
 docs/HTTPValidationError.md
 docs/HTTPValidationErrorDetail.md
@@ -104,6 +107,7 @@ docs/InstagramAPI.md
 docs/LeboncoinAPI.md
 docs/LinkedInAPI.md
 docs/LoopNetAPI.md
+docs/PerplexityAPI.md
 docs/PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse.md
 docs/RealtorAPI.md
 docs/RedditAPI.md
