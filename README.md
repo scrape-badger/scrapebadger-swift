@@ -1,6 +1,14 @@
-# ScrapeBadger Swift SDK
+<p align="center">
+  <img src="https://scrapebadger.com/logo-dark.png" alt="ScrapeBadger" width="400">
+</p>
 
-[![version](https://img.shields.io/github/v/release/scrape-badger/scrapebadger-swift?label=version)](https://github.com/scrape-badger/scrapebadger-swift) [![CI](https://img.shields.io/github/actions/workflow/status/scrape-badger/scrapebadger-swift/ci.yml?label=CI)](https://github.com/scrape-badger/scrapebadger-swift/actions) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+<h1 align="center">ScrapeBadger Swift SDK</h1>
+
+<p align="center">
+  <a href="https://github.com/scrape-badger/scrapebadger-swift"><img src="https://img.shields.io/github/v/release/scrape-badger/scrapebadger-swift?label=version" alt="version"></a>
+  <a href="https://github.com/scrape-badger/scrapebadger-swift/actions"><img src="https://img.shields.io/github/actions/workflow/status/scrape-badger/scrapebadger-swift/ci.yml?label=CI" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"></a>
+</p>
 
 Official **Swift** SDK for [ScrapeBadger](https://scrapebadger.com) — one API key for
 30+ scraping APIs: Twitter/X, Reddit, Facebook, Instagram, TikTok, YouTube, Amazon, eBay,
