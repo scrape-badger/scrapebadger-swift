@@ -10,6 +10,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/AccountAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/AmazonAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/ApartmentsAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/AppStoreAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/BaiduAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/BingAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/ChatGPTAPI.swift
@@ -19,6 +20,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/EBayAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/FacebookAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/GeminiAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/GoogleAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/GooglePlayAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/IdealistaAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/ImmobiliareAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/InstagramAPI.swift
@@ -80,6 +82,7 @@ docs/AccountAPI.md
 docs/AccountInfo.md
 docs/AmazonAPI.md
 docs/ApartmentsAPI.md
+docs/AppStoreAPI.md
 docs/BaiduAPI.md
 docs/BillingLogListResponse.md
 docs/BillingLogResponse.md
@@ -99,6 +102,7 @@ docs/FilterRuleValidateRequest.md
 docs/FilterRuleValidateResponse.md
 docs/GeminiAPI.md
 docs/GoogleAPI.md
+docs/GooglePlayAPI.md
 docs/HTTPValidationError.md
 docs/HTTPValidationErrorDetail.md
 docs/IdealistaAPI.md
