@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**tiktokGetOembedMetadata**](TikTokAPI.md#tiktokgetoembedmetadata) | **GET** /v1/tiktok/oembed | Get oEmbed metadata
 [**tiktokGetRelatedVideos**](TikTokAPI.md#tiktokgetrelatedvideos) | **GET** /v1/tiktok/videos/{video_id}/related | Get related videos
 [**tiktokGetReposts**](TikTokAPI.md#tiktokgetreposts) | **GET** /v1/tiktok/users/{username}/reposts | Get reposts
+[**tiktokGetTiktokAdDetail**](TikTokAPI.md#tiktokgettiktokaddetail) | **GET** /v1/tiktok/ads/{ad_id} | Get TikTok ad detail
 [**tiktokGetTranscript**](TikTokAPI.md#tiktokgettranscript) | **GET** /v1/tiktok/videos/{video_id}/transcript | Get transcript
 [**tiktokGetUserProfile**](TikTokAPI.md#tiktokgetuserprofile) | **GET** /v1/tiktok/users/{username} | Get user profile
 [**tiktokGetUserVideos**](TikTokAPI.md#tiktokgetuservideos) | **GET** /v1/tiktok/users/{username}/videos | Get user videos
@@ -26,6 +27,7 @@ Method | HTTP request | Description
 [**tiktokListRegions**](TikTokAPI.md#tiktoklistregions) | **GET** /v1/tiktok/regions | List regions
 [**tiktokSearchHashtags**](TikTokAPI.md#tiktoksearchhashtags) | **GET** /v1/tiktok/search/hashtags | Search hashtags
 [**tiktokSearchTheTiktokAdLibrary**](TikTokAPI.md#tiktoksearchthetiktokadlibrary) | **GET** /v1/tiktok/ads/search | Search the TikTok Ad Library
+[**tiktokSearchTiktokAdvertisers**](TikTokAPI.md#tiktoksearchtiktokadvertisers) | **GET** /v1/tiktok/ads/advertisers | Search TikTok advertisers
 [**tiktokSearchUsers**](TikTokAPI.md#tiktoksearchusers) | **GET** /v1/tiktok/search/users | Search users
 [**tiktokSearchVideos**](TikTokAPI.md#tiktoksearchvideos) | **GET** /v1/tiktok/search/videos | Search videos
 [**tiktokTrendingHashtags**](TikTokAPI.md#tiktoktrendinghashtags) | **GET** /v1/tiktok/trending/hashtags | Trending hashtags
@@ -741,6 +743,58 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **tiktokGetTiktokAdDetail**
+```swift
+    open class func tiktokGetTiktokAdDetail(adId: String, region: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Get TikTok ad detail
+
+Get a single ad's advertiser, creatives, and targeting/impression breakdown.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let adId = "adId_example" // String | 
+let region = "region_example" // String | EU region code (the Ad Library is EU-only) (optional) (default to "DE")
+
+// Get TikTok ad detail
+TikTokAPI.tiktokGetTiktokAdDetail(adId: adId, region: region) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **adId** | **String** |  | 
+ **region** | **String** | EU region code (the Ad Library is EU-only) | [optional] [default to &quot;DE&quot;]
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **tiktokGetTranscript**
 ```swift
     open class func tiktokGetTranscript(videoId: String, region: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
@@ -1197,6 +1251,60 @@ Name | Type | Description  | Notes
  **offset** | **Int** |  | [optional] [default to 0]
  **searchId** | **String** |  | [optional] [default to &quot;&quot;]
  **count** | **Int** |  | [optional] [default to 20]
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **tiktokSearchTiktokAdvertisers**
+```swift
+    open class func tiktokSearchTiktokAdvertisers(query: String, region: String? = nil, count: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Search TikTok advertisers
+
+Look up TikTok advertiser business ids by name (feeds ads/search?advertiser_id=).
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let query = "query_example" // String | Advertiser name (or partial) to look up
+let region = "region_example" // String | EU region code (the Ad Library is EU-only) (optional) (default to "DE")
+let count = 987 // Int |  (optional) (default to 10)
+
+// Search TikTok advertisers
+TikTokAPI.tiktokSearchTiktokAdvertisers(query: query, region: region, count: count) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **String** | Advertiser name (or partial) to look up | 
+ **region** | **String** | EU region code (the Ad Library is EU-only) | [optional] [default to &quot;DE&quot;]
+ **count** | **Int** |  | [optional] [default to 10]
 
 ### Return type
 

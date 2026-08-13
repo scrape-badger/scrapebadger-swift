@@ -778,6 +778,61 @@ open class TikTokAPI {
     }
 
     /**
+     Get TikTok ad detail
+     
+     - parameter adId: (path)  
+     - parameter region: (query) EU region code (the Ad Library is EU-only) (optional, default to "DE")
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokGetTiktokAdDetail(adId: String, region: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokGetTiktokAdDetailWithRequestBuilder(adId: adId, region: region).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get TikTok ad detail
+     - GET /v1/tiktok/ads/{ad_id}
+     - Get a single ad's advertiser, creatives, and targeting/impression breakdown.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter adId: (path)  
+     - parameter region: (query) EU region code (the Ad Library is EU-only) (optional, default to "DE")
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokGetTiktokAdDetailWithRequestBuilder(adId: String, region: String? = nil) -> RequestBuilder<AnyCodable> {
+        var localVariablePath = "/v1/tiktok/ads/{ad_id}"
+        let adIdPreEscape = "\(APIHelper.mapValueToPathItem(adId))"
+        let adIdPostEscape = adIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{ad_id}", with: adIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Get transcript
      
      - parameter videoId: (path)  
@@ -1257,6 +1312,62 @@ open class TikTokAPI {
             "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
             "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
             "search_id": (wrappedValue: searchId?.encodeToJSON(), isExplode: true),
+            "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Search TikTok advertisers
+     
+     - parameter query: (query) Advertiser name (or partial) to look up 
+     - parameter region: (query) EU region code (the Ad Library is EU-only) (optional, default to "DE")
+     - parameter count: (query)  (optional, default to 10)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokSearchTiktokAdvertisers(query: String, region: String? = nil, count: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokSearchTiktokAdvertisersWithRequestBuilder(query: query, region: region, count: count).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Search TikTok advertisers
+     - GET /v1/tiktok/ads/advertisers
+     - Look up TikTok advertiser business ids by name (feeds ads/search?advertiser_id=).
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter query: (query) Advertiser name (or partial) to look up 
+     - parameter region: (query) EU region code (the Ad Library is EU-only) (optional, default to "DE")
+     - parameter count: (query)  (optional, default to 10)
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokSearchTiktokAdvertisersWithRequestBuilder(query: String, region: String? = nil, count: Int? = nil) -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/tiktok/ads/advertisers"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "query": (wrappedValue: query.encodeToJSON(), isExplode: true),
+            "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
             "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
         ])
 
