@@ -8,6 +8,7 @@ ScrapeBadger.podspec
 ScrapeBadger/Classes/OpenAPIs/APIHelper.swift
 ScrapeBadger/Classes/OpenAPIs/APIs.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/AccountAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/AirbnbAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/AmazonAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/ApartmentsAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/AppStoreAPI.swift
@@ -80,6 +81,7 @@ ScrapeBadger/Classes/OpenAPIs/URLSessionImplementations.swift
 ScrapeBadger/Classes/OpenAPIs/Validation.swift
 docs/AccountAPI.md
 docs/AccountInfo.md
+docs/AirbnbAPI.md
 docs/AmazonAPI.md
 docs/ApartmentsAPI.md
 docs/AppStoreAPI.md
