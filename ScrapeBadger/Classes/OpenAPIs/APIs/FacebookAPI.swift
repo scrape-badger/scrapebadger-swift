@@ -130,15 +130,71 @@ open class FacebookAPI {
     }
 
     /**
-     Get an ad
+     Get advertiser page info
      
-     - parameter adArchiveId: (path)  
+     - parameter pageId: (path)  
+     - parameter country: (query)  (optional, default to "US")
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func facebookGetAnAd(adArchiveId: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return facebookGetAnAdWithRequestBuilder(adArchiveId: adArchiveId).execute(apiResponseQueue) { result in
+    open class func facebookGetAdvertiserPageInfo(pageId: String, country: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return facebookGetAdvertiserPageInfoWithRequestBuilder(pageId: pageId, country: country).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get advertiser page info
+     - GET /v1/facebook/ads/pages/{page_id}
+     - Get advertiser page info: category, followers, page transparency (creation date, name history, managing organization, admin-account locations), related pages, and ad spend (for political/issue advertisers).
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter pageId: (path)  
+     - parameter country: (query)  (optional, default to "US")
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func facebookGetAdvertiserPageInfoWithRequestBuilder(pageId: String, country: String? = nil) -> RequestBuilder<AnyCodable> {
+        var localVariablePath = "/v1/facebook/ads/pages/{page_id}"
+        let pageIdPreEscape = "\(APIHelper.mapValueToPathItem(pageId))"
+        let pageIdPostEscape = pageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{page_id}", with: pageIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Get an ad
+     
+     - parameter adArchiveId: (path)  
+     - parameter country: (query) ISO country code (an EU code returns EU transparency) (optional, default to "US")
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func facebookGetAnAd(adArchiveId: String, country: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return facebookGetAnAdWithRequestBuilder(adArchiveId: adArchiveId, country: country).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -151,14 +207,15 @@ open class FacebookAPI {
     /**
      Get an ad
      - GET /v1/facebook/ads/{ad_archive_id}
-     - Get a single Ad Library ad by its archive id.
+     - Get a single Ad Library ad by its archive id. For EU/UK-targeted ads the response also includes transparency insights (payer/beneficiary, total EU reach, and age/gender/country reach breakdowns).
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter adArchiveId: (path)  
+     - parameter country: (query) ISO country code (an EU code returns EU transparency) (optional, default to "US")
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func facebookGetAnAdWithRequestBuilder(adArchiveId: String) -> RequestBuilder<AnyCodable> {
+    open class func facebookGetAnAdWithRequestBuilder(adArchiveId: String, country: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/facebook/ads/{ad_archive_id}"
         let adArchiveIdPreEscape = "\(APIHelper.mapValueToPathItem(adArchiveId))"
         let adArchiveIdPostEscape = adArchiveIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -166,7 +223,10 @@ open class FacebookAPI {
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: Any?] = [
             :
@@ -680,6 +740,59 @@ open class FacebookAPI {
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Search advertiser pages
+     
+     - parameter query: (query) Advertiser name or keyword 
+     - parameter country: (query)  (optional, default to "US")
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func facebookSearchAdvertiserPages(query: String, country: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return facebookSearchAdvertiserPagesWithRequestBuilder(query: query, country: country).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Search advertiser pages
+     - GET /v1/facebook/ads/pages/search
+     - Search advertiser Pages in the Ad Library — returns page ids, categories, likes/followers, verification and Instagram handles.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter query: (query) Advertiser name or keyword 
+     - parameter country: (query)  (optional, default to "US")
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func facebookSearchAdvertiserPagesWithRequestBuilder(query: String, country: String? = nil) -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/facebook/ads/pages/search"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "query": (wrappedValue: query.encodeToJSON(), isExplode: true),
+            "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: Any?] = [
             :

@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**facebookBrowseAMarketplaceCategory**](FacebookAPI.md#facebookbrowseamarketplacecategory) | **GET** /v1/facebook/marketplace/category/{category} | Browse a Marketplace category
 [**facebookGetAMarketplaceItem**](FacebookAPI.md#facebookgetamarketplaceitem) | **GET** /v1/facebook/marketplace/item/{item_id} | Get a Marketplace item
+[**facebookGetAdvertiserPageInfo**](FacebookAPI.md#facebookgetadvertiserpageinfo) | **GET** /v1/facebook/ads/pages/{page_id} | Get advertiser page info
 [**facebookGetAnAd**](FacebookAPI.md#facebookgetanad) | **GET** /v1/facebook/ads/{ad_archive_id} | Get an ad
 [**facebookGetGroupDetail**](FacebookAPI.md#facebookgetgroupdetail) | **GET** /v1/facebook/groups/{group_id} | Get group detail
 [**facebookGetGroupPosts**](FacebookAPI.md#facebookgetgroupposts) | **GET** /v1/facebook/groups/{group_id}/posts | Get group posts
@@ -17,6 +18,7 @@ Method | HTTP request | Description
 [**facebookGetProfilePosts**](FacebookAPI.md#facebookgetprofileposts) | **GET** /v1/facebook/profiles/{identifier}/posts | Get profile posts
 [**facebookListCategories**](FacebookAPI.md#facebooklistcategories) | **GET** /v1/facebook/marketplace/categories | List categories
 [**facebookListLocations**](FacebookAPI.md#facebooklistlocations) | **GET** /v1/facebook/marketplace/locations | List locations
+[**facebookSearchAdvertiserPages**](FacebookAPI.md#facebooksearchadvertiserpages) | **GET** /v1/facebook/ads/pages/search | Search advertiser pages
 [**facebookSearchEvents**](FacebookAPI.md#facebooksearchevents) | **GET** /v1/facebook/search/events | Search events
 [**facebookSearchEverything**](FacebookAPI.md#facebooksearcheverything) | **GET** /v1/facebook/search | Search everything
 [**facebookSearchGroups**](FacebookAPI.md#facebooksearchgroups) | **GET** /v1/facebook/search/groups | Search groups
@@ -138,14 +140,66 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **facebookGetAdvertiserPageInfo**
+```swift
+    open class func facebookGetAdvertiserPageInfo(pageId: String, country: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Get advertiser page info
+
+Get advertiser page info: category, followers, page transparency (creation date, name history, managing organization, admin-account locations), related pages, and ad spend (for political/issue advertisers).
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let pageId = "pageId_example" // String | 
+let country = "country_example" // String |  (optional) (default to "US")
+
+// Get advertiser page info
+FacebookAPI.facebookGetAdvertiserPageInfo(pageId: pageId, country: country) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pageId** | **String** |  | 
+ **country** | **String** |  | [optional] [default to &quot;US&quot;]
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **facebookGetAnAd**
 ```swift
-    open class func facebookGetAnAd(adArchiveId: String, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func facebookGetAnAd(adArchiveId: String, country: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Get an ad
 
-Get a single Ad Library ad by its archive id.
+Get a single Ad Library ad by its archive id. For EU/UK-targeted ads the response also includes transparency insights (payer/beneficiary, total EU reach, and age/gender/country reach breakdowns).
 
 ### Example
 ```swift
@@ -153,9 +207,10 @@ Get a single Ad Library ad by its archive id.
 import ScrapeBadger
 
 let adArchiveId = "adArchiveId_example" // String | 
+let country = "country_example" // String | ISO country code (an EU code returns EU transparency) (optional) (default to "US")
 
 // Get an ad
-FacebookAPI.facebookGetAnAd(adArchiveId: adArchiveId) { (response, error) in
+FacebookAPI.facebookGetAnAd(adArchiveId: adArchiveId, country: country) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -172,6 +227,7 @@ FacebookAPI.facebookGetAnAd(adArchiveId: adArchiveId) { (response, error) in
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **adArchiveId** | **String** |  | 
+ **country** | **String** | ISO country code (an EU code returns EU transparency) | [optional] [default to &quot;US&quot;]
 
 ### Return type
 
@@ -674,6 +730,58 @@ FacebookAPI.facebookListLocations() { (response, error) in
 
 ### Parameters
 This endpoint does not need any parameter.
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **facebookSearchAdvertiserPages**
+```swift
+    open class func facebookSearchAdvertiserPages(query: String, country: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Search advertiser pages
+
+Search advertiser Pages in the Ad Library — returns page ids, categories, likes/followers, verification and Instagram handles.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let query = "query_example" // String | Advertiser name or keyword
+let country = "country_example" // String |  (optional) (default to "US")
+
+// Search advertiser pages
+FacebookAPI.facebookSearchAdvertiserPages(query: query, country: country) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **String** | Advertiser name or keyword | 
+ **country** | **String** |  | [optional] [default to &quot;US&quot;]
 
 ### Return type
 
