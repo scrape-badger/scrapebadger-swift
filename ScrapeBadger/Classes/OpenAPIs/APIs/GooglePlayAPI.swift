@@ -18,12 +18,13 @@ open class GooglePlayAPI {
      - parameter categoryId: (path) Play category id, e.g. &#39;GAME_PUZZLE&#39; or &#39;SOCIAL&#39; 
      - parameter country: (query) Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; (optional, default to "US")
      - parameter lang: (query) Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; (optional, default to "en")
+     - parameter num: (query) Max apps; follows each rail&#39;s &#39;see more&#39; continuation above the ~40-120 the page renders directly (optional, default to 100)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func googlePlayBrowseACategory(categoryId: String, country: String? = nil, lang: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return googlePlayBrowseACategoryWithRequestBuilder(categoryId: categoryId, country: country, lang: lang).execute(apiResponseQueue) { result in
+    open class func googlePlayBrowseACategory(categoryId: String, country: String? = nil, lang: String? = nil, num: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return googlePlayBrowseACategoryWithRequestBuilder(categoryId: categoryId, country: country, lang: lang, num: num).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -43,9 +44,10 @@ open class GooglePlayAPI {
      - parameter categoryId: (path) Play category id, e.g. &#39;GAME_PUZZLE&#39; or &#39;SOCIAL&#39; 
      - parameter country: (query) Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; (optional, default to "US")
      - parameter lang: (query) Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; (optional, default to "en")
+     - parameter num: (query) Max apps; follows each rail&#39;s &#39;see more&#39; continuation above the ~40-120 the page renders directly (optional, default to 100)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func googlePlayBrowseACategoryWithRequestBuilder(categoryId: String, country: String? = nil, lang: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func googlePlayBrowseACategoryWithRequestBuilder(categoryId: String, country: String? = nil, lang: String? = nil, num: Int? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/google-play/categories/{category_id}"
         let categoryIdPreEscape = "\(APIHelper.mapValueToPathItem(categoryId))"
         let categoryIdPostEscape = categoryIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -57,6 +59,7 @@ open class GooglePlayAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
             "lang": (wrappedValue: lang?.encodeToJSON(), isExplode: true),
+            "num": (wrappedValue: num?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -256,12 +259,13 @@ open class GooglePlayAPI {
      - parameter developer: (path) Developer name or numeric id 
      - parameter country: (query) Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; (optional, default to "US")
      - parameter lang: (query) Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; (optional, default to "en")
+     - parameter num: (query) Max apps; follows rail continuations above the page&#39;s directly-rendered slice (optional, default to 100)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func googlePlayGetDeveloperApps(developer: String, country: String? = nil, lang: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return googlePlayGetDeveloperAppsWithRequestBuilder(developer: developer, country: country, lang: lang).execute(apiResponseQueue) { result in
+    open class func googlePlayGetDeveloperApps(developer: String, country: String? = nil, lang: String? = nil, num: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return googlePlayGetDeveloperAppsWithRequestBuilder(developer: developer, country: country, lang: lang, num: num).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -281,9 +285,10 @@ open class GooglePlayAPI {
      - parameter developer: (path) Developer name or numeric id 
      - parameter country: (query) Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; (optional, default to "US")
      - parameter lang: (query) Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; (optional, default to "en")
+     - parameter num: (query) Max apps; follows rail continuations above the page&#39;s directly-rendered slice (optional, default to 100)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func googlePlayGetDeveloperAppsWithRequestBuilder(developer: String, country: String? = nil, lang: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func googlePlayGetDeveloperAppsWithRequestBuilder(developer: String, country: String? = nil, lang: String? = nil, num: Int? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/google-play/developers/{developer}"
         let developerPreEscape = "\(APIHelper.mapValueToPathItem(developer))"
         let developerPostEscape = developerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -295,6 +300,7 @@ open class GooglePlayAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
             "lang": (wrappedValue: lang?.encodeToJSON(), isExplode: true),
+            "num": (wrappedValue: num?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [

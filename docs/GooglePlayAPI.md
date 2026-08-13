@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 # **googlePlayBrowseACategory**
 ```swift
-    open class func googlePlayBrowseACategory(categoryId: String, country: String? = nil, lang: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func googlePlayBrowseACategory(categoryId: String, country: String? = nil, lang: String? = nil, num: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Browse a category
@@ -33,9 +33,10 @@ import ScrapeBadger
 let categoryId = "categoryId_example" // String | Play category id, e.g. 'GAME_PUZZLE' or 'SOCIAL'
 let country = "country_example" // String | Play storefront country (gl), ISO 3166-1 alpha-2, e.g. 'US' (optional) (default to "US")
 let lang = "lang_example" // String | Play content language (hl), e.g. 'en' or 'pt-BR' (optional) (default to "en")
+let num = 987 // Int | Max apps; follows each rail's 'see more' continuation above the ~40-120 the page renders directly (optional) (default to 100)
 
 // Browse a category
-GooglePlayAPI.googlePlayBrowseACategory(categoryId: categoryId, country: country, lang: lang) { (response, error) in
+GooglePlayAPI.googlePlayBrowseACategory(categoryId: categoryId, country: country, lang: lang, num: num) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -54,6 +55,7 @@ Name | Type | Description  | Notes
  **categoryId** | **String** | Play category id, e.g. &#39;GAME_PUZZLE&#39; or &#39;SOCIAL&#39; | 
  **country** | **String** | Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; | [optional] [default to &quot;US&quot;]
  **lang** | **String** | Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; | [optional] [default to &quot;en&quot;]
+ **num** | **Int** | Max apps; follows each rail&#39;s &#39;see more&#39; continuation above the ~40-120 the page renders directly | [optional] [default to 100]
 
 ### Return type
 
@@ -238,7 +240,7 @@ Name | Type | Description  | Notes
 
 # **googlePlayGetDeveloperApps**
 ```swift
-    open class func googlePlayGetDeveloperApps(developer: String, country: String? = nil, lang: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func googlePlayGetDeveloperApps(developer: String, country: String? = nil, lang: String? = nil, num: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Get developer apps
@@ -253,9 +255,10 @@ import ScrapeBadger
 let developer = "developer_example" // String | Developer name or numeric id
 let country = "country_example" // String | Play storefront country (gl), ISO 3166-1 alpha-2, e.g. 'US' (optional) (default to "US")
 let lang = "lang_example" // String | Play content language (hl), e.g. 'en' or 'pt-BR' (optional) (default to "en")
+let num = 987 // Int | Max apps; follows rail continuations above the page's directly-rendered slice (optional) (default to 100)
 
 // Get developer apps
-GooglePlayAPI.googlePlayGetDeveloperApps(developer: developer, country: country, lang: lang) { (response, error) in
+GooglePlayAPI.googlePlayGetDeveloperApps(developer: developer, country: country, lang: lang, num: num) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -274,6 +277,7 @@ Name | Type | Description  | Notes
  **developer** | **String** | Developer name or numeric id | 
  **country** | **String** | Play storefront country (gl), ISO 3166-1 alpha-2, e.g. &#39;US&#39; | [optional] [default to &quot;US&quot;]
  **lang** | **String** | Play content language (hl), e.g. &#39;en&#39; or &#39;pt-BR&#39; | [optional] [default to &quot;en&quot;]
+ **num** | **Int** | Max apps; follows rail continuations above the page&#39;s directly-rendered slice | [optional] [default to 100]
 
 ### Return type
 
