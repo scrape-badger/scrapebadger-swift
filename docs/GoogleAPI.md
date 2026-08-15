@@ -318,9 +318,9 @@ Get place reviews
 import ScrapeBadger
 
 let dataId = "dataId_example" // String | Maps data ID
-let sortBy = "sortBy_example" // String |  (optional) (default to "qualityScore")
+let sortBy = "sortBy_example" // String | qualityScore | newestFirst | ratingHigh | ratingLow (optional) (default to "qualityScore")
 let hl = "hl_example" // String |  (optional) (default to "en")
-let nextPageToken = "nextPageToken_example" // String |  (optional)
+let nextPageToken = "nextPageToken_example" // String | Cursor from the previous response's pagination.next; omit for page 1. (optional)
 let results = 987 // Int |  (optional) (default to 10)
 
 // Get place reviews
@@ -341,9 +341,9 @@ GoogleAPI.googleGetPlaceReviews(dataId: dataId, sortBy: sortBy, hl: hl, nextPage
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **dataId** | **String** | Maps data ID | 
- **sortBy** | **String** |  | [optional] [default to &quot;qualityScore&quot;]
+ **sortBy** | **String** | qualityScore | newestFirst | ratingHigh | ratingLow | [optional] [default to &quot;qualityScore&quot;]
  **hl** | **String** |  | [optional] [default to &quot;en&quot;]
- **nextPageToken** | **String** |  | [optional] 
+ **nextPageToken** | **String** | Cursor from the previous response&#39;s pagination.next; omit for page 1. | [optional] 
  **results** | **Int** |  | [optional] [default to 10]
 
 ### Return type

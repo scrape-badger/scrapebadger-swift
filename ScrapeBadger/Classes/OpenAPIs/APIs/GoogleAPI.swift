@@ -287,9 +287,9 @@ open class GoogleAPI {
      Get place reviews
      
      - parameter dataId: (query) Maps data ID 
-     - parameter sortBy: (query)  (optional, default to "qualityScore")
+     - parameter sortBy: (query) qualityScore | newestFirst | ratingHigh | ratingLow (optional, default to "qualityScore")
      - parameter hl: (query)  (optional, default to "en")
-     - parameter nextPageToken: (query)  (optional)
+     - parameter nextPageToken: (query) Cursor from the previous response&#39;s pagination.next; omit for page 1. (optional)
      - parameter results: (query)  (optional, default to 10)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
@@ -313,9 +313,9 @@ open class GoogleAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter dataId: (query) Maps data ID 
-     - parameter sortBy: (query)  (optional, default to "qualityScore")
+     - parameter sortBy: (query) qualityScore | newestFirst | ratingHigh | ratingLow (optional, default to "qualityScore")
      - parameter hl: (query)  (optional, default to "en")
-     - parameter nextPageToken: (query)  (optional)
+     - parameter nextPageToken: (query) Cursor from the previous response&#39;s pagination.next; omit for page 1. (optional)
      - parameter results: (query)  (optional, default to 10)
      - returns: RequestBuilder<AnyCodable> 
      */
