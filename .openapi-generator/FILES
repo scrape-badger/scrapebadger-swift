@@ -14,6 +14,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/ApartmentsAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/AppStoreAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/BaiduAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/BingAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/BookingAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/ChatGPTAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/DepopAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/DuckDuckGoAPI.swift
@@ -89,6 +90,7 @@ docs/BaiduAPI.md
 docs/BillingLogListResponse.md
 docs/BillingLogResponse.md
 docs/BingAPI.md
+docs/BookingAPI.md
 docs/ChatGPTAPI.md
 docs/DepopAPI.md
 docs/DuckDuckGoAPI.md
