@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**bookingBookingScraperHealthCheckHead**](BookingAPI.md#bookingbookingscraperhealthcheckhead) | **HEAD** /v1/booking/health | Booking scraper health check
 [**bookingGetPropertyDetail**](BookingAPI.md#bookinggetpropertydetail) | **GET** /v1/booking/properties/{country_code}/{slug} | Get property detail
 [**bookingGetPropertyReviews**](BookingAPI.md#bookinggetpropertyreviews) | **GET** /v1/booking/properties/{country_code}/{slug}/reviews | Get property reviews
+[**bookingGetRoomTypesAndLiveRates**](BookingAPI.md#bookinggetroomtypesandliverates) | **GET** /v1/booking/properties/{country_code}/{slug}/rooms | Get room types and live rates
 [**bookingSearchDestinations**](BookingAPI.md#bookingsearchdestinations) | **GET** /v1/booking/destinations | Search destinations
 [**bookingSearchProperties**](BookingAPI.md#bookingsearchproperties) | **GET** /v1/booking/search | Search properties
 
@@ -210,6 +211,72 @@ Name | Type | Description  | Notes
  **reviewLanguage** | **String** | Only reviews written in this language, e.g. &#39;fr&#39; | [optional] 
  **guestType** | **String** | FAMILIES | COUPLES | GROUP_OF_FRIENDS | SOLO_TRAVELLERS | BUSINESS_TRAVELLERS | [optional] 
  **language** | **String** | Locale for labels, e.g. en-us | [optional] 
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bookingGetRoomTypesAndLiveRates**
+```swift
+    open class func bookingGetRoomTypesAndLiveRates(countryCode: String, slug: String, checkin: String, checkout: String, adults: Int? = nil, children: String? = nil, rooms: Int? = nil, currency: String? = nil, language: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Get room types and live rates
+
+Every room type at one property with every rate bookable on it for the given dates — price, price before discount, price per night, discounts and badges — plus per-room facilities, bed layouts, occupancy and photos. /search returns only the cheapest rate per property; this returns the whole table.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let countryCode = "countryCode_example" // String | Two-letter country code, e.g. 'it'
+let slug = "slug_example" // String | Booking page name, e.g. 'hotel-artemide'
+let checkin = "checkin_example" // String | Check-in date YYYY-MM-DD
+let checkout = "checkout_example" // String | Check-out date YYYY-MM-DD
+let adults = 987 // Int |  (optional) (default to 2)
+let children = "children_example" // String | Comma-separated children ages, e.g. '4,9' (optional)
+let rooms = 987 // Int |  (optional) (default to 1)
+let currency = "currency_example" // String | ISO currency, e.g. EUR, USD, GBP (optional)
+let language = "language_example" // String | Locale, e.g. en-us, fr, de (optional)
+
+// Get room types and live rates
+BookingAPI.bookingGetRoomTypesAndLiveRates(countryCode: countryCode, slug: slug, checkin: checkin, checkout: checkout, adults: adults, children: children, rooms: rooms, currency: currency, language: language) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **countryCode** | **String** | Two-letter country code, e.g. &#39;it&#39; | 
+ **slug** | **String** | Booking page name, e.g. &#39;hotel-artemide&#39; | 
+ **checkin** | **String** | Check-in date YYYY-MM-DD | 
+ **checkout** | **String** | Check-out date YYYY-MM-DD | 
+ **adults** | **Int** |  | [optional] [default to 2]
+ **children** | **String** | Comma-separated children ages, e.g. &#39;4,9&#39; | [optional] 
+ **rooms** | **Int** |  | [optional] [default to 1]
+ **currency** | **String** | ISO currency, e.g. EUR, USD, GBP | [optional] 
+ **language** | **String** | Locale, e.g. en-us, fr, de | [optional] 
 
 ### Return type
 

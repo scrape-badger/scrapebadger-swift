@@ -244,6 +244,84 @@ open class BookingAPI {
     }
 
     /**
+     Get room types and live rates
+     
+     - parameter countryCode: (path) Two-letter country code, e.g. &#39;it&#39; 
+     - parameter slug: (path) Booking page name, e.g. &#39;hotel-artemide&#39; 
+     - parameter checkin: (query) Check-in date YYYY-MM-DD 
+     - parameter checkout: (query) Check-out date YYYY-MM-DD 
+     - parameter adults: (query)  (optional, default to 2)
+     - parameter children: (query) Comma-separated children ages, e.g. &#39;4,9&#39; (optional)
+     - parameter rooms: (query)  (optional, default to 1)
+     - parameter currency: (query) ISO currency, e.g. EUR, USD, GBP (optional)
+     - parameter language: (query) Locale, e.g. en-us, fr, de (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func bookingGetRoomTypesAndLiveRates(countryCode: String, slug: String, checkin: String, checkout: String, adults: Int? = nil, children: String? = nil, rooms: Int? = nil, currency: String? = nil, language: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return bookingGetRoomTypesAndLiveRatesWithRequestBuilder(countryCode: countryCode, slug: slug, checkin: checkin, checkout: checkout, adults: adults, children: children, rooms: rooms, currency: currency, language: language).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get room types and live rates
+     - GET /v1/booking/properties/{country_code}/{slug}/rooms
+     - Every room type at one property with every rate bookable on it for the given dates — price, price before discount, price per night, discounts and badges — plus per-room facilities, bed layouts, occupancy and photos. /search returns only the cheapest rate per property; this returns the whole table.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter countryCode: (path) Two-letter country code, e.g. &#39;it&#39; 
+     - parameter slug: (path) Booking page name, e.g. &#39;hotel-artemide&#39; 
+     - parameter checkin: (query) Check-in date YYYY-MM-DD 
+     - parameter checkout: (query) Check-out date YYYY-MM-DD 
+     - parameter adults: (query)  (optional, default to 2)
+     - parameter children: (query) Comma-separated children ages, e.g. &#39;4,9&#39; (optional)
+     - parameter rooms: (query)  (optional, default to 1)
+     - parameter currency: (query) ISO currency, e.g. EUR, USD, GBP (optional)
+     - parameter language: (query) Locale, e.g. en-us, fr, de (optional)
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func bookingGetRoomTypesAndLiveRatesWithRequestBuilder(countryCode: String, slug: String, checkin: String, checkout: String, adults: Int? = nil, children: String? = nil, rooms: Int? = nil, currency: String? = nil, language: String? = nil) -> RequestBuilder<AnyCodable> {
+        var localVariablePath = "/v1/booking/properties/{country_code}/{slug}/rooms"
+        let countryCodePreEscape = "\(APIHelper.mapValueToPathItem(countryCode))"
+        let countryCodePostEscape = countryCodePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{country_code}", with: countryCodePostEscape, options: .literal, range: nil)
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "checkin": (wrappedValue: checkin.encodeToJSON(), isExplode: true),
+            "checkout": (wrappedValue: checkout.encodeToJSON(), isExplode: true),
+            "adults": (wrappedValue: adults?.encodeToJSON(), isExplode: true),
+            "children": (wrappedValue: children?.encodeToJSON(), isExplode: true),
+            "rooms": (wrappedValue: rooms?.encodeToJSON(), isExplode: true),
+            "currency": (wrappedValue: currency?.encodeToJSON(), isExplode: true),
+            "language": (wrappedValue: language?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Search destinations
      
      - parameter query: (query) Free-text place, e.g. &#39;amsterd&#39; 
