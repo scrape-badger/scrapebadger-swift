@@ -83,13 +83,13 @@ open class EBayAPI {
     }
 
     /**
-     Completed / sold listings (deprecated)
+     Completed / sold listings
      
      - parameter query: (query) Search keywords 
-     - parameter domain: (query)  (optional, default to "com")
-     - parameter categoryId: (query)  (optional)
+     - parameter domain: (query) Marketplace domain (com, co.uk, de …) (optional, default to "com")
+     - parameter categoryId: (query) Restrict to a category id (optional)
      - parameter page: (query)  (optional, default to 1)
-     - parameter perPage: (query)  (optional)
+     - parameter perPage: (query) 60, 120 or 240 (optional)
      - parameter sortBy: (query) best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (optional, default to "best_match")
      - parameter condition: (query) new|open_box|refurbished|used|for_parts (optional)
      - parameter minPrice: (query)  (optional)
@@ -97,10 +97,9 @@ open class EBayAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    @available(*, deprecated, message: "This operation is deprecated.")
     @discardableResult
-    open class func ebayCompletedSoldListingsDeprecated(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return ebayCompletedSoldListingsDeprecatedWithRequestBuilder(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice).execute(apiResponseQueue) { result in
+    open class func ebayCompletedSoldListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return ebayCompletedSoldListingsWithRequestBuilder(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -111,25 +110,24 @@ open class EBayAPI {
     }
 
     /**
-     Completed / sold listings (deprecated)
+     Completed / sold listings
      - GET /v1/ebay/completed
-     - Deprecated — eBay requires a signed-in account for sold listings. Returns 410.
+     - Search completed/sold listings — eBay's sold-price history.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter query: (query) Search keywords 
-     - parameter domain: (query)  (optional, default to "com")
-     - parameter categoryId: (query)  (optional)
+     - parameter domain: (query) Marketplace domain (com, co.uk, de …) (optional, default to "com")
+     - parameter categoryId: (query) Restrict to a category id (optional)
      - parameter page: (query)  (optional, default to 1)
-     - parameter perPage: (query)  (optional)
+     - parameter perPage: (query) 60, 120 or 240 (optional)
      - parameter sortBy: (query) best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (optional, default to "best_match")
      - parameter condition: (query) new|open_box|refurbished|used|for_parts (optional)
      - parameter minPrice: (query)  (optional)
      - parameter maxPrice: (query)  (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    @available(*, deprecated, message: "This operation is deprecated.")
-    open class func ebayCompletedSoldListingsDeprecatedWithRequestBuilder(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil) -> RequestBuilder<AnyCodable> {
+    open class func ebayCompletedSoldListingsWithRequestBuilder(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/ebay/completed"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil

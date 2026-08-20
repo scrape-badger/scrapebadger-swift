@@ -5,7 +5,7 @@ All URIs are relative to *https://scrapebadger.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ebayBrowseACategory**](EBayAPI.md#ebaybrowseacategory) | **GET** /v1/ebay/categories/{category_id}/items | Browse a category
-[**ebayCompletedSoldListingsDeprecated**](EBayAPI.md#ebaycompletedsoldlistingsdeprecated) | **GET** /v1/ebay/completed | Completed / sold listings (deprecated)
+[**ebayCompletedSoldListings**](EBayAPI.md#ebaycompletedsoldlistings) | **GET** /v1/ebay/completed | Completed / sold listings
 [**ebayEbayScraperHealthCheck**](EBayAPI.md#ebayebayscraperhealthcheck) | **GET** /v1/ebay/health | eBay scraper health check
 [**ebayEbayScraperHealthCheckHead**](EBayAPI.md#ebayebayscraperhealthcheckhead) | **HEAD** /v1/ebay/health | eBay scraper health check
 [**ebayGetItemDetail**](EBayAPI.md#ebaygetitemdetail) | **GET** /v1/ebay/items/{item_id} | Get item detail
@@ -81,14 +81,14 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ebayCompletedSoldListingsDeprecated**
+# **ebayCompletedSoldListings**
 ```swift
-    open class func ebayCompletedSoldListingsDeprecated(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func ebayCompletedSoldListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
-Completed / sold listings (deprecated)
+Completed / sold listings
 
-Deprecated — eBay requires a signed-in account for sold listings. Returns 410.
+Search completed/sold listings — eBay's sold-price history.
 
 ### Example
 ```swift
@@ -96,17 +96,17 @@ Deprecated — eBay requires a signed-in account for sold listings. Returns 410.
 import ScrapeBadger
 
 let query = "query_example" // String | Search keywords
-let domain = "domain_example" // String |  (optional) (default to "com")
-let categoryId = "categoryId_example" // String |  (optional)
+let domain = "domain_example" // String | Marketplace domain (com, co.uk, de …) (optional) (default to "com")
+let categoryId = "categoryId_example" // String | Restrict to a category id (optional)
 let page = 987 // Int |  (optional) (default to 1)
-let perPage = 987 // Int |  (optional)
+let perPage = 987 // Int | 60, 120 or 240 (optional)
 let sortBy = "sortBy_example" // String | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (optional) (default to "best_match")
 let condition = "condition_example" // String | new|open_box|refurbished|used|for_parts (optional)
 let minPrice = 987 // Double |  (optional)
 let maxPrice = 987 // Double |  (optional)
 
-// Completed / sold listings (deprecated)
-EBayAPI.ebayCompletedSoldListingsDeprecated(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice) { (response, error) in
+// Completed / sold listings
+EBayAPI.ebayCompletedSoldListings(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -123,10 +123,10 @@ EBayAPI.ebayCompletedSoldListingsDeprecated(query: query, domain: domain, catego
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String** | Search keywords | 
- **domain** | **String** |  | [optional] [default to &quot;com&quot;]
- **categoryId** | **String** |  | [optional] 
+ **domain** | **String** | Marketplace domain (com, co.uk, de …) | [optional] [default to &quot;com&quot;]
+ **categoryId** | **String** | Restrict to a category id | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
- **perPage** | **Int** |  | [optional] 
+ **perPage** | **Int** | 60, 120 or 240 | [optional] 
  **sortBy** | **String** | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low | [optional] [default to &quot;best_match&quot;]
  **condition** | **String** | new|open_box|refurbished|used|for_parts | [optional] 
  **minPrice** | **Double** |  | [optional] 
