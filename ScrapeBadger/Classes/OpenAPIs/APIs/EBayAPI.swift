@@ -91,15 +91,16 @@ open class EBayAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query) 60, 120 or 240 (optional)
      - parameter sortBy: (query) best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (optional, default to "best_match")
-     - parameter condition: (query) new|open_box|refurbished|used|for_parts (optional)
+     - parameter condition: (query) new|open_box|refurbished|used|for_parts|graded|ungraded (optional)
      - parameter minPrice: (query)  (optional)
      - parameter maxPrice: (query)  (optional)
+     - parameter location: (query) domestic|worldwide (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func ebayCompletedSoldListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return ebayCompletedSoldListingsWithRequestBuilder(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice).execute(apiResponseQueue) { result in
+    open class func ebayCompletedSoldListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return ebayCompletedSoldListingsWithRequestBuilder(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice, location: location).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -122,12 +123,13 @@ open class EBayAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query) 60, 120 or 240 (optional)
      - parameter sortBy: (query) best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (optional, default to "best_match")
-     - parameter condition: (query) new|open_box|refurbished|used|for_parts (optional)
+     - parameter condition: (query) new|open_box|refurbished|used|for_parts|graded|ungraded (optional)
      - parameter minPrice: (query)  (optional)
      - parameter maxPrice: (query)  (optional)
+     - parameter location: (query) domestic|worldwide (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func ebayCompletedSoldListingsWithRequestBuilder(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil) -> RequestBuilder<AnyCodable> {
+    open class func ebayCompletedSoldListingsWithRequestBuilder(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/ebay/completed"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -143,6 +145,7 @@ open class EBayAPI {
             "condition": (wrappedValue: condition?.encodeToJSON(), isExplode: true),
             "min_price": (wrappedValue: minPrice?.encodeToJSON(), isExplode: true),
             "max_price": (wrappedValue: maxPrice?.encodeToJSON(), isExplode: true),
+            "location": (wrappedValue: location?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -688,17 +691,18 @@ open class EBayAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query) 60, 120 or 240 (optional)
      - parameter sortBy: (query) best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (optional, default to "best_match")
-     - parameter condition: (query) new|open_box|refurbished|used|for_parts (optional)
+     - parameter condition: (query) new|open_box|refurbished|used|for_parts|graded|ungraded (optional)
      - parameter buyingFormat: (query) auction|buy_it_now|best_offer (optional)
      - parameter minPrice: (query)  (optional)
      - parameter maxPrice: (query)  (optional)
      - parameter freeShipping: (query)  (optional, default to false)
+     - parameter location: (query) domestic|worldwide (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func ebaySearchListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, buyingFormat: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, freeShipping: Bool? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return ebaySearchListingsWithRequestBuilder(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, buyingFormat: buyingFormat, minPrice: minPrice, maxPrice: maxPrice, freeShipping: freeShipping).execute(apiResponseQueue) { result in
+    open class func ebaySearchListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, buyingFormat: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, freeShipping: Bool? = nil, location: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return ebaySearchListingsWithRequestBuilder(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, buyingFormat: buyingFormat, minPrice: minPrice, maxPrice: maxPrice, freeShipping: freeShipping, location: location).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -721,14 +725,15 @@ open class EBayAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query) 60, 120 or 240 (optional)
      - parameter sortBy: (query) best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (optional, default to "best_match")
-     - parameter condition: (query) new|open_box|refurbished|used|for_parts (optional)
+     - parameter condition: (query) new|open_box|refurbished|used|for_parts|graded|ungraded (optional)
      - parameter buyingFormat: (query) auction|buy_it_now|best_offer (optional)
      - parameter minPrice: (query)  (optional)
      - parameter maxPrice: (query)  (optional)
      - parameter freeShipping: (query)  (optional, default to false)
+     - parameter location: (query) domestic|worldwide (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func ebaySearchListingsWithRequestBuilder(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, buyingFormat: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, freeShipping: Bool? = nil) -> RequestBuilder<AnyCodable> {
+    open class func ebaySearchListingsWithRequestBuilder(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, buyingFormat: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, freeShipping: Bool? = nil, location: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/ebay/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -746,6 +751,7 @@ open class EBayAPI {
             "min_price": (wrappedValue: minPrice?.encodeToJSON(), isExplode: true),
             "max_price": (wrappedValue: maxPrice?.encodeToJSON(), isExplode: true),
             "free_shipping": (wrappedValue: freeShipping?.encodeToJSON(), isExplode: true),
+            "location": (wrappedValue: location?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [

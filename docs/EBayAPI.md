@@ -83,7 +83,7 @@ Name | Type | Description  | Notes
 
 # **ebayCompletedSoldListings**
 ```swift
-    open class func ebayCompletedSoldListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func ebayCompletedSoldListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Completed / sold listings
@@ -101,12 +101,13 @@ let categoryId = "categoryId_example" // String | Restrict to a category id (opt
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int | 60, 120 or 240 (optional)
 let sortBy = "sortBy_example" // String | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (optional) (default to "best_match")
-let condition = "condition_example" // String | new|open_box|refurbished|used|for_parts (optional)
+let condition = "condition_example" // String | new|open_box|refurbished|used|for_parts|graded|ungraded (optional)
 let minPrice = 987 // Double |  (optional)
 let maxPrice = 987 // Double |  (optional)
+let location = "location_example" // String | domestic|worldwide (optional)
 
 // Completed / sold listings
-EBayAPI.ebayCompletedSoldListings(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice) { (response, error) in
+EBayAPI.ebayCompletedSoldListings(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice, location: location) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -128,9 +129,10 @@ Name | Type | Description  | Notes
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** | 60, 120 or 240 | [optional] 
  **sortBy** | **String** | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low | [optional] [default to &quot;best_match&quot;]
- **condition** | **String** | new|open_box|refurbished|used|for_parts | [optional] 
+ **condition** | **String** | new|open_box|refurbished|used|for_parts|graded|ungraded | [optional] 
  **minPrice** | **Double** |  | [optional] 
  **maxPrice** | **Double** |  | [optional] 
+ **location** | **String** | domestic|worldwide | [optional] 
 
 ### Return type
 
@@ -655,7 +657,7 @@ This endpoint does not need any parameter.
 
 # **ebaySearchListings**
 ```swift
-    open class func ebaySearchListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, buyingFormat: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, freeShipping: Bool? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func ebaySearchListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, buyingFormat: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, freeShipping: Bool? = nil, location: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Search listings
@@ -673,14 +675,15 @@ let categoryId = "categoryId_example" // String | Restrict to a category id (opt
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int | 60, 120 or 240 (optional)
 let sortBy = "sortBy_example" // String | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low (optional) (default to "best_match")
-let condition = "condition_example" // String | new|open_box|refurbished|used|for_parts (optional)
+let condition = "condition_example" // String | new|open_box|refurbished|used|for_parts|graded|ungraded (optional)
 let buyingFormat = "buyingFormat_example" // String | auction|buy_it_now|best_offer (optional)
 let minPrice = 987 // Double |  (optional)
 let maxPrice = 987 // Double |  (optional)
 let freeShipping = true // Bool |  (optional) (default to false)
+let location = "location_example" // String | domestic|worldwide (optional)
 
 // Search listings
-EBayAPI.ebaySearchListings(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, buyingFormat: buyingFormat, minPrice: minPrice, maxPrice: maxPrice, freeShipping: freeShipping) { (response, error) in
+EBayAPI.ebaySearchListings(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, buyingFormat: buyingFormat, minPrice: minPrice, maxPrice: maxPrice, freeShipping: freeShipping, location: location) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -702,11 +705,12 @@ Name | Type | Description  | Notes
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** | 60, 120 or 240 | [optional] 
  **sortBy** | **String** | best_match|ending_soonest|newly_listed|price_low_to_high|price_high_to_low | [optional] [default to &quot;best_match&quot;]
- **condition** | **String** | new|open_box|refurbished|used|for_parts | [optional] 
+ **condition** | **String** | new|open_box|refurbished|used|for_parts|graded|ungraded | [optional] 
  **buyingFormat** | **String** | auction|buy_it_now|best_offer | [optional] 
  **minPrice** | **Double** |  | [optional] 
  **maxPrice** | **Double** |  | [optional] 
  **freeShipping** | **Bool** |  | [optional] [default to false]
+ **location** | **String** | domestic|worldwide | [optional] 
 
 ### Return type
 
