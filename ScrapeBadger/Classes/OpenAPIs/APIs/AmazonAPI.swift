@@ -223,12 +223,13 @@ open class AmazonAPI {
      - parameter asin: (path)  
      - parameter domain: (query)  (optional, default to "com")
      - parameter zip: (query)  (optional)
+     - parameter page: (query) Offer page, 10 rows each (optional, default to 1)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func amazonGetAllSellerOffersBuybox(asin: String, domain: String? = nil, zip: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return amazonGetAllSellerOffersBuyboxWithRequestBuilder(asin: asin, domain: domain, zip: zip).execute(apiResponseQueue) { result in
+    open class func amazonGetAllSellerOffersBuybox(asin: String, domain: String? = nil, zip: String? = nil, page: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return amazonGetAllSellerOffersBuyboxWithRequestBuilder(asin: asin, domain: domain, zip: zip, page: page).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -248,9 +249,10 @@ open class AmazonAPI {
      - parameter asin: (path)  
      - parameter domain: (query)  (optional, default to "com")
      - parameter zip: (query)  (optional)
+     - parameter page: (query) Offer page, 10 rows each (optional, default to 1)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func amazonGetAllSellerOffersBuyboxWithRequestBuilder(asin: String, domain: String? = nil, zip: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func amazonGetAllSellerOffersBuyboxWithRequestBuilder(asin: String, domain: String? = nil, zip: String? = nil, page: Int? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/amazon/products/{asin}/offers"
         let asinPreEscape = "\(APIHelper.mapValueToPathItem(asin))"
         let asinPostEscape = asinPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -262,6 +264,7 @@ open class AmazonAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "domain": (wrappedValue: domain?.encodeToJSON(), isExplode: true),
             "zip": (wrappedValue: zip?.encodeToJSON(), isExplode: true),
+            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [

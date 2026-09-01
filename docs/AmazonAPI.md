@@ -226,7 +226,7 @@ Name | Type | Description  | Notes
 
 # **amazonGetAllSellerOffersBuybox**
 ```swift
-    open class func amazonGetAllSellerOffersBuybox(asin: String, domain: String? = nil, zip: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func amazonGetAllSellerOffersBuybox(asin: String, domain: String? = nil, zip: String? = nil, page: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Get all seller offers (buybox)
@@ -241,9 +241,10 @@ import ScrapeBadger
 let asin = "asin_example" // String | 
 let domain = "domain_example" // String |  (optional) (default to "com")
 let zip = "zip_example" // String |  (optional)
+let page = 987 // Int | Offer page, 10 rows each (optional) (default to 1)
 
 // Get all seller offers (buybox)
-AmazonAPI.amazonGetAllSellerOffersBuybox(asin: asin, domain: domain, zip: zip) { (response, error) in
+AmazonAPI.amazonGetAllSellerOffersBuybox(asin: asin, domain: domain, zip: zip, page: page) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -262,6 +263,7 @@ Name | Type | Description  | Notes
  **asin** | **String** |  | 
  **domain** | **String** |  | [optional] [default to &quot;com&quot;]
  **zip** | **String** |  | [optional] 
+ **page** | **Int** | Offer page, 10 rows each | [optional] [default to 1]
 
 ### Return type
 
