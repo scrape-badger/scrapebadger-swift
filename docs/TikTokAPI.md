@@ -28,8 +28,13 @@ Method | HTTP request | Description
 [**tiktokSearchHashtags**](TikTokAPI.md#tiktoksearchhashtags) | **GET** /v1/tiktok/search/hashtags | Search hashtags
 [**tiktokSearchTheTiktokAdLibrary**](TikTokAPI.md#tiktoksearchthetiktokadlibrary) | **GET** /v1/tiktok/ads/search | Search the TikTok Ad Library
 [**tiktokSearchTiktokAdvertisers**](TikTokAPI.md#tiktoksearchtiktokadvertisers) | **GET** /v1/tiktok/ads/advertisers | Search TikTok advertisers
+[**tiktokSearchTiktokShopProducts**](TikTokAPI.md#tiktoksearchtiktokshopproducts) | **GET** /v1/tiktok/shop/search | Search TikTok Shop products
 [**tiktokSearchUsers**](TikTokAPI.md#tiktoksearchusers) | **GET** /v1/tiktok/search/users | Search users
 [**tiktokSearchVideos**](TikTokAPI.md#tiktoksearchvideos) | **GET** /v1/tiktok/search/videos | Search videos
+[**tiktokTiktokShopBestSellers**](TikTokAPI.md#tiktoktiktokshopbestsellers) | **GET** /v1/tiktok/shop/ranking | TikTok Shop best sellers
+[**tiktokTiktokShopCategorySubcategoriesTopProducts**](TikTokAPI.md#tiktoktiktokshopcategorysubcategoriestopproducts) | **GET** /v1/tiktok/shop/categories/{category_id} | TikTok Shop category: subcategories + top products
+[**tiktokTiktokShopProductDetail**](TikTokAPI.md#tiktoktiktokshopproductdetail) | **GET** /v1/tiktok/shop/products/{product_id} | TikTok Shop product detail
+[**tiktokTiktokShopRootCategories**](TikTokAPI.md#tiktoktiktokshoprootcategories) | **GET** /v1/tiktok/shop/categories | TikTok Shop root categories
 [**tiktokTrendingHashtags**](TikTokAPI.md#tiktoktrendinghashtags) | **GET** /v1/tiktok/trending/hashtags | Trending hashtags
 [**tiktokTrendingSongs**](TikTokAPI.md#tiktoktrendingsongs) | **GET** /v1/tiktok/trending/songs | Trending songs
 [**tiktokTrendingVideos**](TikTokAPI.md#tiktoktrendingvideos) | **GET** /v1/tiktok/trending/videos | Trending videos
@@ -1321,6 +1326,56 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **tiktokSearchTiktokShopProducts**
+```swift
+    open class func tiktokSearchTiktokShopProducts(q: String, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Search TikTok Shop products
+
+Keyword search over TikTok Shop products (US): products with their bound video, matching shops, related searches and categories.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let q = "q_example" // String | Keyword, e.g. 'wireless earbuds'
+
+// Search TikTok Shop products
+TikTokAPI.tiktokSearchTiktokShopProducts(q: q) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **q** | **String** | Keyword, e.g. &#39;wireless earbuds&#39; | 
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **tiktokSearchUsers**
 ```swift
     open class func tiktokSearchUsers(query: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
@@ -1417,6 +1472,202 @@ Name | Type | Description  | Notes
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 20]
  **cursor** | **String** | Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor | [optional] 
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **tiktokTiktokShopBestSellers**
+```swift
+    open class func tiktokTiktokShopBestSellers(count: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+TikTok Shop best sellers
+
+TikTok Shop's own ranking of the best-selling products of the past 30 days (US).
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let count = 987 // Int | Max products to return (optional) (default to 20)
+
+// TikTok Shop best sellers
+TikTokAPI.tiktokTiktokShopBestSellers(count: count) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **count** | **Int** | Max products to return | [optional] [default to 20]
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **tiktokTiktokShopCategorySubcategoriesTopProducts**
+```swift
+    open class func tiktokTiktokShopCategorySubcategoriesTopProducts(categoryId: String, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+TikTok Shop category: subcategories + top products
+
+A category's subcategories and its top products as TikTok Shop ranks them (US).
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let categoryId = "categoryId_example" // String | 
+
+// TikTok Shop category: subcategories + top products
+TikTokAPI.tiktokTiktokShopCategorySubcategoriesTopProducts(categoryId: categoryId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **categoryId** | **String** |  | 
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **tiktokTiktokShopProductDetail**
+```swift
+    open class func tiktokTiktokShopProductDetail(productId: String, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+TikTok Shop product detail
+
+Full TikTok Shop product page (US): description, images, price, SKUs with stock, reviews, shop and TikTok's AI summary.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let productId = "productId_example" // String | 
+
+// TikTok Shop product detail
+TikTokAPI.tiktokTiktokShopProductDetail(productId: productId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **productId** | **String** |  | 
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **tiktokTiktokShopRootCategories**
+```swift
+    open class func tiktokTiktokShopRootCategories(completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+TikTok Shop root categories
+
+Top-level TikTok Shop categories (US). Drill down with /shop/categories/{category_id}.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+
+// TikTok Shop root categories
+TikTokAPI.tiktokTiktokShopRootCategories() { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
 
 ### Return type
 

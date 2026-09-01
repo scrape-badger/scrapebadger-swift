@@ -1383,6 +1383,56 @@ open class TikTokAPI {
     }
 
     /**
+     Search TikTok Shop products
+     
+     - parameter q: (query) Keyword, e.g. &#39;wireless earbuds&#39; 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokSearchTiktokShopProducts(q: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokSearchTiktokShopProductsWithRequestBuilder(q: q).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Search TikTok Shop products
+     - GET /v1/tiktok/shop/search
+     - Keyword search over TikTok Shop products (US): products with their bound video, matching shops, related searches and categories.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter q: (query) Keyword, e.g. &#39;wireless earbuds&#39; 
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokSearchTiktokShopProductsWithRequestBuilder(q: String) -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/tiktok/shop/search"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "q": (wrappedValue: q.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Search users
      
      - parameter query: (query) Search keyword 
@@ -1488,6 +1538,201 @@ open class TikTokAPI {
             "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
             "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
         ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     TikTok Shop best sellers
+     
+     - parameter count: (query) Max products to return (optional, default to 20)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokTiktokShopBestSellers(count: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokTiktokShopBestSellersWithRequestBuilder(count: count).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     TikTok Shop best sellers
+     - GET /v1/tiktok/shop/ranking
+     - TikTok Shop's own ranking of the best-selling products of the past 30 days (US).
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter count: (query) Max products to return (optional, default to 20)
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokTiktokShopBestSellersWithRequestBuilder(count: Int? = nil) -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/tiktok/shop/ranking"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     TikTok Shop category: subcategories + top products
+     
+     - parameter categoryId: (path)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokTiktokShopCategorySubcategoriesTopProducts(categoryId: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokTiktokShopCategorySubcategoriesTopProductsWithRequestBuilder(categoryId: categoryId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     TikTok Shop category: subcategories + top products
+     - GET /v1/tiktok/shop/categories/{category_id}
+     - A category's subcategories and its top products as TikTok Shop ranks them (US).
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter categoryId: (path)  
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokTiktokShopCategorySubcategoriesTopProductsWithRequestBuilder(categoryId: String) -> RequestBuilder<AnyCodable> {
+        var localVariablePath = "/v1/tiktok/shop/categories/{category_id}"
+        let categoryIdPreEscape = "\(APIHelper.mapValueToPathItem(categoryId))"
+        let categoryIdPostEscape = categoryIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{category_id}", with: categoryIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     TikTok Shop product detail
+     
+     - parameter productId: (path)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokTiktokShopProductDetail(productId: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokTiktokShopProductDetailWithRequestBuilder(productId: productId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     TikTok Shop product detail
+     - GET /v1/tiktok/shop/products/{product_id}
+     - Full TikTok Shop product page (US): description, images, price, SKUs with stock, reviews, shop and TikTok's AI summary.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter productId: (path)  
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokTiktokShopProductDetailWithRequestBuilder(productId: String) -> RequestBuilder<AnyCodable> {
+        var localVariablePath = "/v1/tiktok/shop/products/{product_id}"
+        let productIdPreEscape = "\(APIHelper.mapValueToPathItem(productId))"
+        let productIdPostEscape = productIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{product_id}", with: productIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     TikTok Shop root categories
+     
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokTiktokShopRootCategories(apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokTiktokShopRootCategoriesWithRequestBuilder().execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     TikTok Shop root categories
+     - GET /v1/tiktok/shop/categories
+     - Top-level TikTok Shop categories (US). Drill down with /shop/categories/{category_id}.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokTiktokShopRootCategoriesWithRequestBuilder() -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/tiktok/shop/categories"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
             :
