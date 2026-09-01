@@ -1331,24 +1331,26 @@ Name | Type | Description  | Notes
 
 # **googleMultiSellerOffersByBarcode**
 ```swift
-    open class func googleMultiSellerOffersByBarcode(barcode: String, gl: String? = nil, hl: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func googleMultiSellerOffersByBarcode(barcode: String? = nil, catalogId: String? = nil, gl: String? = nil, hl: String? = nil, domain: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Multi-seller offers by barcode
 
-Resolve a barcode to a product via Google web search, then return its Google Shopping seller offers (source + price per merchant).
+Google Shopping seller offers (source + price + link per merchant) for a product identified either by ``barcode`` (resolved via Google web search) or by its Google Shopping ``catalog_id`` (read straight off Google's product page, all seller pages fetched in parallel).
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ScrapeBadger
 
-let barcode = "barcode_example" // String | Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14
+let barcode = "barcode_example" // String | Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14 (optional)
+let catalogId = "catalogId_example" // String | Google Shopping catalogid (the `catalog_id` on /shopping/search tiles, or `prds=catalogid:<id>` in a Google Shopping URL). Alternative to `barcode`; exactly one of the two is required (optional)
 let gl = "gl_example" // String | Country code (ISO 3166 alpha-2) (optional)
 let hl = "hl_example" // String | Language code (optional) (default to "en")
+let domain = "domain_example" // String | Google domain (optional) (default to "google.com")
 
 // Multi-seller offers by barcode
-GoogleAPI.googleMultiSellerOffersByBarcode(barcode: barcode, gl: gl, hl: hl) { (response, error) in
+GoogleAPI.googleMultiSellerOffersByBarcode(barcode: barcode, catalogId: catalogId, gl: gl, hl: hl, domain: domain) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -1364,9 +1366,11 @@ GoogleAPI.googleMultiSellerOffersByBarcode(barcode: barcode, gl: gl, hl: hl) { (
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **barcode** | **String** | Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14 | 
+ **barcode** | **String** | Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14 | [optional] 
+ **catalogId** | **String** | Google Shopping catalogid (the &#x60;catalog_id&#x60; on /shopping/search tiles, or &#x60;prds&#x3D;catalogid:&lt;id&gt;&#x60; in a Google Shopping URL). Alternative to &#x60;barcode&#x60;; exactly one of the two is required | [optional] 
  **gl** | **String** | Country code (ISO 3166 alpha-2) | [optional] 
  **hl** | **String** | Language code | [optional] [default to &quot;en&quot;]
+ **domain** | **String** | Google domain | [optional] [default to &quot;google.com&quot;]
 
 ### Return type
 

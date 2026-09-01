@@ -1426,15 +1426,17 @@ open class GoogleAPI {
     /**
      Multi-seller offers by barcode
      
-     - parameter barcode: (query) Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14 
+     - parameter barcode: (query) Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14 (optional)
+     - parameter catalogId: (query) Google Shopping catalogid (the &#x60;catalog_id&#x60; on /shopping/search tiles, or &#x60;prds&#x3D;catalogid:&lt;id&gt;&#x60; in a Google Shopping URL). Alternative to &#x60;barcode&#x60;; exactly one of the two is required (optional)
      - parameter gl: (query) Country code (ISO 3166 alpha-2) (optional)
      - parameter hl: (query) Language code (optional, default to "en")
+     - parameter domain: (query) Google domain (optional, default to "google.com")
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func googleMultiSellerOffersByBarcode(barcode: String, gl: String? = nil, hl: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return googleMultiSellerOffersByBarcodeWithRequestBuilder(barcode: barcode, gl: gl, hl: hl).execute(apiResponseQueue) { result in
+    open class func googleMultiSellerOffersByBarcode(barcode: String? = nil, catalogId: String? = nil, gl: String? = nil, hl: String? = nil, domain: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return googleMultiSellerOffersByBarcodeWithRequestBuilder(barcode: barcode, catalogId: catalogId, gl: gl, hl: hl, domain: domain).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -1447,25 +1449,29 @@ open class GoogleAPI {
     /**
      Multi-seller offers by barcode
      - GET /v1/google/shopping/offers
-     - Resolve a barcode to a product via Google web search, then return its Google Shopping seller offers (source + price per merchant).
+     - Google Shopping seller offers (source + price + link per merchant) for a product identified either by ``barcode`` (resolved via Google web search) or by its Google Shopping ``catalog_id`` (read straight off Google's product page, all seller pages fetched in parallel).
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter barcode: (query) Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14 
+     - parameter barcode: (query) Product barcode — GTIN-8 / UPC-A / EAN-13 / GTIN-14 (optional)
+     - parameter catalogId: (query) Google Shopping catalogid (the &#x60;catalog_id&#x60; on /shopping/search tiles, or &#x60;prds&#x3D;catalogid:&lt;id&gt;&#x60; in a Google Shopping URL). Alternative to &#x60;barcode&#x60;; exactly one of the two is required (optional)
      - parameter gl: (query) Country code (ISO 3166 alpha-2) (optional)
      - parameter hl: (query) Language code (optional, default to "en")
+     - parameter domain: (query) Google domain (optional, default to "google.com")
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func googleMultiSellerOffersByBarcodeWithRequestBuilder(barcode: String, gl: String? = nil, hl: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func googleMultiSellerOffersByBarcodeWithRequestBuilder(barcode: String? = nil, catalogId: String? = nil, gl: String? = nil, hl: String? = nil, domain: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/google/shopping/offers"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "barcode": (wrappedValue: barcode.encodeToJSON(), isExplode: true),
+            "barcode": (wrappedValue: barcode?.encodeToJSON(), isExplode: true),
+            "catalog_id": (wrappedValue: catalogId?.encodeToJSON(), isExplode: true),
             "gl": (wrappedValue: gl?.encodeToJSON(), isExplode: true),
             "hl": (wrappedValue: hl?.encodeToJSON(), isExplode: true),
+            "domain": (wrappedValue: domain?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
