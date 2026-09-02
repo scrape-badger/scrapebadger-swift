@@ -396,8 +396,11 @@ Class | Method | HTTP request | Description
 *TikTokAPI* | [**tiktokSearchVideos**](docs/TikTokAPI.md#tiktoksearchvideos) | **GET** /v1/tiktok/search/videos | Search videos
 *TikTokAPI* | [**tiktokTiktokShopBestSellers**](docs/TikTokAPI.md#tiktoktiktokshopbestsellers) | **GET** /v1/tiktok/shop/ranking | TikTok Shop best sellers
 *TikTokAPI* | [**tiktokTiktokShopCategorySubcategoriesTopProducts**](docs/TikTokAPI.md#tiktoktiktokshopcategorysubcategoriestopproducts) | **GET** /v1/tiktok/shop/categories/{category_id} | TikTok Shop category: subcategories + top products
+*TikTokAPI* | [**tiktokTiktokShopDealsFeed**](docs/TikTokAPI.md#tiktoktiktokshopdealsfeed) | **GET** /v1/tiktok/shop/deals/{deal} | TikTok Shop deals feed
 *TikTokAPI* | [**tiktokTiktokShopProductDetail**](docs/TikTokAPI.md#tiktoktiktokshopproductdetail) | **GET** /v1/tiktok/shop/products/{product_id} | TikTok Shop product detail
+*TikTokAPI* | [**tiktokTiktokShopProductReviews**](docs/TikTokAPI.md#tiktoktiktokshopproductreviews) | **GET** /v1/tiktok/shop/products/{product_id}/reviews | TikTok Shop product reviews
 *TikTokAPI* | [**tiktokTiktokShopRootCategories**](docs/TikTokAPI.md#tiktoktiktokshoprootcategories) | **GET** /v1/tiktok/shop/categories | TikTok Shop root categories
+*TikTokAPI* | [**tiktokTiktokShopStoreProducts**](docs/TikTokAPI.md#tiktoktiktokshopstoreproducts) | **GET** /v1/tiktok/shop/stores/{seller_id} | TikTok Shop store + products
 *TikTokAPI* | [**tiktokTrendingHashtags**](docs/TikTokAPI.md#tiktoktrendinghashtags) | **GET** /v1/tiktok/trending/hashtags | Trending hashtags
 *TikTokAPI* | [**tiktokTrendingSongs**](docs/TikTokAPI.md#tiktoktrendingsongs) | **GET** /v1/tiktok/trending/songs | Trending songs
 *TikTokAPI* | [**tiktokTrendingVideos**](docs/TikTokAPI.md#tiktoktrendingvideos) | **GET** /v1/tiktok/trending/videos | Trending videos
