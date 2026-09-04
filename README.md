@@ -171,6 +171,7 @@ Class | Method | HTTP request | Description
 *EBayAPI* | [**ebayKeywordSuggestions**](docs/EBayAPI.md#ebaykeywordsuggestions) | **GET** /v1/ebay/autocomplete | Keyword suggestions
 *EBayAPI* | [**ebayListCategories**](docs/EBayAPI.md#ebaylistcategories) | **GET** /v1/ebay/categories | List categories
 *EBayAPI* | [**ebayListMarkets**](docs/EBayAPI.md#ebaylistmarkets) | **GET** /v1/ebay/markets | List markets
+*EBayAPI* | [**ebaySearchByImage**](docs/EBayAPI.md#ebaysearchbyimage) | **POST** /v1/ebay/search/by-image | Search by image
 *EBayAPI* | [**ebaySearchListings**](docs/EBayAPI.md#ebaysearchlistings) | **GET** /v1/ebay/search | Search listings
 *FacebookAPI* | [**facebookBrowseAMarketplaceCategory**](docs/FacebookAPI.md#facebookbrowseamarketplacecategory) | **GET** /v1/facebook/marketplace/category/{category} | Browse a Marketplace category
 *FacebookAPI* | [**facebookGetAMarketplaceItem**](docs/FacebookAPI.md#facebookgetamarketplaceitem) | **GET** /v1/facebook/marketplace/item/{item_id} | Get a Marketplace item

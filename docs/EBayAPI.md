@@ -16,6 +16,7 @@ Method | HTTP request | Description
 [**ebayKeywordSuggestions**](EBayAPI.md#ebaykeywordsuggestions) | **GET** /v1/ebay/autocomplete | Keyword suggestions
 [**ebayListCategories**](EBayAPI.md#ebaylistcategories) | **GET** /v1/ebay/categories | List categories
 [**ebayListMarkets**](EBayAPI.md#ebaylistmarkets) | **GET** /v1/ebay/markets | List markets
+[**ebaySearchByImage**](EBayAPI.md#ebaysearchbyimage) | **POST** /v1/ebay/search/by-image | Search by image
 [**ebaySearchListings**](EBayAPI.md#ebaysearchlistings) | **GET** /v1/ebay/search | Search listings
 
 
@@ -653,6 +654,56 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **ebaySearchByImage**
+```swift
+    open class func ebaySearchByImage(requestBody: [String: AnyCodable], completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Search by image
+
+Search active listings by image, the way eBay's camera icon does.  No ``sort_by``: eBay ignores it on a visual results page.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let requestBody = "TODO" // [String: AnyCodable] | 
+
+// Search by image
+EBayAPI.ebaySearchByImage(requestBody: requestBody) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **requestBody** | [**[String: AnyCodable]**](AnyCodable.md) |  | 
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
