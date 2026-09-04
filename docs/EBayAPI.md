@@ -83,7 +83,7 @@ Name | Type | Description  | Notes
 
 # **ebayCompletedSoldListings**
 ```swift
-    open class func ebayCompletedSoldListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func ebayCompletedSoldListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil, language: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Completed / sold listings
@@ -105,9 +105,10 @@ let condition = "condition_example" // String | new|open_box|refurbished|used|fo
 let minPrice = 987 // Double |  (optional)
 let maxPrice = 987 // Double |  (optional)
 let location = "location_example" // String | domestic|worldwide (optional)
+let language = "language_example" // String | english|japanese|chinese|korean (optional)
 
 // Completed / sold listings
-EBayAPI.ebayCompletedSoldListings(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice, location: location) { (response, error) in
+EBayAPI.ebayCompletedSoldListings(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice, location: location, language: language) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -133,6 +134,7 @@ Name | Type | Description  | Notes
  **minPrice** | **Double** |  | [optional] 
  **maxPrice** | **Double** |  | [optional] 
  **location** | **String** | domestic|worldwide | [optional] 
+ **language** | **String** | english|japanese|chinese|korean | [optional] 
 
 ### Return type
 
@@ -657,7 +659,7 @@ This endpoint does not need any parameter.
 
 # **ebaySearchListings**
 ```swift
-    open class func ebaySearchListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, buyingFormat: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, freeShipping: Bool? = nil, location: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func ebaySearchListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, buyingFormat: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, freeShipping: Bool? = nil, location: String? = nil, language: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Search listings
@@ -681,9 +683,10 @@ let minPrice = 987 // Double |  (optional)
 let maxPrice = 987 // Double |  (optional)
 let freeShipping = true // Bool |  (optional) (default to false)
 let location = "location_example" // String | domestic|worldwide (optional)
+let language = "language_example" // String | english|japanese|chinese|korean (optional)
 
 // Search listings
-EBayAPI.ebaySearchListings(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, buyingFormat: buyingFormat, minPrice: minPrice, maxPrice: maxPrice, freeShipping: freeShipping, location: location) { (response, error) in
+EBayAPI.ebaySearchListings(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, buyingFormat: buyingFormat, minPrice: minPrice, maxPrice: maxPrice, freeShipping: freeShipping, location: location, language: language) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -711,6 +714,7 @@ Name | Type | Description  | Notes
  **maxPrice** | **Double** |  | [optional] 
  **freeShipping** | **Bool** |  | [optional] [default to false]
  **location** | **String** | domestic|worldwide | [optional] 
+ **language** | **String** | english|japanese|chinese|korean | [optional] 
 
 ### Return type
 
