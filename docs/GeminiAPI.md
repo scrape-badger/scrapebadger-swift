@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 # **geminiAskGeminiAQuestion**
 ```swift
-    open class func geminiAskGeminiAQuestion(prompt: String, country: String? = nil, webSearch: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func geminiAskGeminiAQuestion(prompt: String, country: String? = nil, webSearch: String? = nil, imageUrl: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Ask Gemini a question
@@ -29,9 +29,10 @@ import ScrapeBadger
 let prompt = "prompt_example" // String | The prompt to send to Gemini (max 4096 characters).
 let country = "country_example" // String | ISO-3166 alpha-2 egress country, e.g. 'US', 'GB', 'DE'. (optional)
 let webSearch = "webSearch_example" // String | auto (let Gemini decide) | force (ask it to browse) | off (answer from memory). `web_search_triggered` in the response always reports what actually happened. (optional) (default to "auto")
+let imageUrl = "imageUrl_example" // String | Public http(s) URL of an image to attach to the prompt. Gemini reads it and answers about it. POST also accepts `image_base64`. Exactly one of the two. (optional)
 
 // Ask Gemini a question
-GeminiAPI.geminiAskGeminiAQuestion(prompt: prompt, country: country, webSearch: webSearch) { (response, error) in
+GeminiAPI.geminiAskGeminiAQuestion(prompt: prompt, country: country, webSearch: webSearch, imageUrl: imageUrl) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -50,6 +51,7 @@ Name | Type | Description  | Notes
  **prompt** | **String** | The prompt to send to Gemini (max 4096 characters). | 
  **country** | **String** | ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. | [optional] 
  **webSearch** | **String** | auto (let Gemini decide) | force (ask it to browse) | off (answer from memory). &#x60;web_search_triggered&#x60; in the response always reports what actually happened. | [optional] [default to &quot;auto&quot;]
+ **imageUrl** | **String** | Public http(s) URL of an image to attach to the prompt. Gemini reads it and answers about it. POST also accepts &#x60;image_base64&#x60;. Exactly one of the two. | [optional] 
 
 ### Return type
 

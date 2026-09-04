@@ -18,12 +18,13 @@ open class GeminiAPI {
      - parameter prompt: (query) The prompt to send to Gemini (max 4096 characters). 
      - parameter country: (query) ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. (optional)
      - parameter webSearch: (query) auto (let Gemini decide) | force (ask it to browse) | off (answer from memory). &#x60;web_search_triggered&#x60; in the response always reports what actually happened. (optional, default to "auto")
+     - parameter imageUrl: (query) Public http(s) URL of an image to attach to the prompt. Gemini reads it and answers about it. POST also accepts &#x60;image_base64&#x60;. Exactly one of the two. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func geminiAskGeminiAQuestion(prompt: String, country: String? = nil, webSearch: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return geminiAskGeminiAQuestionWithRequestBuilder(prompt: prompt, country: country, webSearch: webSearch).execute(apiResponseQueue) { result in
+    open class func geminiAskGeminiAQuestion(prompt: String, country: String? = nil, webSearch: String? = nil, imageUrl: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return geminiAskGeminiAQuestionWithRequestBuilder(prompt: prompt, country: country, webSearch: webSearch, imageUrl: imageUrl).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -43,9 +44,10 @@ open class GeminiAPI {
      - parameter prompt: (query) The prompt to send to Gemini (max 4096 characters). 
      - parameter country: (query) ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. (optional)
      - parameter webSearch: (query) auto (let Gemini decide) | force (ask it to browse) | off (answer from memory). &#x60;web_search_triggered&#x60; in the response always reports what actually happened. (optional, default to "auto")
+     - parameter imageUrl: (query) Public http(s) URL of an image to attach to the prompt. Gemini reads it and answers about it. POST also accepts &#x60;image_base64&#x60;. Exactly one of the two. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func geminiAskGeminiAQuestionWithRequestBuilder(prompt: String, country: String? = nil, webSearch: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func geminiAskGeminiAQuestionWithRequestBuilder(prompt: String, country: String? = nil, webSearch: String? = nil, imageUrl: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/gemini/ask"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -55,6 +57,7 @@ open class GeminiAPI {
             "prompt": (wrappedValue: prompt.encodeToJSON(), isExplode: true),
             "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
             "web_search": (wrappedValue: webSearch?.encodeToJSON(), isExplode: true),
+            "image_url": (wrappedValue: imageUrl?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
