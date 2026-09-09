@@ -5,6 +5,7 @@ All URIs are relative to *https://scrapebadger.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**zillowGetAgentProfileListings**](ZillowAPI.md#zillowgetagentprofilelistings) | **GET** /v1/zillow/agent | Get agent profile + listings
+[**zillowGetMultifamilyBuilding**](ZillowAPI.md#zillowgetmultifamilybuilding) | **GET** /v1/zillow/building | Get multifamily building
 [**zillowGetPropertyDetail**](ZillowAPI.md#zillowgetpropertydetail) | **GET** /v1/zillow/property/{zpid} | Get property detail
 [**zillowGetPropertyDetailByUrl**](ZillowAPI.md#zillowgetpropertydetailbyurl) | **GET** /v1/zillow/property | Get property detail by URL
 [**zillowListCoverageMarkets**](ZillowAPI.md#zillowlistcoveragemarkets) | **GET** /v1/zillow/markets | List coverage markets
@@ -50,6 +51,56 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String** | Zillow profile username | [optional] 
  **url** | **String** | Full Zillow /profile/... URL | [optional] 
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **zillowGetMultifamilyBuilding**
+```swift
+    open class func zillowGetMultifamilyBuilding(url: String, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Get multifamily building
+
+Get a Zillow apartment community with per-unit pricing and availability.  Multi-unit rentals are served on `/apartments/...` and `/b/...` pages, which `/property` cannot read — pass a `home_type=BUILDING` search result's `detail_url` here instead.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let url = "url_example" // String | Full Zillow building URL, e.g. https://www.zillow.com/apartments/kansas-city-mo/brookside-51/CkBJqt/
+
+// Get multifamily building
+ZillowAPI.zillowGetMultifamilyBuilding(url: url) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **url** | **String** | Full Zillow building URL, e.g. https://www.zillow.com/apartments/kansas-city-mo/brookside-51/CkBJqt/ | 
 
 ### Return type
 

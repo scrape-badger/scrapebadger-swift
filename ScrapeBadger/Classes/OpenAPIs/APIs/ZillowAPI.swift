@@ -66,6 +66,56 @@ open class ZillowAPI {
     }
 
     /**
+     Get multifamily building
+     
+     - parameter url: (query) Full Zillow building URL, e.g. https://www.zillow.com/apartments/kansas-city-mo/brookside-51/CkBJqt/ 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func zillowGetMultifamilyBuilding(url: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return zillowGetMultifamilyBuildingWithRequestBuilder(url: url).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get multifamily building
+     - GET /v1/zillow/building
+     - Get a Zillow apartment community with per-unit pricing and availability.  Multi-unit rentals are served on `/apartments/...` and `/b/...` pages, which `/property` cannot read — pass a `home_type=BUILDING` search result's `detail_url` here instead.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter url: (query) Full Zillow building URL, e.g. https://www.zillow.com/apartments/kansas-city-mo/brookside-51/CkBJqt/ 
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func zillowGetMultifamilyBuildingWithRequestBuilder(url: String) -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/zillow/building"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "url": (wrappedValue: url.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Get property detail
      
      - parameter zpid: (path)  

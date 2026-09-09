@@ -544,6 +544,7 @@ Class | Method | HTTP request | Description
 *YouTubeAPI* | [**youtubeYoutubeScraperHealthCheck**](docs/YouTubeAPI.md#youtubeyoutubescraperhealthcheck) | **GET** /v1/youtube/health | YouTube scraper health check
 *YouTubeAPI* | [**youtubeYoutubeScraperHealthCheckHead**](docs/YouTubeAPI.md#youtubeyoutubescraperhealthcheckhead) | **HEAD** /v1/youtube/health | YouTube scraper health check
 *ZillowAPI* | [**zillowGetAgentProfileListings**](docs/ZillowAPI.md#zillowgetagentprofilelistings) | **GET** /v1/zillow/agent | Get agent profile + listings
+*ZillowAPI* | [**zillowGetMultifamilyBuilding**](docs/ZillowAPI.md#zillowgetmultifamilybuilding) | **GET** /v1/zillow/building | Get multifamily building
 *ZillowAPI* | [**zillowGetPropertyDetail**](docs/ZillowAPI.md#zillowgetpropertydetail) | **GET** /v1/zillow/property/{zpid} | Get property detail
 *ZillowAPI* | [**zillowGetPropertyDetailByUrl**](docs/ZillowAPI.md#zillowgetpropertydetailbyurl) | **GET** /v1/zillow/property | Get property detail by URL
 *ZillowAPI* | [**zillowListCoverageMarkets**](docs/ZillowAPI.md#zillowlistcoveragemarkets) | **GET** /v1/zillow/markets | List coverage markets
