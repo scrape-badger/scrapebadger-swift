@@ -453,14 +453,15 @@ open class FacebookAPI {
      Get post comments
      
      - parameter postId: (path)  
+     - parameter url: (query) Full post permalink/reel URL — overrides post_id (optional)
      - parameter after: (query)  (optional)
-     - parameter sort: (query)  (optional, default to "relevance")
+     - parameter sort: (query) relevance | newest (optional, default to "relevance")
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func facebookGetPostComments(postId: String, after: String? = nil, sort: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return facebookGetPostCommentsWithRequestBuilder(postId: postId, after: after, sort: sort).execute(apiResponseQueue) { result in
+    open class func facebookGetPostComments(postId: String, url: String? = nil, after: String? = nil, sort: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return facebookGetPostCommentsWithRequestBuilder(postId: postId, url: url, after: after, sort: sort).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -473,16 +474,17 @@ open class FacebookAPI {
     /**
      Get post comments
      - GET /v1/facebook/posts/{post_id}/comments
-     - Get a Facebook post's comment thread (paginated).
+     - Get a Facebook post's comment thread, 10 per page.  ``sort`` is ``relevance`` (Facebook's ranked order, the default) or ``newest``. Follow ``end_cursor`` while ``has_next_page`` to walk the whole thread; ``total_count`` is how many the post has.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter postId: (path)  
+     - parameter url: (query) Full post permalink/reel URL — overrides post_id (optional)
      - parameter after: (query)  (optional)
-     - parameter sort: (query)  (optional, default to "relevance")
+     - parameter sort: (query) relevance | newest (optional, default to "relevance")
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func facebookGetPostCommentsWithRequestBuilder(postId: String, after: String? = nil, sort: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func facebookGetPostCommentsWithRequestBuilder(postId: String, url: String? = nil, after: String? = nil, sort: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/facebook/posts/{post_id}/comments"
         let postIdPreEscape = "\(APIHelper.mapValueToPathItem(postId))"
         let postIdPostEscape = postIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -492,6 +494,7 @@ open class FacebookAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "url": (wrappedValue: url?.encodeToJSON(), isExplode: true),
             "after": (wrappedValue: after?.encodeToJSON(), isExplode: true),
             "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
         ])
@@ -511,12 +514,13 @@ open class FacebookAPI {
      Get post detail
      
      - parameter postId: (path)  
+     - parameter url: (query) Full post permalink/reel URL — overrides post_id (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func facebookGetPostDetail(postId: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return facebookGetPostDetailWithRequestBuilder(postId: postId).execute(apiResponseQueue) { result in
+    open class func facebookGetPostDetail(postId: String, url: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return facebookGetPostDetailWithRequestBuilder(postId: postId, url: url).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -529,14 +533,15 @@ open class FacebookAPI {
     /**
      Get post detail
      - GET /v1/facebook/posts/{post_id}
-     - Get a Facebook post's detail plus its top comments.
+     - Get a Facebook post's detail: text, media, author, date and the reaction / comment / share counts. The comments themselves come from ``/posts/{post_id}/comments``.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter postId: (path)  
+     - parameter url: (query) Full post permalink/reel URL — overrides post_id (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func facebookGetPostDetailWithRequestBuilder(postId: String) -> RequestBuilder<AnyCodable> {
+    open class func facebookGetPostDetailWithRequestBuilder(postId: String, url: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/facebook/posts/{post_id}"
         let postIdPreEscape = "\(APIHelper.mapValueToPathItem(postId))"
         let postIdPostEscape = postIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -544,7 +549,10 @@ open class FacebookAPI {
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "url": (wrappedValue: url?.encodeToJSON(), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: Any?] = [
             :

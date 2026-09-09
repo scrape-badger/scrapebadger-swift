@@ -450,12 +450,12 @@ Name | Type | Description  | Notes
 
 # **facebookGetPostComments**
 ```swift
-    open class func facebookGetPostComments(postId: String, after: String? = nil, sort: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func facebookGetPostComments(postId: String, url: String? = nil, after: String? = nil, sort: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Get post comments
 
-Get a Facebook post's comment thread (paginated).
+Get a Facebook post's comment thread, 10 per page.  ``sort`` is ``relevance`` (Facebook's ranked order, the default) or ``newest``. Follow ``end_cursor`` while ``has_next_page`` to walk the whole thread; ``total_count`` is how many the post has.
 
 ### Example
 ```swift
@@ -463,11 +463,12 @@ Get a Facebook post's comment thread (paginated).
 import ScrapeBadger
 
 let postId = "postId_example" // String | 
+let url = "url_example" // String | Full post permalink/reel URL — overrides post_id (optional)
 let after = "after_example" // String |  (optional)
-let sort = "sort_example" // String |  (optional) (default to "relevance")
+let sort = "sort_example" // String | relevance | newest (optional) (default to "relevance")
 
 // Get post comments
-FacebookAPI.facebookGetPostComments(postId: postId, after: after, sort: sort) { (response, error) in
+FacebookAPI.facebookGetPostComments(postId: postId, url: url, after: after, sort: sort) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -484,8 +485,9 @@ FacebookAPI.facebookGetPostComments(postId: postId, after: after, sort: sort) { 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **postId** | **String** |  | 
+ **url** | **String** | Full post permalink/reel URL — overrides post_id | [optional] 
  **after** | **String** |  | [optional] 
- **sort** | **String** |  | [optional] [default to &quot;relevance&quot;]
+ **sort** | **String** | relevance | newest | [optional] [default to &quot;relevance&quot;]
 
 ### Return type
 
@@ -504,12 +506,12 @@ Name | Type | Description  | Notes
 
 # **facebookGetPostDetail**
 ```swift
-    open class func facebookGetPostDetail(postId: String, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func facebookGetPostDetail(postId: String, url: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Get post detail
 
-Get a Facebook post's detail plus its top comments.
+Get a Facebook post's detail: text, media, author, date and the reaction / comment / share counts. The comments themselves come from ``/posts/{post_id}/comments``.
 
 ### Example
 ```swift
@@ -517,9 +519,10 @@ Get a Facebook post's detail plus its top comments.
 import ScrapeBadger
 
 let postId = "postId_example" // String | 
+let url = "url_example" // String | Full post permalink/reel URL — overrides post_id (optional)
 
 // Get post detail
-FacebookAPI.facebookGetPostDetail(postId: postId) { (response, error) in
+FacebookAPI.facebookGetPostDetail(postId: postId, url: url) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -536,6 +539,7 @@ FacebookAPI.facebookGetPostDetail(postId: postId) { (response, error) in
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **postId** | **String** |  | 
+ **url** | **String** | Full post permalink/reel URL — overrides post_id | [optional] 
 
 ### Return type
 
