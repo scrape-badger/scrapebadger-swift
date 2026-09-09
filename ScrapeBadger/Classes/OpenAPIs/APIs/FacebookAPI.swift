@@ -968,20 +968,21 @@ open class FacebookAPI {
      Search Marketplace
      
      - parameter query: (query) Search keywords 
-     - parameter location: (query) Marketplace location slug (optional, default to "nyc")
+     - parameter location: (query) Marketplace location slug or numeric place id (optional, default to "nyc")
      - parameter minPrice: (query)  (optional)
      - parameter maxPrice: (query)  (optional)
      - parameter daysSinceListed: (query)  (optional)
      - parameter sortBy: (query)  (optional)
      - parameter itemCondition: (query)  (optional)
      - parameter deliveryMethod: (query)  (optional)
+     - parameter radius: (query) Search radius around the location (km, or miles in the US) (optional)
      - parameter after: (query)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func facebookSearchMarketplace(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, after: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return facebookSearchMarketplaceWithRequestBuilder(query: query, location: location, minPrice: minPrice, maxPrice: maxPrice, daysSinceListed: daysSinceListed, sortBy: sortBy, itemCondition: itemCondition, deliveryMethod: deliveryMethod, after: after).execute(apiResponseQueue) { result in
+    open class func facebookSearchMarketplace(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, radius: Int? = nil, after: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return facebookSearchMarketplaceWithRequestBuilder(query: query, location: location, minPrice: minPrice, maxPrice: maxPrice, daysSinceListed: daysSinceListed, sortBy: sortBy, itemCondition: itemCondition, deliveryMethod: deliveryMethod, radius: radius, after: after).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -994,22 +995,23 @@ open class FacebookAPI {
     /**
      Search Marketplace
      - GET /v1/facebook/marketplace/search
-     - Search Facebook Marketplace listings by keyword and location.
+     - Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter query: (query) Search keywords 
-     - parameter location: (query) Marketplace location slug (optional, default to "nyc")
+     - parameter location: (query) Marketplace location slug or numeric place id (optional, default to "nyc")
      - parameter minPrice: (query)  (optional)
      - parameter maxPrice: (query)  (optional)
      - parameter daysSinceListed: (query)  (optional)
      - parameter sortBy: (query)  (optional)
      - parameter itemCondition: (query)  (optional)
      - parameter deliveryMethod: (query)  (optional)
+     - parameter radius: (query) Search radius around the location (km, or miles in the US) (optional)
      - parameter after: (query)  (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func facebookSearchMarketplaceWithRequestBuilder(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, after: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func facebookSearchMarketplaceWithRequestBuilder(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, radius: Int? = nil, after: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/facebook/marketplace/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -1024,6 +1026,7 @@ open class FacebookAPI {
             "sort_by": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
             "item_condition": (wrappedValue: itemCondition?.encodeToJSON(), isExplode: true),
             "delivery_method": (wrappedValue: deliveryMethod?.encodeToJSON(), isExplode: true),
+            "radius": (wrappedValue: radius?.encodeToJSON(), isExplode: true),
             "after": (wrappedValue: after?.encodeToJSON(), isExplode: true),
         ])
 

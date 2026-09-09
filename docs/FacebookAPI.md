@@ -956,12 +956,12 @@ Name | Type | Description  | Notes
 
 # **facebookSearchMarketplace**
 ```swift
-    open class func facebookSearchMarketplace(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, after: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func facebookSearchMarketplace(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, radius: Int? = nil, after: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Search Marketplace
 
-Search Facebook Marketplace listings by keyword and location.
+Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.
 
 ### Example
 ```swift
@@ -969,17 +969,18 @@ Search Facebook Marketplace listings by keyword and location.
 import ScrapeBadger
 
 let query = "query_example" // String | Search keywords
-let location = "location_example" // String | Marketplace location slug (optional) (default to "nyc")
+let location = "location_example" // String | Marketplace location slug or numeric place id (optional) (default to "nyc")
 let minPrice = 987 // Int |  (optional)
 let maxPrice = 987 // Int |  (optional)
 let daysSinceListed = 987 // Int |  (optional)
 let sortBy = "sortBy_example" // String |  (optional)
 let itemCondition = "itemCondition_example" // String |  (optional)
 let deliveryMethod = "deliveryMethod_example" // String |  (optional)
+let radius = 987 // Int | Search radius around the location (km, or miles in the US) (optional)
 let after = "after_example" // String |  (optional)
 
 // Search Marketplace
-FacebookAPI.facebookSearchMarketplace(query: query, location: location, minPrice: minPrice, maxPrice: maxPrice, daysSinceListed: daysSinceListed, sortBy: sortBy, itemCondition: itemCondition, deliveryMethod: deliveryMethod, after: after) { (response, error) in
+FacebookAPI.facebookSearchMarketplace(query: query, location: location, minPrice: minPrice, maxPrice: maxPrice, daysSinceListed: daysSinceListed, sortBy: sortBy, itemCondition: itemCondition, deliveryMethod: deliveryMethod, radius: radius, after: after) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -996,13 +997,14 @@ FacebookAPI.facebookSearchMarketplace(query: query, location: location, minPrice
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String** | Search keywords | 
- **location** | **String** | Marketplace location slug | [optional] [default to &quot;nyc&quot;]
+ **location** | **String** | Marketplace location slug or numeric place id | [optional] [default to &quot;nyc&quot;]
  **minPrice** | **Int** |  | [optional] 
  **maxPrice** | **Int** |  | [optional] 
  **daysSinceListed** | **Int** |  | [optional] 
  **sortBy** | **String** |  | [optional] 
  **itemCondition** | **String** |  | [optional] 
  **deliveryMethod** | **String** |  | [optional] 
+ **radius** | **Int** | Search radius around the location (km, or miles in the US) | [optional] 
  **after** | **String** |  | [optional] 
 
 ### Return type
