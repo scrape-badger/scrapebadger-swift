@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**vintedListPublicVintedMobileOperations**](VintedAPI.md#vintedlistpublicvintedmobileoperations) | **GET** /v1/vinted/mobile/operations | List public Vinted mobile operations
 [**vintedReadVintedMobileData**](VintedAPI.md#vintedreadvintedmobiledata) | **POST** /v1/vinted/mobile/{operation} | Read Vinted mobile data
 [**vintedSearchBrands**](VintedAPI.md#vintedsearchbrands) | **GET** /v1/vinted/brands | Search brands
+[**vintedSearchByImage**](VintedAPI.md#vintedsearchbyimage) | **POST** /v1/vinted/search_by_image | Search by image
 [**vintedSearchVintedItems**](VintedAPI.md#vintedsearchvinteditems) | **GET** /v1/vinted/search | Search Vinted items
 [**vintedVintedScraperHealthCheck**](VintedAPI.md#vintedvintedscraperhealthcheck) | **GET** /v1/vinted/health | Vinted scraper health check
 [**vintedVintedScraperHealthCheckHead**](VintedAPI.md#vintedvintedscraperhealthcheckhead) | **HEAD** /v1/vinted/health | Vinted scraper health check
@@ -470,6 +471,56 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **vintedSearchByImage**
+```swift
+    open class func vintedSearchByImage(vintedImageSearchRequest: VintedImageSearchRequest, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Search by image
+
+Find active Vinted listings from a photo. 10 credits per successful request. Returns the usual items, pagination and market envelope. Visual ranking; no similarity score. Resend the same image and pagination time for subsequent pages. Structured brand data may be null.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let vintedImageSearchRequest = VintedImageSearchRequest(imageUrl: "imageUrl_example", imageBase64: "imageBase64_example", market: "market_example", page: 123, perPage: 123, priceFrom: 123, priceTo: 123, brandIds: "brandIds_example", catalogIds: "catalogIds_example", colorIds: "colorIds_example", sizeIds: "sizeIds_example", materialIds: "materialIds_example", statusIds: "statusIds_example", time: 123, searchSessionId: "searchSessionId_example") // VintedImageSearchRequest | 
+
+// Search by image
+VintedAPI.vintedSearchByImage(vintedImageSearchRequest: vintedImageSearchRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **vintedImageSearchRequest** | [**VintedImageSearchRequest**](VintedImageSearchRequest.md) |  | 
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
