@@ -329,6 +329,103 @@ open class VintedAPI {
     }
 
     /**
+     List public Vinted mobile operations
+     
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func vintedListPublicVintedMobileOperations(apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return vintedListPublicVintedMobileOperationsWithRequestBuilder().execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     List public Vinted mobile operations
+     - GET /v1/vinted/mobile/operations
+     - Discover public read operations, parameters and runnable examples. Free.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func vintedListPublicVintedMobileOperationsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/vinted/mobile/operations"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Read Vinted mobile data
+     
+     - parameter operation: (path)  
+     - parameter vintedMobileReadRequest: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func vintedReadVintedMobileData(operation: String, vintedMobileReadRequest: VintedMobileReadRequest, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return vintedReadVintedMobileDataWithRequestBuilder(operation: operation, vintedMobileReadRequest: vintedMobileReadRequest).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Read Vinted mobile data
+     - POST /v1/vinted/mobile/{operation}
+     - Read catalog, listing, seller, review, sold-comparable, pricing, reference, shipping-reference, homepage or help data. No Vinted account is required. This is an allowlisted read API, including read-only upstream POST queries. Returns operation, market, and the upstream JSON under data. One credit. Sold comparable prices are not guaranteed final negotiated sale prices.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter operation: (path)  
+     - parameter vintedMobileReadRequest: (body)  
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func vintedReadVintedMobileDataWithRequestBuilder(operation: String, vintedMobileReadRequest: VintedMobileReadRequest) -> RequestBuilder<AnyCodable> {
+        var localVariablePath = "/v1/vinted/mobile/{operation}"
+        let operationPreEscape = "\(APIHelper.mapValueToPathItem(operation))"
+        let operationPostEscape = operationPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{operation}", with: operationPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: vintedMobileReadRequest)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Search brands
      
      - parameter keyword: (query) Brand search keyword 
@@ -394,14 +491,18 @@ open class VintedAPI {
      - parameter brandIds: (query)  (optional)
      - parameter catalogIds: (query) Comma-separated Vinted catalog (category) IDs to restrict the search to, e.g. &#39;1904&#39; or &#39;1904,79&#39;. Vinted applies this before searching, so pagination totals reflect the filtered set. A catalog ID is the &#x60;catalog[]&#x60; value in a Vinted category URL (vinted.fr/catalog?catalog[]&#x3D;1904). (optional)
      - parameter colorIds: (query) Comma-separated color IDs (optional)
+     - parameter sizeIds: (query) Comma-separated size IDs (optional)
+     - parameter materialIds: (query) Comma-separated material IDs (optional)
+     - parameter time: (query) Pagination time returned by the preceding page (optional)
+     - parameter searchSessionId: (query) Reuse across pages of one search (optional)
      - parameter statusIds: (query) Comma-separated condition/status IDs (optional)
      - parameter order: (query)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func vintedSearchVintedItems(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, statusIds: String? = nil, order: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return vintedSearchVintedItemsWithRequestBuilder(query: query, market: market, sellerCountry: sellerCountry, page: page, perPage: perPage, priceFrom: priceFrom, priceTo: priceTo, brandIds: brandIds, catalogIds: catalogIds, colorIds: colorIds, statusIds: statusIds, order: order).execute(apiResponseQueue) { result in
+    open class func vintedSearchVintedItems(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return vintedSearchVintedItemsWithRequestBuilder(query: query, market: market, sellerCountry: sellerCountry, page: page, perPage: perPage, priceFrom: priceFrom, priceTo: priceTo, brandIds: brandIds, catalogIds: catalogIds, colorIds: colorIds, sizeIds: sizeIds, materialIds: materialIds, time: time, searchSessionId: searchSessionId, statusIds: statusIds, order: order).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -428,11 +529,15 @@ open class VintedAPI {
      - parameter brandIds: (query)  (optional)
      - parameter catalogIds: (query) Comma-separated Vinted catalog (category) IDs to restrict the search to, e.g. &#39;1904&#39; or &#39;1904,79&#39;. Vinted applies this before searching, so pagination totals reflect the filtered set. A catalog ID is the &#x60;catalog[]&#x60; value in a Vinted category URL (vinted.fr/catalog?catalog[]&#x3D;1904). (optional)
      - parameter colorIds: (query) Comma-separated color IDs (optional)
+     - parameter sizeIds: (query) Comma-separated size IDs (optional)
+     - parameter materialIds: (query) Comma-separated material IDs (optional)
+     - parameter time: (query) Pagination time returned by the preceding page (optional)
+     - parameter searchSessionId: (query) Reuse across pages of one search (optional)
      - parameter statusIds: (query) Comma-separated condition/status IDs (optional)
      - parameter order: (query)  (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func vintedSearchVintedItemsWithRequestBuilder(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, statusIds: String? = nil, order: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func vintedSearchVintedItemsWithRequestBuilder(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/vinted/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -449,6 +554,10 @@ open class VintedAPI {
             "brand_ids": (wrappedValue: brandIds?.encodeToJSON(), isExplode: true),
             "catalog_ids": (wrappedValue: catalogIds?.encodeToJSON(), isExplode: true),
             "color_ids": (wrappedValue: colorIds?.encodeToJSON(), isExplode: true),
+            "size_ids": (wrappedValue: sizeIds?.encodeToJSON(), isExplode: true),
+            "material_ids": (wrappedValue: materialIds?.encodeToJSON(), isExplode: true),
+            "time": (wrappedValue: time?.encodeToJSON(), isExplode: true),
+            "search_session_id": (wrappedValue: searchSessionId?.encodeToJSON(), isExplode: true),
             "status_ids": (wrappedValue: statusIds?.encodeToJSON(), isExplode: true),
             "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
         ])

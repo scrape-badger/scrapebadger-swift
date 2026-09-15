@@ -464,6 +464,8 @@ Class | Method | HTTP request | Description
 *VintedAPI* | [**vintedListColors**](docs/VintedAPI.md#vintedlistcolors) | **GET** /v1/vinted/colors | List colors
 *VintedAPI* | [**vintedListItemConditions**](docs/VintedAPI.md#vintedlistitemconditions) | **GET** /v1/vinted/statuses | List item conditions
 *VintedAPI* | [**vintedListMarkets**](docs/VintedAPI.md#vintedlistmarkets) | **GET** /v1/vinted/markets | List markets
+*VintedAPI* | [**vintedListPublicVintedMobileOperations**](docs/VintedAPI.md#vintedlistpublicvintedmobileoperations) | **GET** /v1/vinted/mobile/operations | List public Vinted mobile operations
+*VintedAPI* | [**vintedReadVintedMobileData**](docs/VintedAPI.md#vintedreadvintedmobiledata) | **POST** /v1/vinted/mobile/{operation} | Read Vinted mobile data
 *VintedAPI* | [**vintedSearchBrands**](docs/VintedAPI.md#vintedsearchbrands) | **GET** /v1/vinted/brands | Search brands
 *VintedAPI* | [**vintedSearchVintedItems**](docs/VintedAPI.md#vintedsearchvinteditems) | **GET** /v1/vinted/search | Search Vinted items
 *VintedAPI* | [**vintedVintedScraperHealthCheck**](docs/VintedAPI.md#vintedvintedscraperhealthcheck) | **GET** /v1/vinted/health | Vinted scraper health check
@@ -578,6 +580,7 @@ Class | Method | HTTP request | Description
  - [TweetDeliveryLogListResponse](docs/TweetDeliveryLogListResponse.md)
  - [TweetDeliveryLogResponse](docs/TweetDeliveryLogResponse.md)
  - [ValidationErrorLocInner](docs/ValidationErrorLocInner.md)
+ - [VintedMobileReadRequest](docs/VintedMobileReadRequest.md)
  - [WebhookCreate](docs/WebhookCreate.md)
  - [WebhookListItem](docs/WebhookListItem.md)
  - [WebhookListResponse](docs/WebhookListResponse.md)

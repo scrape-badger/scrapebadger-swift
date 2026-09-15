@@ -70,6 +70,7 @@ ScrapeBadger/Classes/OpenAPIs/Models/SubscriptionInfo.swift
 ScrapeBadger/Classes/OpenAPIs/Models/TweetDeliveryLogListResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/TweetDeliveryLogResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ValidationErrorLocInner.swift
+ScrapeBadger/Classes/OpenAPIs/Models/VintedMobileReadRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookCreate.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookListItem.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookListResponse.swift
@@ -131,6 +132,7 @@ docs/TweetDeliveryLogResponse.md
 docs/TwitterAPI.md
 docs/ValidationErrorLocInner.md
 docs/VintedAPI.md
+docs/VintedMobileReadRequest.md
 docs/WalmartAPI.md
 docs/WebAPI.md
 docs/WebhookCreate.md

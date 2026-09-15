@@ -10,6 +10,8 @@ Method | HTTP request | Description
 [**vintedListColors**](VintedAPI.md#vintedlistcolors) | **GET** /v1/vinted/colors | List colors
 [**vintedListItemConditions**](VintedAPI.md#vintedlistitemconditions) | **GET** /v1/vinted/statuses | List item conditions
 [**vintedListMarkets**](VintedAPI.md#vintedlistmarkets) | **GET** /v1/vinted/markets | List markets
+[**vintedListPublicVintedMobileOperations**](VintedAPI.md#vintedlistpublicvintedmobileoperations) | **GET** /v1/vinted/mobile/operations | List public Vinted mobile operations
+[**vintedReadVintedMobileData**](VintedAPI.md#vintedreadvintedmobiledata) | **POST** /v1/vinted/mobile/{operation} | Read Vinted mobile data
 [**vintedSearchBrands**](VintedAPI.md#vintedsearchbrands) | **GET** /v1/vinted/brands | Search brands
 [**vintedSearchVintedItems**](VintedAPI.md#vintedsearchvinteditems) | **GET** /v1/vinted/search | Search Vinted items
 [**vintedVintedScraperHealthCheck**](VintedAPI.md#vintedvintedscraperhealthcheck) | **GET** /v1/vinted/health | Vinted scraper health check
@@ -322,6 +324,104 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **vintedListPublicVintedMobileOperations**
+```swift
+    open class func vintedListPublicVintedMobileOperations(completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+List public Vinted mobile operations
+
+Discover public read operations, parameters and runnable examples. Free.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+
+// List public Vinted mobile operations
+VintedAPI.vintedListPublicVintedMobileOperations() { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **vintedReadVintedMobileData**
+```swift
+    open class func vintedReadVintedMobileData(operation: String, vintedMobileReadRequest: VintedMobileReadRequest, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Read Vinted mobile data
+
+Read catalog, listing, seller, review, sold-comparable, pricing, reference, shipping-reference, homepage or help data. No Vinted account is required. This is an allowlisted read API, including read-only upstream POST queries. Returns operation, market, and the upstream JSON under data. One credit. Sold comparable prices are not guaranteed final negotiated sale prices.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let operation = "operation_example" // String | 
+let vintedMobileReadRequest = VintedMobileReadRequest(market: "market_example", parameters: "TODO") // VintedMobileReadRequest | 
+
+// Read Vinted mobile data
+VintedAPI.vintedReadVintedMobileData(operation: operation, vintedMobileReadRequest: vintedMobileReadRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **operation** | **String** |  | 
+ **vintedMobileReadRequest** | [**VintedMobileReadRequest**](VintedMobileReadRequest.md) |  | 
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **vintedSearchBrands**
 ```swift
     open class func vintedSearchBrands(keyword: String, market: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
@@ -376,7 +476,7 @@ Name | Type | Description  | Notes
 
 # **vintedSearchVintedItems**
 ```swift
-    open class func vintedSearchVintedItems(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, statusIds: String? = nil, order: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func vintedSearchVintedItems(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Search Vinted items
@@ -398,11 +498,15 @@ let priceTo = 987 // Double |  (optional)
 let brandIds = "brandIds_example" // String |  (optional)
 let catalogIds = "catalogIds_example" // String | Comma-separated Vinted catalog (category) IDs to restrict the search to, e.g. '1904' or '1904,79'. Vinted applies this before searching, so pagination totals reflect the filtered set. A catalog ID is the `catalog[]` value in a Vinted category URL (vinted.fr/catalog?catalog[]=1904). (optional)
 let colorIds = "colorIds_example" // String | Comma-separated color IDs (optional)
+let sizeIds = "sizeIds_example" // String | Comma-separated size IDs (optional)
+let materialIds = "materialIds_example" // String | Comma-separated material IDs (optional)
+let time = 987 // Int | Pagination time returned by the preceding page (optional)
+let searchSessionId = "searchSessionId_example" // String | Reuse across pages of one search (optional)
 let statusIds = "statusIds_example" // String | Comma-separated condition/status IDs (optional)
 let order = "order_example" // String |  (optional)
 
 // Search Vinted items
-VintedAPI.vintedSearchVintedItems(query: query, market: market, sellerCountry: sellerCountry, page: page, perPage: perPage, priceFrom: priceFrom, priceTo: priceTo, brandIds: brandIds, catalogIds: catalogIds, colorIds: colorIds, statusIds: statusIds, order: order) { (response, error) in
+VintedAPI.vintedSearchVintedItems(query: query, market: market, sellerCountry: sellerCountry, page: page, perPage: perPage, priceFrom: priceFrom, priceTo: priceTo, brandIds: brandIds, catalogIds: catalogIds, colorIds: colorIds, sizeIds: sizeIds, materialIds: materialIds, time: time, searchSessionId: searchSessionId, statusIds: statusIds, order: order) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -428,6 +532,10 @@ Name | Type | Description  | Notes
  **brandIds** | **String** |  | [optional] 
  **catalogIds** | **String** | Comma-separated Vinted catalog (category) IDs to restrict the search to, e.g. &#39;1904&#39; or &#39;1904,79&#39;. Vinted applies this before searching, so pagination totals reflect the filtered set. A catalog ID is the &#x60;catalog[]&#x60; value in a Vinted category URL (vinted.fr/catalog?catalog[]&#x3D;1904). | [optional] 
  **colorIds** | **String** | Comma-separated color IDs | [optional] 
+ **sizeIds** | **String** | Comma-separated size IDs | [optional] 
+ **materialIds** | **String** | Comma-separated material IDs | [optional] 
+ **time** | **Int** | Pagination time returned by the preceding page | [optional] 
+ **searchSessionId** | **String** | Reuse across pages of one search | [optional] 
  **statusIds** | **String** | Comma-separated condition/status IDs | [optional] 
  **order** | **String** |  | [optional] 
 
