@@ -336,7 +336,7 @@ let categories = "categories_example" // String | Comma-separated category IDs (
 let sizes = "sizes_example" // String | Comma-separated size IDs (optional)
 let conditions = "conditions_example" // String | Comma-separated condition slugs (brand_new, used_excellent, ...) (optional)
 let gender = "gender_example" // String | male | female (optional)
-let sort = "sort_example" // String | relevance | newlyListed | priceAscending | priceDescending (optional)
+let sort = "sort_example" // String | relevance (default) | priceAscending | priceDescending (optional)
 
 // Search Depop products
 DepopAPI.depopSearchDepopProducts(query: query, market: market, perPage: perPage, cursor: cursor, priceMin: priceMin, priceMax: priceMax, brands: brands, categories: categories, sizes: sizes, conditions: conditions, gender: gender, sort: sort) { (response, error) in
@@ -366,7 +366,7 @@ Name | Type | Description  | Notes
  **sizes** | **String** | Comma-separated size IDs | [optional] 
  **conditions** | **String** | Comma-separated condition slugs (brand_new, used_excellent, ...) | [optional] 
  **gender** | **String** | male | female | [optional] 
- **sort** | **String** | relevance | newlyListed | priceAscending | priceDescending | [optional] 
+ **sort** | **String** | relevance (default) | priceAscending | priceDescending | [optional] 
 
 ### Return type
 

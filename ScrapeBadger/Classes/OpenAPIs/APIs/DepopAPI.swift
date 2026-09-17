@@ -332,7 +332,7 @@ open class DepopAPI {
      - parameter sizes: (query) Comma-separated size IDs (optional)
      - parameter conditions: (query) Comma-separated condition slugs (brand_new, used_excellent, ...) (optional)
      - parameter gender: (query) male | female (optional)
-     - parameter sort: (query) relevance | newlyListed | priceAscending | priceDescending (optional)
+     - parameter sort: (query) relevance (default) | priceAscending | priceDescending (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -366,7 +366,7 @@ open class DepopAPI {
      - parameter sizes: (query) Comma-separated size IDs (optional)
      - parameter conditions: (query) Comma-separated condition slugs (brand_new, used_excellent, ...) (optional)
      - parameter gender: (query) male | female (optional)
-     - parameter sort: (query) relevance | newlyListed | priceAscending | priceDescending (optional)
+     - parameter sort: (query) relevance (default) | priceAscending | priceDescending (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func depopSearchDepopProductsWithRequestBuilder(query: String, market: String? = nil, perPage: Int? = nil, cursor: String? = nil, priceMin: Double? = nil, priceMax: Double? = nil, brands: String? = nil, categories: String? = nil, sizes: String? = nil, conditions: String? = nil, gender: String? = nil, sort: String? = nil) -> RequestBuilder<AnyCodable> {
