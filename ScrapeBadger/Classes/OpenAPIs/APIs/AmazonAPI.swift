@@ -344,9 +344,9 @@ open class AmazonAPI {
      
      - parameter asin: (path)  
      - parameter domain: (query)  (optional, default to "com")
-     - parameter page: (query) Review page (1-100, ~10 reviews/page) (optional, default to 1)
+     - parameter page: (query) Review page (10 reviews/page) (optional, default to 1)
      - parameter sortBy: (query) helpful | recent (optional, default to "helpful")
-     - parameter star: (query) one_star..five_star | positive | critical (optional)
+     - parameter star: (query) 1-5 | one_star..five_star | positive | critical | all_stars (optional)
      - parameter verifiedOnly: (query)  (optional, default to false)
      - parameter mediaOnly: (query)  (optional, default to false)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -367,15 +367,15 @@ open class AmazonAPI {
     /**
      Get product reviews
      - GET /v1/amazon/products/{asin}/reviews
-     - Customer reviews for an ASIN (featured + paginated, with filters).
+     - Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page's public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (``ratings_total`` reports the true total). ``pagination`` gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised ``star`` or ``sort_by`` is rejected with 422 rather than silently answered with unfiltered reviews.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter asin: (path)  
      - parameter domain: (query)  (optional, default to "com")
-     - parameter page: (query) Review page (1-100, ~10 reviews/page) (optional, default to 1)
+     - parameter page: (query) Review page (10 reviews/page) (optional, default to 1)
      - parameter sortBy: (query) helpful | recent (optional, default to "helpful")
-     - parameter star: (query) one_star..five_star | positive | critical (optional)
+     - parameter star: (query) 1-5 | one_star..five_star | positive | critical | all_stars (optional)
      - parameter verifiedOnly: (query)  (optional, default to false)
      - parameter mediaOnly: (query)  (optional, default to false)
      - returns: RequestBuilder<AnyCodable> 

@@ -343,7 +343,7 @@ Name | Type | Description  | Notes
 
 Get product reviews
 
-Customer reviews for an ASIN (featured + paginated, with filters).
+Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page's public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (``ratings_total`` reports the true total). ``pagination`` gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised ``star`` or ``sort_by`` is rejected with 422 rather than silently answered with unfiltered reviews.
 
 ### Example
 ```swift
@@ -352,9 +352,9 @@ import ScrapeBadger
 
 let asin = "asin_example" // String | 
 let domain = "domain_example" // String |  (optional) (default to "com")
-let page = 987 // Int | Review page (1-100, ~10 reviews/page) (optional) (default to 1)
+let page = 987 // Int | Review page (10 reviews/page) (optional) (default to 1)
 let sortBy = "sortBy_example" // String | helpful | recent (optional) (default to "helpful")
-let star = "star_example" // String | one_star..five_star | positive | critical (optional)
+let star = "star_example" // String | 1-5 | one_star..five_star | positive | critical | all_stars (optional)
 let verifiedOnly = true // Bool |  (optional) (default to false)
 let mediaOnly = true // Bool |  (optional) (default to false)
 
@@ -377,9 +377,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **asin** | **String** |  | 
  **domain** | **String** |  | [optional] [default to &quot;com&quot;]
- **page** | **Int** | Review page (1-100, ~10 reviews/page) | [optional] [default to 1]
+ **page** | **Int** | Review page (10 reviews/page) | [optional] [default to 1]
  **sortBy** | **String** | helpful | recent | [optional] [default to &quot;helpful&quot;]
- **star** | **String** | one_star..five_star | positive | critical | [optional] 
+ **star** | **String** | 1-5 | one_star..five_star | positive | critical | all_stars | [optional] 
  **verifiedOnly** | **Bool** |  | [optional] [default to false]
  **mediaOnly** | **Bool** |  | [optional] [default to false]
 
