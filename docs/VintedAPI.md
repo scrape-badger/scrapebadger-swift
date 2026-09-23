@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 # **vintedGetItemDetails**
 ```swift
-    open class func vintedGetItemDetails(itemId: Int, market: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func vintedGetItemDetails(itemId: Int, market: String? = nil, completion: @escaping (_ data: ItemDetailResponse?, _ error: Error?) -> Void)
 ```
 
 Get item details
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AnyCodable**
+[**ItemDetailResponse**](ItemDetailResponse.md)
 
 ### Authorization
 
@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 
 # **vintedGetUserProfile**
 ```swift
-    open class func vintedGetUserProfile(userId: Int, market: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func vintedGetUserProfile(userId: Int, market: String? = nil, completion: @escaping (_ data: UserProfileResponse?, _ error: Error?) -> Void)
 ```
 
 Get user profile
@@ -110,7 +110,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AnyCodable**
+[**UserProfileResponse**](UserProfileResponse.md)
 
 ### Authorization
 
@@ -125,7 +125,7 @@ Name | Type | Description  | Notes
 
 # **vintedGetUserSListedItems**
 ```swift
-    open class func vintedGetUserSListedItems(userId: Int, market: String? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func vintedGetUserSListedItems(userId: Int, market: String? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: UserItemsResponse?, _ error: Error?) -> Void)
 ```
 
 Get user's listed items
@@ -166,7 +166,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AnyCodable**
+[**UserItemsResponse**](UserItemsResponse.md)
 
 ### Authorization
 
@@ -181,7 +181,7 @@ Name | Type | Description  | Notes
 
 # **vintedListColors**
 ```swift
-    open class func vintedListColors(market: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func vintedListColors(market: String? = nil, completion: @escaping (_ data: ColorsResponse?, _ error: Error?) -> Void)
 ```
 
 List colors
@@ -216,7 +216,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AnyCodable**
+[**ColorsResponse**](ColorsResponse.md)
 
 ### Authorization
 
@@ -231,7 +231,7 @@ Name | Type | Description  | Notes
 
 # **vintedListItemConditions**
 ```swift
-    open class func vintedListItemConditions(market: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func vintedListItemConditions(market: String? = nil, completion: @escaping (_ data: StatusesResponse?, _ error: Error?) -> Void)
 ```
 
 List item conditions
@@ -266,7 +266,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AnyCodable**
+[**StatusesResponse**](StatusesResponse.md)
 
 ### Authorization
 
@@ -281,7 +281,7 @@ Name | Type | Description  | Notes
 
 # **vintedListMarkets**
 ```swift
-    open class func vintedListMarkets(completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func vintedListMarkets(completion: @escaping (_ data: MarketsResponse?, _ error: Error?) -> Void)
 ```
 
 List markets
@@ -312,7 +312,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**AnyCodable**
+[**MarketsResponse**](MarketsResponse.md)
 
 ### Authorization
 
@@ -425,7 +425,7 @@ Name | Type | Description  | Notes
 
 # **vintedSearchBrands**
 ```swift
-    open class func vintedSearchBrands(keyword: String, market: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func vintedSearchBrands(keyword: String, market: String? = nil, completion: @escaping (_ data: BrandsResponse?, _ error: Error?) -> Void)
 ```
 
 Search brands
@@ -462,7 +462,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AnyCodable**
+[**BrandsResponse**](BrandsResponse.md)
 
 ### Authorization
 
@@ -477,7 +477,7 @@ Name | Type | Description  | Notes
 
 # **vintedSearchByImage**
 ```swift
-    open class func vintedSearchByImage(vintedImageSearchRequest: VintedImageSearchRequest, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func vintedSearchByImage(vintedImageSearchRequest: VintedImageSearchRequest, completion: @escaping (_ data: SearchResponse?, _ error: Error?) -> Void)
 ```
 
 Search by image
@@ -512,7 +512,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AnyCodable**
+[**SearchResponse**](SearchResponse.md)
 
 ### Authorization
 
@@ -527,7 +527,7 @@ Name | Type | Description  | Notes
 
 # **vintedSearchVintedItems**
 ```swift
-    open class func vintedSearchVintedItems(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func vintedSearchVintedItems(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil, completion: @escaping (_ data: SearchResponse?, _ error: Error?) -> Void)
 ```
 
 Search Vinted items
@@ -592,7 +592,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AnyCodable**
+[**SearchResponse**](SearchResponse.md)
 
 ### Authorization
 

@@ -21,7 +21,7 @@ open class VintedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func vintedGetItemDetails(itemId: Int, market: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func vintedGetItemDetails(itemId: Int, market: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: ItemDetailResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return vintedGetItemDetailsWithRequestBuilder(itemId: itemId, market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -41,9 +41,9 @@ open class VintedAPI {
        - name: ApiKeyAuth
      - parameter itemId: (path)  
      - parameter market: (query)  (optional, default to "fr")
-     - returns: RequestBuilder<AnyCodable> 
+     - returns: RequestBuilder<ItemDetailResponse> 
      */
-    open class func vintedGetItemDetailsWithRequestBuilder(itemId: Int, market: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func vintedGetItemDetailsWithRequestBuilder(itemId: Int, market: String? = nil) -> RequestBuilder<ItemDetailResponse> {
         var localVariablePath = "/v1/vinted/items/{item_id}"
         let itemIdPreEscape = "\(APIHelper.mapValueToPathItem(itemId))"
         let itemIdPostEscape = itemIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -62,7 +62,7 @@ open class VintedAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ItemDetailResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -76,7 +76,7 @@ open class VintedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func vintedGetUserProfile(userId: Int, market: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func vintedGetUserProfile(userId: Int, market: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: UserProfileResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return vintedGetUserProfileWithRequestBuilder(userId: userId, market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -96,9 +96,9 @@ open class VintedAPI {
        - name: ApiKeyAuth
      - parameter userId: (path)  
      - parameter market: (query)  (optional, default to "fr")
-     - returns: RequestBuilder<AnyCodable> 
+     - returns: RequestBuilder<UserProfileResponse> 
      */
-    open class func vintedGetUserProfileWithRequestBuilder(userId: Int, market: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func vintedGetUserProfileWithRequestBuilder(userId: Int, market: String? = nil) -> RequestBuilder<UserProfileResponse> {
         var localVariablePath = "/v1/vinted/users/{user_id}"
         let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
         let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -117,7 +117,7 @@ open class VintedAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<UserProfileResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -133,7 +133,7 @@ open class VintedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func vintedGetUserSListedItems(userId: Int, market: String? = nil, page: Int? = nil, perPage: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func vintedGetUserSListedItems(userId: Int, market: String? = nil, page: Int? = nil, perPage: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: UserItemsResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return vintedGetUserSListedItemsWithRequestBuilder(userId: userId, market: market, page: page, perPage: perPage).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -155,9 +155,9 @@ open class VintedAPI {
      - parameter market: (query)  (optional, default to "fr")
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
-     - returns: RequestBuilder<AnyCodable> 
+     - returns: RequestBuilder<UserItemsResponse> 
      */
-    open class func vintedGetUserSListedItemsWithRequestBuilder(userId: Int, market: String? = nil, page: Int? = nil, perPage: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func vintedGetUserSListedItemsWithRequestBuilder(userId: Int, market: String? = nil, page: Int? = nil, perPage: Int? = nil) -> RequestBuilder<UserItemsResponse> {
         var localVariablePath = "/v1/vinted/users/{user_id}/items"
         let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
         let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -178,7 +178,7 @@ open class VintedAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<UserItemsResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -191,7 +191,7 @@ open class VintedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func vintedListColors(market: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func vintedListColors(market: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: ColorsResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return vintedListColorsWithRequestBuilder(market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -210,9 +210,9 @@ open class VintedAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter market: (query)  (optional, default to "fr")
-     - returns: RequestBuilder<AnyCodable> 
+     - returns: RequestBuilder<ColorsResponse> 
      */
-    open class func vintedListColorsWithRequestBuilder(market: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func vintedListColorsWithRequestBuilder(market: String? = nil) -> RequestBuilder<ColorsResponse> {
         let localVariablePath = "/v1/vinted/colors"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -228,7 +228,7 @@ open class VintedAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ColorsResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -241,7 +241,7 @@ open class VintedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func vintedListItemConditions(market: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func vintedListItemConditions(market: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: StatusesResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return vintedListItemConditionsWithRequestBuilder(market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -260,9 +260,9 @@ open class VintedAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter market: (query)  (optional, default to "fr")
-     - returns: RequestBuilder<AnyCodable> 
+     - returns: RequestBuilder<StatusesResponse> 
      */
-    open class func vintedListItemConditionsWithRequestBuilder(market: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func vintedListItemConditionsWithRequestBuilder(market: String? = nil) -> RequestBuilder<StatusesResponse> {
         let localVariablePath = "/v1/vinted/statuses"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -278,7 +278,7 @@ open class VintedAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<StatusesResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -290,7 +290,7 @@ open class VintedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func vintedListMarkets(apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func vintedListMarkets(apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: MarketsResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return vintedListMarketsWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -308,9 +308,9 @@ open class VintedAPI {
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - returns: RequestBuilder<AnyCodable> 
+     - returns: RequestBuilder<MarketsResponse> 
      */
-    open class func vintedListMarketsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
+    open class func vintedListMarketsWithRequestBuilder() -> RequestBuilder<MarketsResponse> {
         let localVariablePath = "/v1/vinted/markets"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -323,7 +323,7 @@ open class VintedAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<MarketsResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -434,7 +434,7 @@ open class VintedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func vintedSearchBrands(keyword: String, market: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func vintedSearchBrands(keyword: String, market: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: BrandsResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return vintedSearchBrandsWithRequestBuilder(keyword: keyword, market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -454,9 +454,9 @@ open class VintedAPI {
        - name: ApiKeyAuth
      - parameter keyword: (query) Brand search keyword 
      - parameter market: (query)  (optional, default to "fr")
-     - returns: RequestBuilder<AnyCodable> 
+     - returns: RequestBuilder<BrandsResponse> 
      */
-    open class func vintedSearchBrandsWithRequestBuilder(keyword: String, market: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func vintedSearchBrandsWithRequestBuilder(keyword: String, market: String? = nil) -> RequestBuilder<BrandsResponse> {
         let localVariablePath = "/v1/vinted/brands"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -473,7 +473,7 @@ open class VintedAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<BrandsResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -486,7 +486,7 @@ open class VintedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func vintedSearchByImage(vintedImageSearchRequest: VintedImageSearchRequest, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func vintedSearchByImage(vintedImageSearchRequest: VintedImageSearchRequest, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: SearchResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return vintedSearchByImageWithRequestBuilder(vintedImageSearchRequest: vintedImageSearchRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -505,9 +505,9 @@ open class VintedAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter vintedImageSearchRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
+     - returns: RequestBuilder<SearchResponse> 
      */
-    open class func vintedSearchByImageWithRequestBuilder(vintedImageSearchRequest: VintedImageSearchRequest) -> RequestBuilder<AnyCodable> {
+    open class func vintedSearchByImageWithRequestBuilder(vintedImageSearchRequest: VintedImageSearchRequest) -> RequestBuilder<SearchResponse> {
         let localVariablePath = "/v1/vinted/search_by_image"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: vintedImageSearchRequest)
@@ -520,7 +520,7 @@ open class VintedAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SearchResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -548,7 +548,7 @@ open class VintedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func vintedSearchVintedItems(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func vintedSearchVintedItems(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: SearchResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return vintedSearchVintedItemsWithRequestBuilder(query: query, market: market, sellerCountry: sellerCountry, page: page, perPage: perPage, priceFrom: priceFrom, priceTo: priceTo, brandIds: brandIds, catalogIds: catalogIds, colorIds: colorIds, sizeIds: sizeIds, materialIds: materialIds, time: time, searchSessionId: searchSessionId, statusIds: statusIds, order: order).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -582,9 +582,9 @@ open class VintedAPI {
      - parameter searchSessionId: (query) Reuse across pages of one search (optional)
      - parameter statusIds: (query) Comma-separated condition/status IDs (optional)
      - parameter order: (query)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
+     - returns: RequestBuilder<SearchResponse> 
      */
-    open class func vintedSearchVintedItemsWithRequestBuilder(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func vintedSearchVintedItemsWithRequestBuilder(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil) -> RequestBuilder<SearchResponse> {
         let localVariablePath = "/v1/vinted/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -615,7 +615,7 @@ open class VintedAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SearchResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
