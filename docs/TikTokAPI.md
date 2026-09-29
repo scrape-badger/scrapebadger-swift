@@ -4,6 +4,7 @@ All URIs are relative to *https://scrapebadger.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**tiktokBestSellingTiktokShopProducts**](TikTokAPI.md#tiktokbestsellingtiktokshopproducts) | **GET** /v1/tiktok/shop/bestsellers | Best-selling TikTok Shop products
 [**tiktokGeneralSearch**](TikTokAPI.md#tiktokgeneralsearch) | **GET** /v1/tiktok/search | General search
 [**tiktokGetCommentReplies**](TikTokAPI.md#tiktokgetcommentreplies) | **GET** /v1/tiktok/comments/{comment_id}/replies | Get comment replies
 [**tiktokGetComments**](TikTokAPI.md#tiktokgetcomments) | **GET** /v1/tiktok/videos/{video_id}/comments | Get comments
@@ -31,15 +32,74 @@ Method | HTTP request | Description
 [**tiktokSearchTiktokShopProducts**](TikTokAPI.md#tiktoksearchtiktokshopproducts) | **GET** /v1/tiktok/shop/search | Search TikTok Shop products
 [**tiktokSearchUsers**](TikTokAPI.md#tiktoksearchusers) | **GET** /v1/tiktok/search/users | Search users
 [**tiktokSearchVideos**](TikTokAPI.md#tiktoksearchvideos) | **GET** /v1/tiktok/search/videos | Search videos
+[**tiktokTiktokShopCategoryProducts**](TikTokAPI.md#tiktoktiktokshopcategoryproducts) | **GET** /v1/tiktok/shop/categories/{category_id}/products | TikTok Shop category products
 [**tiktokTiktokShopCategorySubcategoriesTopProducts**](TikTokAPI.md#tiktoktiktokshopcategorysubcategoriestopproducts) | **GET** /v1/tiktok/shop/categories/{category_id} | TikTok Shop category: subcategories + top products
 [**tiktokTiktokShopProductDetail**](TikTokAPI.md#tiktoktiktokshopproductdetail) | **GET** /v1/tiktok/shop/products/{product_id} | TikTok Shop product detail
 [**tiktokTiktokShopProductReviews**](TikTokAPI.md#tiktoktiktokshopproductreviews) | **GET** /v1/tiktok/shop/products/{product_id}/reviews | TikTok Shop product reviews
+[**tiktokTiktokShopRegionalMallFeed**](TikTokAPI.md#tiktoktiktokshopregionalmallfeed) | **GET** /v1/tiktok/shop/mall | TikTok Shop regional mall feed
 [**tiktokTiktokShopRootCategories**](TikTokAPI.md#tiktoktiktokshoprootcategories) | **GET** /v1/tiktok/shop/categories | TikTok Shop root categories
 [**tiktokTiktokShopStoreProducts**](TikTokAPI.md#tiktoktiktokshopstoreproducts) | **GET** /v1/tiktok/shop/stores/{seller_id} | TikTok Shop store + products
+[**tiktokTiktokShopThemeRanking**](TikTokAPI.md#tiktoktiktokshopthemeranking) | **GET** /v1/tiktok/shop/rankings/{rank_id} | TikTok Shop theme ranking
 [**tiktokTrendingHashtags**](TikTokAPI.md#tiktoktrendinghashtags) | **GET** /v1/tiktok/trending/hashtags | Trending hashtags
 [**tiktokTrendingSongs**](TikTokAPI.md#tiktoktrendingsongs) | **GET** /v1/tiktok/trending/songs | Trending songs
 [**tiktokTrendingVideos**](TikTokAPI.md#tiktoktrendingvideos) | **GET** /v1/tiktok/trending/videos | Trending videos
 
+
+# **tiktokBestSellingTiktokShopProducts**
+```swift
+    open class func tiktokBestSellingTiktokShopProducts(region: String? = nil, categoryId: String? = nil, pages: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Best-selling TikTok Shop products
+
+Sales-ranked best-selling products, available for every operating market.  Ranked by real sold_count (source: sales_ranked); works for SG/MY/JP where TikTok's curated /shop/rankings are not exposed. Omit category_id for a market-wide list.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let region = "region_example" // String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional) (default to "US")
+let categoryId = "categoryId_example" // String |  (optional)
+let pages = 987 // Int |  (optional) (default to 2)
+let limit = 987 // Int |  (optional) (default to 20)
+
+// Best-selling TikTok Shop products
+TikTokAPI.tiktokBestSellingTiktokShopProducts(region: region, categoryId: categoryId, pages: pages, limit: limit) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional] [default to &quot;US&quot;]
+ **categoryId** | **String** |  | [optional] 
+ **pages** | **Int** |  | [optional] [default to 2]
+ **limit** | **Int** |  | [optional] [default to 20]
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **tiktokGeneralSearch**
 ```swift
@@ -1329,7 +1389,7 @@ Name | Type | Description  | Notes
 
 # **tiktokSearchTiktokShopProducts**
 ```swift
-    open class func tiktokSearchTiktokShopProducts(q: String, region: String? = nil, offset: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func tiktokSearchTiktokShopProducts(q: String, region: String? = nil, pageToken: String? = nil, offset: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Search TikTok Shop products
@@ -1342,11 +1402,12 @@ Keyword search over TikTok Shop products: 30 per page with offset pagination (US
 import ScrapeBadger
 
 let q = "q_example" // String | Keyword, e.g. 'wireless earbuds'
-let region = "region_example" // String | Market: US, GB, ID (optional) (default to "US")
+let region = "region_example" // String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional) (default to "US")
+let pageToken = "pageToken_example" // String |  (optional)
 let offset = 987 // Int | Pass back next_offset for the next page (US) (optional) (default to 0)
 
 // Search TikTok Shop products
-TikTokAPI.tiktokSearchTiktokShopProducts(q: q, region: region, offset: offset) { (response, error) in
+TikTokAPI.tiktokSearchTiktokShopProducts(q: q, region: region, pageToken: pageToken, offset: offset) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -1363,7 +1424,8 @@ TikTokAPI.tiktokSearchTiktokShopProducts(q: q, region: region, offset: offset) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **q** | **String** | Keyword, e.g. &#39;wireless earbuds&#39; | 
- **region** | **String** | Market: US, GB, ID | [optional] [default to &quot;US&quot;]
+ **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional] [default to &quot;US&quot;]
+ **pageToken** | **String** |  | [optional] 
  **offset** | **Int** | Pass back next_offset for the next page (US) | [optional] [default to 0]
 
 ### Return type
@@ -1493,6 +1555,62 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **tiktokTiktokShopCategoryProducts**
+```swift
+    open class func tiktokTiktokShopCategoryProducts(categoryId: String, region: String? = nil, count: Int? = nil, excludeProductIds: [String]? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+TikTok Shop category products
+
+Category recommendations. Pass accumulated exclusion IDs for the next page; these are not sales rankings.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let categoryId = "categoryId_example" // String | 
+let region = "region_example" // String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional) (default to "US")
+let count = 987 // Int |  (optional) (default to 20)
+let excludeProductIds = ["inner_example"] // [String] | Repeat for every next_exclude_product_ids value (optional)
+
+// TikTok Shop category products
+TikTokAPI.tiktokTiktokShopCategoryProducts(categoryId: categoryId, region: region, count: count, excludeProductIds: excludeProductIds) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **categoryId** | **String** |  | 
+ **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional] [default to &quot;US&quot;]
+ **count** | **Int** |  | [optional] [default to 20]
+ **excludeProductIds** | [**[String]**](String.md) | Repeat for every next_exclude_product_ids value | [optional] 
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **tiktokTiktokShopCategorySubcategoriesTopProducts**
 ```swift
     open class func tiktokTiktokShopCategorySubcategoriesTopProducts(categoryId: String, region: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
@@ -1508,7 +1626,7 @@ A category's subcategories and its top products as TikTok Shop ranks them.
 import ScrapeBadger
 
 let categoryId = "categoryId_example" // String | 
-let region = "region_example" // String | Market: US, GB, ID (optional) (default to "US")
+let region = "region_example" // String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional) (default to "US")
 
 // TikTok Shop category: subcategories + top products
 TikTokAPI.tiktokTiktokShopCategorySubcategoriesTopProducts(categoryId: categoryId, region: region) { (response, error) in
@@ -1528,7 +1646,7 @@ TikTokAPI.tiktokTiktokShopCategorySubcategoriesTopProducts(categoryId: categoryI
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **categoryId** | **String** |  | 
- **region** | **String** | Market: US, GB, ID | [optional] [default to &quot;US&quot;]
+ **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional] [default to &quot;US&quot;]
 
 ### Return type
 
@@ -1560,7 +1678,7 @@ Full TikTok Shop product page: description, images, price, SKUs with stock, firs
 import ScrapeBadger
 
 let productId = "productId_example" // String | 
-let region = "region_example" // String | Market: US, GB, ID (optional) (default to "US")
+let region = "region_example" // String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional) (default to "US")
 
 // TikTok Shop product detail
 TikTokAPI.tiktokTiktokShopProductDetail(productId: productId, region: region) { (response, error) in
@@ -1580,7 +1698,7 @@ TikTokAPI.tiktokTiktokShopProductDetail(productId: productId, region: region) { 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **productId** | **String** |  | 
- **region** | **String** | Market: US, GB, ID | [optional] [default to &quot;US&quot;]
+ **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional] [default to &quot;US&quot;]
 
 ### Return type
 
@@ -1604,7 +1722,7 @@ Name | Type | Description  | Notes
 
 TikTok Shop product reviews
 
-Paginated product reviews with the rating breakdown (US).
+Paginated product reviews with rating breakdown (US and ID). Indonesia supports recent/recommended ordering, star and media filters; verified=true is not supported.
 
 ### Example
 ```swift
@@ -1612,7 +1730,7 @@ Paginated product reviews with the rating breakdown (US).
 import ScrapeBadger
 
 let productId = "productId_example" // String | 
-let region = "region_example" // String | Market: US, GB, ID (optional) (default to "US")
+let region = "region_example" // String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional) (default to "US")
 let page = 987 // Int |  (optional) (default to 1)
 let count = 987 // Int |  (optional) (default to 20)
 let sort = "sort_example" // String | recommended | recent (optional) (default to "recommended")
@@ -1638,13 +1756,67 @@ TikTokAPI.tiktokTiktokShopProductReviews(productId: productId, region: region, p
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **productId** | **String** |  | 
- **region** | **String** | Market: US, GB, ID | [optional] [default to &quot;US&quot;]
+ **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional] [default to &quot;US&quot;]
  **page** | **Int** |  | [optional] [default to 1]
  **count** | **Int** |  | [optional] [default to 20]
  **sort** | **String** | recommended | recent | [optional] [default to &quot;recommended&quot;]
  **rating** | **Int** | Only this star rating | [optional] 
  **withMedia** | **Bool** | Only reviews with photos/videos | [optional] [default to false]
  **verified** | **Bool** | Only verified purchases | [optional] [default to false]
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **tiktokTiktokShopRegionalMallFeed**
+```swift
+    open class func tiktokTiktokShopRegionalMallFeed(region: String? = nil, tabId: Int? = nil, pageToken: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+TikTok Shop regional mall feed
+
+Mall navigation and recommendations with a 15-minute continuation token.  ID, SG, MY, PH, TH, VN and JP are locally verified. Tabs are not a complete category taxonomy.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let region = "region_example" // String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional) (default to "US")
+let tabId = 987 // Int |  (optional) (default to 0)
+let pageToken = "pageToken_example" // String |  (optional)
+
+// TikTok Shop regional mall feed
+TikTokAPI.tiktokTiktokShopRegionalMallFeed(region: region, tabId: tabId, pageToken: pageToken) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional] [default to &quot;US&quot;]
+ **tabId** | **Int** |  | [optional] [default to 0]
+ **pageToken** | **String** |  | [optional] 
 
 ### Return type
 
@@ -1675,7 +1847,7 @@ Top-level TikTok Shop categories of a market. Drill down with /shop/categories/{
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ScrapeBadger
 
-let region = "region_example" // String | Market: US, GB, ID (optional) (default to "US")
+let region = "region_example" // String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional) (default to "US")
 
 // TikTok Shop root categories
 TikTokAPI.tiktokTiktokShopRootCategories(region: region) { (response, error) in
@@ -1694,7 +1866,7 @@ TikTokAPI.tiktokTiktokShopRootCategories(region: region) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **region** | **String** | Market: US, GB, ID | [optional] [default to &quot;US&quot;]
+ **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional] [default to &quot;US&quot;]
 
 ### Return type
 
@@ -1726,7 +1898,7 @@ A store's stats and its cursor-paginated product catalogue (US).
 import ScrapeBadger
 
 let sellerId = "sellerId_example" // String | 
-let region = "region_example" // String | Market: US, GB, ID (optional) (default to "US")
+let region = "region_example" // String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional) (default to "US")
 let cursor = "cursor_example" // String | Pass back next_cursor for the next page (optional) (default to "")
 let count = 987 // Int |  (optional) (default to 20)
 
@@ -1748,8 +1920,66 @@ TikTokAPI.tiktokTiktokShopStoreProducts(sellerId: sellerId, region: region, curs
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sellerId** | **String** |  | 
- **region** | **String** | Market: US, GB, ID | [optional] [default to &quot;US&quot;]
+ **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional] [default to &quot;US&quot;]
  **cursor** | **String** | Pass back next_cursor for the next page | [optional] [default to &quot;&quot;]
+ **count** | **Int** |  | [optional] [default to 20]
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **tiktokTiktokShopThemeRanking**
+```swift
+    open class func tiktokTiktokShopThemeRanking(rankId: String, region: String? = nil, rankType: Int? = nil, cursor: Int? = nil, count: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+TikTok Shop theme ranking
+
+Native category/theme ranking. ID, PH, TH and VN are locally verified.  Types: 1 high seller, 2 trending, 3 ratings. Coverage depends on the configured guest profile; a category recommendation feed is not used as a substitute.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let rankId = "rankId_example" // String | 
+let region = "region_example" // String | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional) (default to "US")
+let rankType = 987 // Int |  (optional) (default to 1)
+let cursor = 987 // Int |  (optional) (default to 0)
+let count = 987 // Int |  (optional) (default to 20)
+
+// TikTok Shop theme ranking
+TikTokAPI.tiktokTiktokShopThemeRanking(rankId: rankId, region: region, rankType: rankType, cursor: cursor, count: count) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **rankId** | **String** |  | 
+ **region** | **String** | Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint | [optional] [default to &quot;US&quot;]
+ **rankType** | **Int** |  | [optional] [default to 1]
+ **cursor** | **Int** |  | [optional] [default to 0]
  **count** | **Int** |  | [optional] [default to 20]
 
 ### Return type

@@ -13,6 +13,65 @@ import AnyCodable
 open class TikTokAPI {
 
     /**
+     Best-selling TikTok Shop products
+     
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
+     - parameter categoryId: (query)  (optional)
+     - parameter pages: (query)  (optional, default to 2)
+     - parameter limit: (query)  (optional, default to 20)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokBestSellingTiktokShopProducts(region: String? = nil, categoryId: String? = nil, pages: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokBestSellingTiktokShopProductsWithRequestBuilder(region: region, categoryId: categoryId, pages: pages, limit: limit).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Best-selling TikTok Shop products
+     - GET /v1/tiktok/shop/bestsellers
+     - Sales-ranked best-selling products, available for every operating market.  Ranked by real sold_count (source: sales_ranked); works for SG/MY/JP where TikTok's curated /shop/rankings are not exposed. Omit category_id for a market-wide list.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
+     - parameter categoryId: (query)  (optional)
+     - parameter pages: (query)  (optional, default to 2)
+     - parameter limit: (query)  (optional, default to 20)
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokBestSellingTiktokShopProductsWithRequestBuilder(region: String? = nil, categoryId: String? = nil, pages: Int? = nil, limit: Int? = nil) -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/tiktok/shop/bestsellers"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
+            "category_id": (wrappedValue: categoryId?.encodeToJSON(), isExplode: true),
+            "pages": (wrappedValue: pages?.encodeToJSON(), isExplode: true),
+            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      General search
      
      - parameter query: (query) Search keyword 
@@ -1386,14 +1445,15 @@ open class TikTokAPI {
      Search TikTok Shop products
      
      - parameter q: (query) Keyword, e.g. &#39;wireless earbuds&#39; 
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
+     - parameter pageToken: (query)  (optional)
      - parameter offset: (query) Pass back next_offset for the next page (US) (optional, default to 0)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func tiktokSearchTiktokShopProducts(q: String, region: String? = nil, offset: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return tiktokSearchTiktokShopProductsWithRequestBuilder(q: q, region: region, offset: offset).execute(apiResponseQueue) { result in
+    open class func tiktokSearchTiktokShopProducts(q: String, region: String? = nil, pageToken: String? = nil, offset: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokSearchTiktokShopProductsWithRequestBuilder(q: q, region: region, pageToken: pageToken, offset: offset).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -1411,11 +1471,12 @@ open class TikTokAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter q: (query) Keyword, e.g. &#39;wireless earbuds&#39; 
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
+     - parameter pageToken: (query)  (optional)
      - parameter offset: (query) Pass back next_offset for the next page (US) (optional, default to 0)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func tiktokSearchTiktokShopProductsWithRequestBuilder(q: String, region: String? = nil, offset: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func tiktokSearchTiktokShopProductsWithRequestBuilder(q: String, region: String? = nil, pageToken: String? = nil, offset: Int? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/tiktok/shop/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -1424,6 +1485,7 @@ open class TikTokAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "q": (wrappedValue: q.encodeToJSON(), isExplode: true),
             "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
+            "page_token": (wrappedValue: pageToken?.encodeToJSON(), isExplode: true),
             "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
         ])
 
@@ -1557,10 +1619,71 @@ open class TikTokAPI {
     }
 
     /**
+     TikTok Shop category products
+     
+     - parameter categoryId: (path)  
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
+     - parameter count: (query)  (optional, default to 20)
+     - parameter excludeProductIds: (query) Repeat for every next_exclude_product_ids value (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokTiktokShopCategoryProducts(categoryId: String, region: String? = nil, count: Int? = nil, excludeProductIds: [String]? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokTiktokShopCategoryProductsWithRequestBuilder(categoryId: categoryId, region: region, count: count, excludeProductIds: excludeProductIds).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     TikTok Shop category products
+     - GET /v1/tiktok/shop/categories/{category_id}/products
+     - Category recommendations. Pass accumulated exclusion IDs for the next page; these are not sales rankings.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter categoryId: (path)  
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
+     - parameter count: (query)  (optional, default to 20)
+     - parameter excludeProductIds: (query) Repeat for every next_exclude_product_ids value (optional)
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokTiktokShopCategoryProductsWithRequestBuilder(categoryId: String, region: String? = nil, count: Int? = nil, excludeProductIds: [String]? = nil) -> RequestBuilder<AnyCodable> {
+        var localVariablePath = "/v1/tiktok/shop/categories/{category_id}/products"
+        let categoryIdPreEscape = "\(APIHelper.mapValueToPathItem(categoryId))"
+        let categoryIdPostEscape = categoryIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{category_id}", with: categoryIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
+            "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
+            "exclude_product_ids": (wrappedValue: excludeProductIds?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      TikTok Shop category: subcategories + top products
      
      - parameter categoryId: (path)  
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -1584,7 +1707,7 @@ open class TikTokAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter categoryId: (path)  
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func tiktokTiktokShopCategorySubcategoriesTopProductsWithRequestBuilder(categoryId: String, region: String? = nil) -> RequestBuilder<AnyCodable> {
@@ -1615,7 +1738,7 @@ open class TikTokAPI {
      TikTok Shop product detail
      
      - parameter productId: (path)  
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -1639,7 +1762,7 @@ open class TikTokAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter productId: (path)  
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func tiktokTiktokShopProductDetailWithRequestBuilder(productId: String, region: String? = nil) -> RequestBuilder<AnyCodable> {
@@ -1670,7 +1793,7 @@ open class TikTokAPI {
      TikTok Shop product reviews
      
      - parameter productId: (path)  
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
      - parameter page: (query)  (optional, default to 1)
      - parameter count: (query)  (optional, default to 20)
      - parameter sort: (query) recommended | recent (optional, default to "recommended")
@@ -1695,12 +1818,12 @@ open class TikTokAPI {
     /**
      TikTok Shop product reviews
      - GET /v1/tiktok/shop/products/{product_id}/reviews
-     - Paginated product reviews with the rating breakdown (US).
+     - Paginated product reviews with rating breakdown (US and ID). Indonesia supports recent/recommended ordering, star and media filters; verified=true is not supported.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter productId: (path)  
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
      - parameter page: (query)  (optional, default to 1)
      - parameter count: (query)  (optional, default to 20)
      - parameter sort: (query) recommended | recent (optional, default to "recommended")
@@ -1740,9 +1863,65 @@ open class TikTokAPI {
     }
 
     /**
+     TikTok Shop regional mall feed
+     
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
+     - parameter tabId: (query)  (optional, default to 0)
+     - parameter pageToken: (query)  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokTiktokShopRegionalMallFeed(region: String? = nil, tabId: Int? = nil, pageToken: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokTiktokShopRegionalMallFeedWithRequestBuilder(region: region, tabId: tabId, pageToken: pageToken).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     TikTok Shop regional mall feed
+     - GET /v1/tiktok/shop/mall
+     - Mall navigation and recommendations with a 15-minute continuation token.  ID, SG, MY, PH, TH, VN and JP are locally verified. Tabs are not a complete category taxonomy.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
+     - parameter tabId: (query)  (optional, default to 0)
+     - parameter pageToken: (query)  (optional)
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokTiktokShopRegionalMallFeedWithRequestBuilder(region: String? = nil, tabId: Int? = nil, pageToken: String? = nil) -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/tiktok/shop/mall"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
+            "tab_id": (wrappedValue: tabId?.encodeToJSON(), isExplode: true),
+            "page_token": (wrappedValue: pageToken?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      TikTok Shop root categories
      
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -1765,7 +1944,7 @@ open class TikTokAPI {
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func tiktokTiktokShopRootCategoriesWithRequestBuilder(region: String? = nil) -> RequestBuilder<AnyCodable> {
@@ -1793,7 +1972,7 @@ open class TikTokAPI {
      TikTok Shop store + products
      
      - parameter sellerId: (path)  
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
      - parameter cursor: (query) Pass back next_cursor for the next page (optional, default to "")
      - parameter count: (query)  (optional, default to 20)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -1819,7 +1998,7 @@ open class TikTokAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter sellerId: (path)  
-     - parameter region: (query) Market: US, GB, ID (optional, default to "US")
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
      - parameter cursor: (query) Pass back next_cursor for the next page (optional, default to "")
      - parameter count: (query)  (optional, default to 20)
      - returns: RequestBuilder<AnyCodable> 
@@ -1835,6 +2014,70 @@ open class TikTokAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
+            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
+            "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     TikTok Shop theme ranking
+     
+     - parameter rankId: (path)  
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
+     - parameter rankType: (query)  (optional, default to 1)
+     - parameter cursor: (query)  (optional, default to 0)
+     - parameter count: (query)  (optional, default to 20)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func tiktokTiktokShopThemeRanking(rankId: String, region: String? = nil, rankType: Int? = nil, cursor: Int? = nil, count: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokTiktokShopThemeRankingWithRequestBuilder(rankId: rankId, region: region, rankType: rankType, cursor: cursor, count: count).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     TikTok Shop theme ranking
+     - GET /v1/tiktok/shop/rankings/{rank_id}
+     - Native category/theme ranking. ID, PH, TH and VN are locally verified.  Types: 1 high seller, 2 trending, 3 ratings. Coverage depends on the configured guest profile; a category recommendation feed is not used as a substitute.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter rankId: (path)  
+     - parameter region: (query) Market: US, GB, ID, JP, MX, SG, MY, PH, TH, VN; coverage varies by endpoint (optional, default to "US")
+     - parameter rankType: (query)  (optional, default to 1)
+     - parameter cursor: (query)  (optional, default to 0)
+     - parameter count: (query)  (optional, default to 20)
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func tiktokTiktokShopThemeRankingWithRequestBuilder(rankId: String, region: String? = nil, rankType: Int? = nil, cursor: Int? = nil, count: Int? = nil) -> RequestBuilder<AnyCodable> {
+        var localVariablePath = "/v1/tiktok/shop/rankings/{rank_id}"
+        let rankIdPreEscape = "\(APIHelper.mapValueToPathItem(rankId))"
+        let rankIdPostEscape = rankIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{rank_id}", with: rankIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
+            "rank_type": (wrappedValue: rankType?.encodeToJSON(), isExplode: true),
             "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
             "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
         ])
