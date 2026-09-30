@@ -746,7 +746,7 @@ Name | Type | Description  | Notes
 
 Google Lens visual search
 
-Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.
+Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.  ``query`` refines the grid with text and is honoured. ``product`` and ``exact_matches`` are not yet supported, and ``visual_matches=false`` cannot be: visual matches are the only surface served. Setting any of the three adds a line to the ``warnings`` array on the response rather than changing the result — see SCR-177. The match grid still CONTAINS an image's exact matches; Google just does not label which they are.
 
 ### Example
 ```swift
@@ -759,9 +759,9 @@ let country = "country_example" // String | ISO country code (alias for gl) (opt
 let language = "language_example" // String | Language code (alias for hl) (optional)
 let gl = "gl_example" // String | Country code (optional) (default to "us")
 let hl = "hl_example" // String | Language code (optional) (default to "en")
-let product = true // Bool | Bias towards shoppable product matches (optional) (default to false)
-let visualMatches = true // Bool | Include the visual-matches carousel (optional) (default to true)
-let exactMatches = true // Bool | Restrict to exact-match results (optional) (default to false)
+let product = true // Bool | NOT YET SUPPORTED — accepted, and reported back in `warnings` (optional) (default to false)
+let visualMatches = true // Bool | Always true in practice — `false` is reported back in `warnings` (optional) (default to true)
+let exactMatches = true // Bool | NOT YET SUPPORTED — accepted, and reported back in `warnings` (optional) (default to false)
 
 // Google Lens visual search
 GoogleAPI.googleGoogleLensVisualSearch(url: url, query: query, country: country, language: language, gl: gl, hl: hl, product: product, visualMatches: visualMatches, exactMatches: exactMatches) { (response, error) in
@@ -786,9 +786,9 @@ Name | Type | Description  | Notes
  **language** | **String** | Language code (alias for hl) | [optional] 
  **gl** | **String** | Country code | [optional] [default to &quot;us&quot;]
  **hl** | **String** | Language code | [optional] [default to &quot;en&quot;]
- **product** | **Bool** | Bias towards shoppable product matches | [optional] [default to false]
- **visualMatches** | **Bool** | Include the visual-matches carousel | [optional] [default to true]
- **exactMatches** | **Bool** | Restrict to exact-match results | [optional] [default to false]
+ **product** | **Bool** | NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; | [optional] [default to false]
+ **visualMatches** | **Bool** | Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; | [optional] [default to true]
+ **exactMatches** | **Bool** | NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; | [optional] [default to false]
 
 ### Return type
 

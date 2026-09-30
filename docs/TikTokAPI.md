@@ -8,11 +8,11 @@ Method | HTTP request | Description
 [**tiktokGeneralSearch**](TikTokAPI.md#tiktokgeneralsearch) | **GET** /v1/tiktok/search | General search
 [**tiktokGetCommentReplies**](TikTokAPI.md#tiktokgetcommentreplies) | **GET** /v1/tiktok/comments/{comment_id}/replies | Get comment replies
 [**tiktokGetComments**](TikTokAPI.md#tiktokgetcomments) | **GET** /v1/tiktok/videos/{video_id}/comments | Get comments
-[**tiktokGetFollowersDeprecated**](TikTokAPI.md#tiktokgetfollowersdeprecated) | **GET** /v1/tiktok/users/{username}/followers | Get followers (deprecated)
-[**tiktokGetFollowingDeprecated**](TikTokAPI.md#tiktokgetfollowingdeprecated) | **GET** /v1/tiktok/users/{username}/following | Get following (deprecated)
+[**tiktokGetFollowers**](TikTokAPI.md#tiktokgetfollowers) | **GET** /v1/tiktok/users/{username}/followers | Get followers
+[**tiktokGetFollowing**](TikTokAPI.md#tiktokgetfollowing) | **GET** /v1/tiktok/users/{username}/following | Get following
 [**tiktokGetHashtagDetail**](TikTokAPI.md#tiktokgethashtagdetail) | **GET** /v1/tiktok/hashtags/{name} | Get hashtag detail
 [**tiktokGetHashtagVideos**](TikTokAPI.md#tiktokgethashtagvideos) | **GET** /v1/tiktok/hashtags/{name}/videos | Get hashtag videos
-[**tiktokGetLikedVideosDeprecated**](TikTokAPI.md#tiktokgetlikedvideosdeprecated) | **GET** /v1/tiktok/users/{username}/liked | Get liked videos (deprecated)
+[**tiktokGetLikedVideos**](TikTokAPI.md#tiktokgetlikedvideos) | **GET** /v1/tiktok/users/{username}/liked | Get liked videos
 [**tiktokGetMusicSoundDetail**](TikTokAPI.md#tiktokgetmusicsounddetail) | **GET** /v1/tiktok/music/{music_id} | Get music/sound detail
 [**tiktokGetMusicVideos**](TikTokAPI.md#tiktokgetmusicvideos) | **GET** /v1/tiktok/music/{music_id}/videos | Get music videos
 [**tiktokGetOembedMetadata**](TikTokAPI.md#tiktokgetoembedmetadata) | **GET** /v1/tiktok/oembed | Get oEmbed metadata
@@ -118,7 +118,7 @@ import ScrapeBadger
 let query = "query_example" // String | Search keyword
 let region = "region_example" // String |  (optional) (default to "US")
 let count = 987 // Int |  (optional) (default to 20)
-let cursor = "cursor_example" // String | Composite pagination cursor (offset.search_id) from a prior page's pagination.cursor (optional)
+let cursor = "cursor_example" // String | Opaque continuation cursor from a prior page's pagination.cursor (optional)
 
 // General search
 TikTokAPI.tiktokGeneralSearch(query: query, region: region, count: count, cursor: cursor) { (response, error) in
@@ -140,7 +140,7 @@ Name | Type | Description  | Notes
  **query** | **String** | Search keyword | 
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 20]
- **cursor** | **String** | Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor | [optional] 
+ **cursor** | **String** | Opaque continuation cursor from a prior page&#39;s pagination.cursor | [optional] 
 
 ### Return type
 
@@ -271,14 +271,14 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **tiktokGetFollowersDeprecated**
+# **tiktokGetFollowers**
 ```swift
-    open class func tiktokGetFollowersDeprecated(username: String, region: String? = nil, count: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func tiktokGetFollowers(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
-Get followers (deprecated)
+Get followers
 
-DEPRECATED — TikTok followers require an authenticated account session. Returns HTTP 410.
+Get publicly visible followers without an account.
 
 ### Example
 ```swift
@@ -288,9 +288,10 @@ import ScrapeBadger
 let username = "username_example" // String | 
 let region = "region_example" // String |  (optional) (default to "US")
 let count = 987 // Int |  (optional) (default to 30)
+let cursor = "cursor_example" // String | Continuation cursor from the previous page (optional)
 
-// Get followers (deprecated)
-TikTokAPI.tiktokGetFollowersDeprecated(username: username, region: region, count: count) { (response, error) in
+// Get followers
+TikTokAPI.tiktokGetFollowers(username: username, region: region, count: count, cursor: cursor) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -309,6 +310,7 @@ Name | Type | Description  | Notes
  **username** | **String** |  | 
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 30]
+ **cursor** | **String** | Continuation cursor from the previous page | [optional] 
 
 ### Return type
 
@@ -325,14 +327,14 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **tiktokGetFollowingDeprecated**
+# **tiktokGetFollowing**
 ```swift
-    open class func tiktokGetFollowingDeprecated(username: String, region: String? = nil, count: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func tiktokGetFollowing(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
-Get following (deprecated)
+Get following
 
-DEPRECATED — TikTok following requires an authenticated account session. Returns HTTP 410.
+Get publicly visible followed accounts. Hidden lists return HTTP 403.
 
 ### Example
 ```swift
@@ -342,9 +344,10 @@ import ScrapeBadger
 let username = "username_example" // String | 
 let region = "region_example" // String |  (optional) (default to "US")
 let count = 987 // Int |  (optional) (default to 30)
+let cursor = "cursor_example" // String | Continuation cursor from the previous page (optional)
 
-// Get following (deprecated)
-TikTokAPI.tiktokGetFollowingDeprecated(username: username, region: region, count: count) { (response, error) in
+// Get following
+TikTokAPI.tiktokGetFollowing(username: username, region: region, count: count, cursor: cursor) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -363,6 +366,7 @@ Name | Type | Description  | Notes
  **username** | **String** |  | 
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 30]
+ **cursor** | **String** | Continuation cursor from the previous page | [optional] 
 
 ### Return type
 
@@ -487,14 +491,14 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **tiktokGetLikedVideosDeprecated**
+# **tiktokGetLikedVideos**
 ```swift
-    open class func tiktokGetLikedVideosDeprecated(username: String, region: String? = nil, count: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func tiktokGetLikedVideos(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
-Get liked videos (deprecated)
+Get liked videos
 
-DEPRECATED — TikTok liked videos require an authenticated account session. Returns HTTP 410.
+Get public liked videos. Hidden liked lists return HTTP 403.
 
 ### Example
 ```swift
@@ -504,9 +508,10 @@ import ScrapeBadger
 let username = "username_example" // String | 
 let region = "region_example" // String |  (optional) (default to "US")
 let count = 987 // Int |  (optional) (default to 30)
+let cursor = "cursor_example" // String | Continuation cursor from the previous page (optional)
 
-// Get liked videos (deprecated)
-TikTokAPI.tiktokGetLikedVideosDeprecated(username: username, region: region, count: count) { (response, error) in
+// Get liked videos
+TikTokAPI.tiktokGetLikedVideos(username: username, region: region, count: count, cursor: cursor) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -525,6 +530,7 @@ Name | Type | Description  | Notes
  **username** | **String** |  | 
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 30]
+ **cursor** | **String** | Continuation cursor from the previous page | [optional] 
 
 ### Return type
 
@@ -703,7 +709,7 @@ Name | Type | Description  | Notes
 
 # **tiktokGetRelatedVideos**
 ```swift
-    open class func tiktokGetRelatedVideos(videoId: String, region: String? = nil, count: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func tiktokGetRelatedVideos(videoId: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Get related videos
@@ -718,9 +724,10 @@ import ScrapeBadger
 let videoId = "videoId_example" // String | 
 let region = "region_example" // String |  (optional) (default to "US")
 let count = 987 // Int |  (optional) (default to 16)
+let cursor = "cursor_example" // String | Continuation cursor from the previous page (optional)
 
 // Get related videos
-TikTokAPI.tiktokGetRelatedVideos(videoId: videoId, region: region, count: count) { (response, error) in
+TikTokAPI.tiktokGetRelatedVideos(videoId: videoId, region: region, count: count, cursor: cursor) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -739,6 +746,7 @@ Name | Type | Description  | Notes
  **videoId** | **String** |  | 
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 16]
+ **cursor** | **String** | Continuation cursor from the previous page | [optional] 
 
 ### Return type
 
@@ -757,7 +765,7 @@ Name | Type | Description  | Notes
 
 # **tiktokGetReposts**
 ```swift
-    open class func tiktokGetReposts(username: String, region: String? = nil, count: Int? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func tiktokGetReposts(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Get reposts
@@ -772,9 +780,10 @@ import ScrapeBadger
 let username = "username_example" // String | 
 let region = "region_example" // String |  (optional) (default to "US")
 let count = 987 // Int |  (optional) (default to 30)
+let cursor = "cursor_example" // String | Continuation cursor from the previous page (optional)
 
 // Get reposts
-TikTokAPI.tiktokGetReposts(username: username, region: region, count: count) { (response, error) in
+TikTokAPI.tiktokGetReposts(username: username, region: region, count: count, cursor: cursor) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -793,6 +802,7 @@ Name | Type | Description  | Notes
  **username** | **String** |  | 
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 30]
+ **cursor** | **String** | Continuation cursor from the previous page | [optional] 
 
 ### Return type
 
@@ -982,7 +992,7 @@ import ScrapeBadger
 let username = "username_example" // String | 
 let region = "region_example" // String |  (optional) (default to "US")
 let count = 987 // Int |  (optional) (default to 30)
-let cursor = "cursor_example" // String | Pagination cursor from a prior page's `pagination.cursor` (signer path only). (optional)
+let cursor = "cursor_example" // String | Pagination cursor from a prior page's `pagination.cursor` (opaque; expires after 15 minutes). (optional)
 
 // Get user videos
 TikTokAPI.tiktokGetUserVideos(username: username, region: region, count: count, cursor: cursor) { (response, error) in
@@ -1004,7 +1014,7 @@ Name | Type | Description  | Notes
  **username** | **String** |  | 
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 30]
- **cursor** | **String** | Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (signer path only). | [optional] 
+ **cursor** | **String** | Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (opaque; expires after 15 minutes). | [optional] 
 
 ### Return type
 
@@ -1230,7 +1240,7 @@ import ScrapeBadger
 let query = "query_example" // String | Search keyword
 let region = "region_example" // String |  (optional) (default to "US")
 let count = 987 // Int |  (optional) (default to 20)
-let cursor = "cursor_example" // String | Composite pagination cursor (offset.search_id) from a prior page's pagination.cursor (optional)
+let cursor = "cursor_example" // String | Opaque continuation cursor from a prior page's pagination.cursor (optional)
 
 // Search hashtags
 TikTokAPI.tiktokSearchHashtags(query: query, region: region, count: count, cursor: cursor) { (response, error) in
@@ -1252,7 +1262,7 @@ Name | Type | Description  | Notes
  **query** | **String** | Search keyword | 
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 20]
- **cursor** | **String** | Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor | [optional] 
+ **cursor** | **String** | Opaque continuation cursor from a prior page&#39;s pagination.cursor | [optional] 
 
 ### Return type
 
@@ -1460,7 +1470,7 @@ import ScrapeBadger
 let query = "query_example" // String | Search keyword
 let region = "region_example" // String |  (optional) (default to "US")
 let count = 987 // Int |  (optional) (default to 20)
-let cursor = "cursor_example" // String | Composite pagination cursor (offset.search_id) from a prior page's pagination.cursor (optional)
+let cursor = "cursor_example" // String | Opaque continuation cursor from a prior page's pagination.cursor (optional)
 
 // Search users
 TikTokAPI.tiktokSearchUsers(query: query, region: region, count: count, cursor: cursor) { (response, error) in
@@ -1482,7 +1492,7 @@ Name | Type | Description  | Notes
  **query** | **String** | Search keyword | 
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 20]
- **cursor** | **String** | Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor | [optional] 
+ **cursor** | **String** | Opaque continuation cursor from a prior page&#39;s pagination.cursor | [optional] 
 
 ### Return type
 
@@ -1516,7 +1526,7 @@ import ScrapeBadger
 let query = "query_example" // String | Search keyword
 let region = "region_example" // String |  (optional) (default to "US")
 let count = 987 // Int |  (optional) (default to 20)
-let cursor = "cursor_example" // String | Composite pagination cursor (offset.search_id) from a prior page's pagination.cursor (optional)
+let cursor = "cursor_example" // String | Opaque continuation cursor from a prior page's pagination.cursor (optional)
 
 // Search videos
 TikTokAPI.tiktokSearchVideos(query: query, region: region, count: count, cursor: cursor) { (response, error) in
@@ -1538,7 +1548,7 @@ Name | Type | Description  | Notes
  **query** | **String** | Search keyword | 
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
  **count** | **Int** |  | [optional] [default to 20]
- **cursor** | **String** | Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor | [optional] 
+ **cursor** | **String** | Opaque continuation cursor from a prior page&#39;s pagination.cursor | [optional] 
 
 ### Return type
 
@@ -2012,7 +2022,7 @@ Get trending hashtags (mobile Discover surface — view_count + creators).
 import ScrapeBadger
 
 let region = "region_example" // String |  (optional) (default to "US")
-let period = 987 // Int |  (optional) (default to 7)
+let period = 987 // Int | Historical windows are unavailable; omit period (optional)
 let count = 987 // Int |  (optional) (default to 20)
 
 // Trending hashtags
@@ -2033,7 +2043,7 @@ TikTokAPI.tiktokTrendingHashtags(region: region, period: period, count: count) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
- **period** | **Int** |  | [optional] [default to 7]
+ **period** | **Int** | Historical windows are unavailable; omit period | [optional] 
  **count** | **Int** |  | [optional] [default to 20]
 
 ### Return type
@@ -2066,7 +2076,7 @@ Get trending songs/sounds (mobile hot-music feed — ranked by usage).
 import ScrapeBadger
 
 let region = "region_example" // String |  (optional) (default to "US")
-let period = 987 // Int |  (optional) (default to 7)
+let period = 987 // Int | Historical windows are unavailable; omit period (optional)
 let count = 987 // Int |  (optional) (default to 20)
 
 // Trending songs
@@ -2087,7 +2097,7 @@ TikTokAPI.tiktokTrendingSongs(region: region, period: period, count: count) { (r
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **region** | **String** |  | [optional] [default to &quot;US&quot;]
- **period** | **Int** |  | [optional] [default to 7]
+ **period** | **Int** | Historical windows are unavailable; omit period | [optional] 
  **count** | **Int** |  | [optional] [default to 20]
 
 ### Return type

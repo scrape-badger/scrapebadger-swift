@@ -372,11 +372,11 @@ Class | Method | HTTP request | Description
 *TikTokAPI* | [**tiktokGeneralSearch**](docs/TikTokAPI.md#tiktokgeneralsearch) | **GET** /v1/tiktok/search | General search
 *TikTokAPI* | [**tiktokGetCommentReplies**](docs/TikTokAPI.md#tiktokgetcommentreplies) | **GET** /v1/tiktok/comments/{comment_id}/replies | Get comment replies
 *TikTokAPI* | [**tiktokGetComments**](docs/TikTokAPI.md#tiktokgetcomments) | **GET** /v1/tiktok/videos/{video_id}/comments | Get comments
-*TikTokAPI* | [**tiktokGetFollowersDeprecated**](docs/TikTokAPI.md#tiktokgetfollowersdeprecated) | **GET** /v1/tiktok/users/{username}/followers | Get followers (deprecated)
-*TikTokAPI* | [**tiktokGetFollowingDeprecated**](docs/TikTokAPI.md#tiktokgetfollowingdeprecated) | **GET** /v1/tiktok/users/{username}/following | Get following (deprecated)
+*TikTokAPI* | [**tiktokGetFollowers**](docs/TikTokAPI.md#tiktokgetfollowers) | **GET** /v1/tiktok/users/{username}/followers | Get followers
+*TikTokAPI* | [**tiktokGetFollowing**](docs/TikTokAPI.md#tiktokgetfollowing) | **GET** /v1/tiktok/users/{username}/following | Get following
 *TikTokAPI* | [**tiktokGetHashtagDetail**](docs/TikTokAPI.md#tiktokgethashtagdetail) | **GET** /v1/tiktok/hashtags/{name} | Get hashtag detail
 *TikTokAPI* | [**tiktokGetHashtagVideos**](docs/TikTokAPI.md#tiktokgethashtagvideos) | **GET** /v1/tiktok/hashtags/{name}/videos | Get hashtag videos
-*TikTokAPI* | [**tiktokGetLikedVideosDeprecated**](docs/TikTokAPI.md#tiktokgetlikedvideosdeprecated) | **GET** /v1/tiktok/users/{username}/liked | Get liked videos (deprecated)
+*TikTokAPI* | [**tiktokGetLikedVideos**](docs/TikTokAPI.md#tiktokgetlikedvideos) | **GET** /v1/tiktok/users/{username}/liked | Get liked videos
 *TikTokAPI* | [**tiktokGetMusicSoundDetail**](docs/TikTokAPI.md#tiktokgetmusicsounddetail) | **GET** /v1/tiktok/music/{music_id} | Get music/sound detail
 *TikTokAPI* | [**tiktokGetMusicVideos**](docs/TikTokAPI.md#tiktokgetmusicvideos) | **GET** /v1/tiktok/music/{music_id}/videos | Get music videos
 *TikTokAPI* | [**tiktokGetOembedMetadata**](docs/TikTokAPI.md#tiktokgetoembedmetadata) | **GET** /v1/tiktok/oembed | Get oEmbed metadata

@@ -770,9 +770,9 @@ open class GoogleAPI {
      - parameter language: (query) Language code (alias for hl) (optional)
      - parameter gl: (query) Country code (optional, default to "us")
      - parameter hl: (query) Language code (optional, default to "en")
-     - parameter product: (query) Bias towards shoppable product matches (optional, default to false)
-     - parameter visualMatches: (query) Include the visual-matches carousel (optional, default to true)
-     - parameter exactMatches: (query) Restrict to exact-match results (optional, default to false)
+     - parameter product: (query) NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; (optional, default to false)
+     - parameter visualMatches: (query) Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; (optional, default to true)
+     - parameter exactMatches: (query) NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; (optional, default to false)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -791,7 +791,7 @@ open class GoogleAPI {
     /**
      Google Lens visual search
      - GET /v1/google/lens/search
-     - Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.
+     - Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.  ``query`` refines the grid with text and is honoured. ``product`` and ``exact_matches`` are not yet supported, and ``visual_matches=false`` cannot be: visual matches are the only surface served. Setting any of the three adds a line to the ``warnings`` array on the response rather than changing the result — see SCR-177. The match grid still CONTAINS an image's exact matches; Google just does not label which they are.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -801,9 +801,9 @@ open class GoogleAPI {
      - parameter language: (query) Language code (alias for hl) (optional)
      - parameter gl: (query) Country code (optional, default to "us")
      - parameter hl: (query) Language code (optional, default to "en")
-     - parameter product: (query) Bias towards shoppable product matches (optional, default to false)
-     - parameter visualMatches: (query) Include the visual-matches carousel (optional, default to true)
-     - parameter exactMatches: (query) Restrict to exact-match results (optional, default to false)
+     - parameter product: (query) NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; (optional, default to false)
+     - parameter visualMatches: (query) Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; (optional, default to true)
+     - parameter exactMatches: (query) NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; (optional, default to false)
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func googleGoogleLensVisualSearchWithRequestBuilder(url: String, query: String? = nil, country: String? = nil, language: String? = nil, gl: String? = nil, hl: String? = nil, product: Bool? = nil, visualMatches: Bool? = nil, exactMatches: Bool? = nil) -> RequestBuilder<AnyCodable> {

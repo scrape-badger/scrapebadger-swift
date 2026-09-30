@@ -77,7 +77,7 @@ open class TikTokAPI {
      - parameter query: (query) Search keyword 
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 20)
-     - parameter cursor: (query) Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor (optional)
+     - parameter cursor: (query) Opaque continuation cursor from a prior page&#39;s pagination.cursor (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -103,7 +103,7 @@ open class TikTokAPI {
      - parameter query: (query) Search keyword 
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 20)
-     - parameter cursor: (query) Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor (optional)
+     - parameter cursor: (query) Opaque continuation cursor from a prior page&#39;s pagination.cursor (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func tiktokGeneralSearchWithRequestBuilder(query: String, region: String? = nil, count: Int? = nil, cursor: String? = nil) -> RequestBuilder<AnyCodable> {
@@ -256,18 +256,18 @@ open class TikTokAPI {
     }
 
     /**
-     Get followers (deprecated)
+     Get followers
      
      - parameter username: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 30)
+     - parameter cursor: (query) Continuation cursor from the previous page (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    @available(*, deprecated, message: "This operation is deprecated.")
     @discardableResult
-    open class func tiktokGetFollowersDeprecated(username: String, region: String? = nil, count: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return tiktokGetFollowersDeprecatedWithRequestBuilder(username: username, region: region, count: count).execute(apiResponseQueue) { result in
+    open class func tiktokGetFollowers(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokGetFollowersWithRequestBuilder(username: username, region: region, count: count, cursor: cursor).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -278,19 +278,19 @@ open class TikTokAPI {
     }
 
     /**
-     Get followers (deprecated)
+     Get followers
      - GET /v1/tiktok/users/{username}/followers
-     - DEPRECATED — TikTok followers require an authenticated account session. Returns HTTP 410.
+     - Get publicly visible followers without an account.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter username: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 30)
+     - parameter cursor: (query) Continuation cursor from the previous page (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    @available(*, deprecated, message: "This operation is deprecated.")
-    open class func tiktokGetFollowersDeprecatedWithRequestBuilder(username: String, region: String? = nil, count: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func tiktokGetFollowersWithRequestBuilder(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/tiktok/users/{username}/followers"
         let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -302,6 +302,7 @@ open class TikTokAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
             "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
+            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -316,18 +317,18 @@ open class TikTokAPI {
     }
 
     /**
-     Get following (deprecated)
+     Get following
      
      - parameter username: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 30)
+     - parameter cursor: (query) Continuation cursor from the previous page (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    @available(*, deprecated, message: "This operation is deprecated.")
     @discardableResult
-    open class func tiktokGetFollowingDeprecated(username: String, region: String? = nil, count: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return tiktokGetFollowingDeprecatedWithRequestBuilder(username: username, region: region, count: count).execute(apiResponseQueue) { result in
+    open class func tiktokGetFollowing(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokGetFollowingWithRequestBuilder(username: username, region: region, count: count, cursor: cursor).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -338,19 +339,19 @@ open class TikTokAPI {
     }
 
     /**
-     Get following (deprecated)
+     Get following
      - GET /v1/tiktok/users/{username}/following
-     - DEPRECATED — TikTok following requires an authenticated account session. Returns HTTP 410.
+     - Get publicly visible followed accounts. Hidden lists return HTTP 403.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter username: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 30)
+     - parameter cursor: (query) Continuation cursor from the previous page (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    @available(*, deprecated, message: "This operation is deprecated.")
-    open class func tiktokGetFollowingDeprecatedWithRequestBuilder(username: String, region: String? = nil, count: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func tiktokGetFollowingWithRequestBuilder(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/tiktok/users/{username}/following"
         let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -362,6 +363,7 @@ open class TikTokAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
             "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
+            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -492,18 +494,18 @@ open class TikTokAPI {
     }
 
     /**
-     Get liked videos (deprecated)
+     Get liked videos
      
      - parameter username: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 30)
+     - parameter cursor: (query) Continuation cursor from the previous page (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    @available(*, deprecated, message: "This operation is deprecated.")
     @discardableResult
-    open class func tiktokGetLikedVideosDeprecated(username: String, region: String? = nil, count: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return tiktokGetLikedVideosDeprecatedWithRequestBuilder(username: username, region: region, count: count).execute(apiResponseQueue) { result in
+    open class func tiktokGetLikedVideos(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokGetLikedVideosWithRequestBuilder(username: username, region: region, count: count, cursor: cursor).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -514,19 +516,19 @@ open class TikTokAPI {
     }
 
     /**
-     Get liked videos (deprecated)
+     Get liked videos
      - GET /v1/tiktok/users/{username}/liked
-     - DEPRECATED — TikTok liked videos require an authenticated account session. Returns HTTP 410.
+     - Get public liked videos. Hidden liked lists return HTTP 403.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter username: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 30)
+     - parameter cursor: (query) Continuation cursor from the previous page (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    @available(*, deprecated, message: "This operation is deprecated.")
-    open class func tiktokGetLikedVideosDeprecatedWithRequestBuilder(username: String, region: String? = nil, count: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func tiktokGetLikedVideosWithRequestBuilder(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/tiktok/users/{username}/liked"
         let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -538,6 +540,7 @@ open class TikTokAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
             "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
+            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -726,12 +729,13 @@ open class TikTokAPI {
      - parameter videoId: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 16)
+     - parameter cursor: (query) Continuation cursor from the previous page (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func tiktokGetRelatedVideos(videoId: String, region: String? = nil, count: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return tiktokGetRelatedVideosWithRequestBuilder(videoId: videoId, region: region, count: count).execute(apiResponseQueue) { result in
+    open class func tiktokGetRelatedVideos(videoId: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokGetRelatedVideosWithRequestBuilder(videoId: videoId, region: region, count: count, cursor: cursor).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -751,9 +755,10 @@ open class TikTokAPI {
      - parameter videoId: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 16)
+     - parameter cursor: (query) Continuation cursor from the previous page (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func tiktokGetRelatedVideosWithRequestBuilder(videoId: String, region: String? = nil, count: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func tiktokGetRelatedVideosWithRequestBuilder(videoId: String, region: String? = nil, count: Int? = nil, cursor: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/tiktok/videos/{video_id}/related"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -765,6 +770,7 @@ open class TikTokAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
             "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
+            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -784,12 +790,13 @@ open class TikTokAPI {
      - parameter username: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 30)
+     - parameter cursor: (query) Continuation cursor from the previous page (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func tiktokGetReposts(username: String, region: String? = nil, count: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return tiktokGetRepostsWithRequestBuilder(username: username, region: region, count: count).execute(apiResponseQueue) { result in
+    open class func tiktokGetReposts(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return tiktokGetRepostsWithRequestBuilder(username: username, region: region, count: count, cursor: cursor).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -809,9 +816,10 @@ open class TikTokAPI {
      - parameter username: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 30)
+     - parameter cursor: (query) Continuation cursor from the previous page (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func tiktokGetRepostsWithRequestBuilder(username: String, region: String? = nil, count: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func tiktokGetRepostsWithRequestBuilder(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/tiktok/users/{username}/reposts"
         let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -823,6 +831,7 @@ open class TikTokAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
             "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
+            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -1007,7 +1016,7 @@ open class TikTokAPI {
      - parameter username: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 30)
-     - parameter cursor: (query) Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (signer path only). (optional)
+     - parameter cursor: (query) Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (opaque; expires after 15 minutes). (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -1033,7 +1042,7 @@ open class TikTokAPI {
      - parameter username: (path)  
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 30)
-     - parameter cursor: (query) Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (signer path only). (optional)
+     - parameter cursor: (query) Pagination cursor from a prior page&#39;s &#x60;pagination.cursor&#x60; (opaque; expires after 15 minutes). (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func tiktokGetUserVideosWithRequestBuilder(username: String, region: String? = nil, count: Int? = nil, cursor: String? = nil) -> RequestBuilder<AnyCodable> {
@@ -1261,7 +1270,7 @@ open class TikTokAPI {
      - parameter query: (query) Search keyword 
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 20)
-     - parameter cursor: (query) Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor (optional)
+     - parameter cursor: (query) Opaque continuation cursor from a prior page&#39;s pagination.cursor (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -1287,7 +1296,7 @@ open class TikTokAPI {
      - parameter query: (query) Search keyword 
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 20)
-     - parameter cursor: (query) Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor (optional)
+     - parameter cursor: (query) Opaque continuation cursor from a prior page&#39;s pagination.cursor (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func tiktokSearchHashtagsWithRequestBuilder(query: String, region: String? = nil, count: Int? = nil, cursor: String? = nil) -> RequestBuilder<AnyCodable> {
@@ -1506,7 +1515,7 @@ open class TikTokAPI {
      - parameter query: (query) Search keyword 
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 20)
-     - parameter cursor: (query) Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor (optional)
+     - parameter cursor: (query) Opaque continuation cursor from a prior page&#39;s pagination.cursor (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -1532,7 +1541,7 @@ open class TikTokAPI {
      - parameter query: (query) Search keyword 
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 20)
-     - parameter cursor: (query) Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor (optional)
+     - parameter cursor: (query) Opaque continuation cursor from a prior page&#39;s pagination.cursor (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func tiktokSearchUsersWithRequestBuilder(query: String, region: String? = nil, count: Int? = nil, cursor: String? = nil) -> RequestBuilder<AnyCodable> {
@@ -1565,7 +1574,7 @@ open class TikTokAPI {
      - parameter query: (query) Search keyword 
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 20)
-     - parameter cursor: (query) Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor (optional)
+     - parameter cursor: (query) Opaque continuation cursor from a prior page&#39;s pagination.cursor (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -1591,7 +1600,7 @@ open class TikTokAPI {
      - parameter query: (query) Search keyword 
      - parameter region: (query)  (optional, default to "US")
      - parameter count: (query)  (optional, default to 20)
-     - parameter cursor: (query) Composite pagination cursor (offset.search_id) from a prior page&#39;s pagination.cursor (optional)
+     - parameter cursor: (query) Opaque continuation cursor from a prior page&#39;s pagination.cursor (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func tiktokSearchVideosWithRequestBuilder(query: String, region: String? = nil, count: Int? = nil, cursor: String? = nil) -> RequestBuilder<AnyCodable> {
@@ -2097,7 +2106,7 @@ open class TikTokAPI {
      Trending hashtags
      
      - parameter region: (query)  (optional, default to "US")
-     - parameter period: (query)  (optional, default to 7)
+     - parameter period: (query) Historical windows are unavailable; omit period (optional)
      - parameter count: (query)  (optional, default to 20)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
@@ -2122,7 +2131,7 @@ open class TikTokAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter region: (query)  (optional, default to "US")
-     - parameter period: (query)  (optional, default to 7)
+     - parameter period: (query) Historical windows are unavailable; omit period (optional)
      - parameter count: (query)  (optional, default to 20)
      - returns: RequestBuilder<AnyCodable> 
      */
@@ -2153,7 +2162,7 @@ open class TikTokAPI {
      Trending songs
      
      - parameter region: (query)  (optional, default to "US")
-     - parameter period: (query)  (optional, default to 7)
+     - parameter period: (query) Historical windows are unavailable; omit period (optional)
      - parameter count: (query)  (optional, default to 20)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
@@ -2178,7 +2187,7 @@ open class TikTokAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter region: (query)  (optional, default to "US")
-     - parameter period: (query)  (optional, default to 7)
+     - parameter period: (query) Historical windows are unavailable; omit period (optional)
      - parameter count: (query)  (optional, default to 20)
      - returns: RequestBuilder<AnyCodable> 
      */
