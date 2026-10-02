@@ -746,7 +746,7 @@ Name | Type | Description  | Notes
 
 Google Lens visual search
 
-Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.  ``query`` refines the grid with text and is honoured. ``product`` and ``exact_matches`` are not yet supported, and ``visual_matches=false`` cannot be: visual matches are the only surface served. Setting any of the three adds a line to the ``warnings`` array on the response rather than changing the result — see SCR-177. The match grid still CONTAINS an image's exact matches; Google just does not label which they are.
+Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.  ``query`` refines the grid with text. ``exact_matches=true`` swaps the grid for Google's high-precision source set — the pages actually hosting the image, each flagged ``exact_match: true`` — which is much smaller than the grid (one result vs ~58 on our reference image). ``product`` is still not supported, and ``visual_matches=false`` cannot be: visual matches are the only grid served. Anything that could not be applied, including an exact-match lookup that came back empty, is named in the ``warnings`` array rather than silently dropped (SCR-177, SCR-180).
 
 ### Example
 ```swift
@@ -761,7 +761,7 @@ let gl = "gl_example" // String | Country code (optional) (default to "us")
 let hl = "hl_example" // String | Language code (optional) (default to "en")
 let product = true // Bool | NOT YET SUPPORTED — accepted, and reported back in `warnings` (optional) (default to false)
 let visualMatches = true // Bool | Always true in practice — `false` is reported back in `warnings` (optional) (default to true)
-let exactMatches = true // Bool | NOT YET SUPPORTED — accepted, and reported back in `warnings` (optional) (default to false)
+let exactMatches = true // Bool | Return the pages hosting this image, flagged `exact_match` (optional) (default to false)
 
 // Google Lens visual search
 GoogleAPI.googleGoogleLensVisualSearch(url: url, query: query, country: country, language: language, gl: gl, hl: hl, product: product, visualMatches: visualMatches, exactMatches: exactMatches) { (response, error) in
@@ -788,7 +788,7 @@ Name | Type | Description  | Notes
  **hl** | **String** | Language code | [optional] [default to &quot;en&quot;]
  **product** | **Bool** | NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; | [optional] [default to false]
  **visualMatches** | **Bool** | Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; | [optional] [default to true]
- **exactMatches** | **Bool** | NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; | [optional] [default to false]
+ **exactMatches** | **Bool** | Return the pages hosting this image, flagged &#x60;exact_match&#x60; | [optional] [default to false]
 
 ### Return type
 
