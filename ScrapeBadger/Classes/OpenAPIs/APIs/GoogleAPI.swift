@@ -770,9 +770,9 @@ open class GoogleAPI {
      - parameter language: (query) Language code (alias for hl) (optional)
      - parameter gl: (query) Country code (optional, default to "us")
      - parameter hl: (query) Language code (optional, default to "en")
-     - parameter product: (query) NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; (optional, default to false)
+     - parameter product: (query) Only the tiles Google marked buyable (price + stock), drawn from the same grid (optional, default to false)
      - parameter visualMatches: (query) Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; (optional, default to true)
-     - parameter exactMatches: (query) Return only the pages hosting this image, flagged exact_match. Available for most images (7/10 in sampling); falls back to the full grid otherwise, saying so in warnings (optional, default to false)
+     - parameter exactMatches: (query) Return only the pages hosting this image, flagged exact_match. Available for most images (8/10 in sampling); falls back to the full grid otherwise, saying so in warnings (optional, default to false)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -791,7 +791,7 @@ open class GoogleAPI {
     /**
      Google Lens visual search
      - GET /v1/google/lens/search
-     - Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.  ``query`` refines the grid with text. ``exact_matches=true`` returns just the pages hosting the image, each flagged ``exact_match: true``, instead of the broad grid — available for most images (7 of 10 in sampling) and falling back to the grid otherwise. ``product`` is not supported, and ``visual_matches=false`` cannot be: visual matches are the only grid served. Anything that could not be applied — including an exact-match lookup that came back empty — is named in the ``warnings`` array rather than silently dropped (SCR-177, SCR-180).
+     - Google Lens visual search.  Response carries ``lens_results`` (Scrapingdog parity alias) with ``title`` / ``source`` / ``source_favicon`` / ``thumbnail`` / ``original_thumbnail`` / ``rating`` / ``reviews`` / ``in_stock``, plus ``price`` (``{value, currency, extracted}``) and the raw ``tag`` chip it is parsed from, on shoppable matches. ``related_searches`` chips come alongside. Legacy ``results`` alias kept for backwards compat.  ``query`` refines the grid with text. ``exact_matches=true`` returns just the pages hosting the image, each flagged ``exact_match: true``, instead of the broad grid — available for most images (8 of 10 in sampling) and falling back to the grid otherwise. ``product=true`` narrows the grid to the tiles Google marked buyable. ``visual_matches=false`` cannot be honoured: ``visual_matches=false`` cannot be: visual matches are the only grid served. Anything that could not be applied — including an exact-match lookup that came back empty — is named in the ``warnings`` array rather than silently dropped (SCR-177, SCR-180).
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -801,9 +801,9 @@ open class GoogleAPI {
      - parameter language: (query) Language code (alias for hl) (optional)
      - parameter gl: (query) Country code (optional, default to "us")
      - parameter hl: (query) Language code (optional, default to "en")
-     - parameter product: (query) NOT YET SUPPORTED — accepted, and reported back in &#x60;warnings&#x60; (optional, default to false)
+     - parameter product: (query) Only the tiles Google marked buyable (price + stock), drawn from the same grid (optional, default to false)
      - parameter visualMatches: (query) Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; (optional, default to true)
-     - parameter exactMatches: (query) Return only the pages hosting this image, flagged exact_match. Available for most images (7/10 in sampling); falls back to the full grid otherwise, saying so in warnings (optional, default to false)
+     - parameter exactMatches: (query) Return only the pages hosting this image, flagged exact_match. Available for most images (8/10 in sampling); falls back to the full grid otherwise, saying so in warnings (optional, default to false)
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func googleGoogleLensVisualSearchWithRequestBuilder(url: String, query: String? = nil, country: String? = nil, language: String? = nil, gl: String? = nil, hl: String? = nil, product: Bool? = nil, visualMatches: Bool? = nil, exactMatches: Bool? = nil) -> RequestBuilder<AnyCodable> {
