@@ -379,8 +379,8 @@ open class BingAPI {
      
      - parameter query: (query) Search keywords, e.g. &#39;coffee machine&#39; 
      - parameter market: (query) Bing market code, e.g. &#39;en-US&#39;, &#39;en-GB&#39;, &#39;de-DE&#39;. See /markets. (optional, default to "en-US")
-     - parameter count: (query) Results per page (1-50) (optional, default to 10)
-     - parameter offset: (query) Zero-based result offset for pagination (optional, default to 0)
+     - parameter count: (query) Organic results to return (1-50), merged from Bing&#39;s following pages when one page is short. May return fewer. (optional, default to 10)
+     - parameter offset: (query) Organic results to skip in Bing&#39;s ranking. Paginate with offset +&#x3D; count. (optional, default to 0)
      - parameter safeSearch: (query) off | moderate | strict (default moderate) (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
@@ -406,8 +406,8 @@ open class BingAPI {
        - name: ApiKeyAuth
      - parameter query: (query) Search keywords, e.g. &#39;coffee machine&#39; 
      - parameter market: (query) Bing market code, e.g. &#39;en-US&#39;, &#39;en-GB&#39;, &#39;de-DE&#39;. See /markets. (optional, default to "en-US")
-     - parameter count: (query) Results per page (1-50) (optional, default to 10)
-     - parameter offset: (query) Zero-based result offset for pagination (optional, default to 0)
+     - parameter count: (query) Organic results to return (1-50), merged from Bing&#39;s following pages when one page is short. May return fewer. (optional, default to 10)
+     - parameter offset: (query) Organic results to skip in Bing&#39;s ranking. Paginate with offset +&#x3D; count. (optional, default to 0)
      - parameter safeSearch: (query) off | moderate | strict (default moderate) (optional)
      - returns: RequestBuilder<AnyCodable> 
      */

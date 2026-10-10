@@ -386,8 +386,8 @@ import ScrapeBadger
 
 let query = "query_example" // String | Search keywords, e.g. 'coffee machine'
 let market = "market_example" // String | Bing market code, e.g. 'en-US', 'en-GB', 'de-DE'. See /markets. (optional) (default to "en-US")
-let count = 987 // Int | Results per page (1-50) (optional) (default to 10)
-let offset = 987 // Int | Zero-based result offset for pagination (optional) (default to 0)
+let count = 987 // Int | Organic results to return (1-50), merged from Bing's following pages when one page is short. May return fewer. (optional) (default to 10)
+let offset = 987 // Int | Organic results to skip in Bing's ranking. Paginate with offset += count. (optional) (default to 0)
 let safeSearch = "safeSearch_example" // String | off | moderate | strict (default moderate) (optional)
 
 // Web search
@@ -409,8 +409,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String** | Search keywords, e.g. &#39;coffee machine&#39; | 
  **market** | **String** | Bing market code, e.g. &#39;en-US&#39;, &#39;en-GB&#39;, &#39;de-DE&#39;. See /markets. | [optional] [default to &quot;en-US&quot;]
- **count** | **Int** | Results per page (1-50) | [optional] [default to 10]
- **offset** | **Int** | Zero-based result offset for pagination | [optional] [default to 0]
+ **count** | **Int** | Organic results to return (1-50), merged from Bing&#39;s following pages when one page is short. May return fewer. | [optional] [default to 10]
+ **offset** | **Int** | Organic results to skip in Bing&#39;s ranking. Paginate with offset +&#x3D; count. | [optional] [default to 0]
  **safeSearch** | **String** | off | moderate | strict (default moderate) | [optional] 
 
 ### Return type
