@@ -60,12 +60,13 @@ open class WebAPI {
     /**
      Extract structured data
      
+     - parameter extractRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func webExtractStructuredData(apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return webExtractStructuredDataWithRequestBuilder().execute(apiResponseQueue) { result in
+    open class func webExtractStructuredData(extractRequest: ExtractRequest, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return webExtractStructuredDataWithRequestBuilder(extractRequest: extractRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -78,21 +79,22 @@ open class WebAPI {
     /**
      Extract structured data
      - POST /v1/web/extract
-     - Extract structured data from a URL using CSS or XPath selectors. (Phase 6)
+     - Scrape a URL and extract fields with CSS/XPath selectors and/or AI.  ``extract_rules`` maps a field to a selector and returns ``data``; ``ai_extract_rules`` (field -> description) and ``ai_query`` return ``ai_extraction``. Billed as a scrape, plus the AI extraction credits when AI is asked for and succeeds.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
+     - parameter extractRequest: (body)  
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func webExtractStructuredDataWithRequestBuilder() -> RequestBuilder<AnyCodable> {
+    open class func webExtractStructuredDataWithRequestBuilder(extractRequest: ExtractRequest) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/web/extract"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: extractRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -100,56 +102,6 @@ open class WebAPI {
         let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get batch job status
-     
-     - parameter jobId: (path)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func webGetBatchJobStatus(jobId: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return webGetBatchJobStatusWithRequestBuilder(jobId: jobId).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Get batch job status
-     - GET /v1/web/batch/{job_id}
-     - Get the status of a batch scraping job. (Phase 6)
-     - API Key:
-       - type: apiKey X-API-Key (HEADER)
-       - name: ApiKeyAuth
-     - parameter jobId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func webGetBatchJobStatusWithRequestBuilder(jobId: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/web/batch/{job_id}"
-        let jobIdPreEscape = "\(APIHelper.mapValueToPathItem(jobId))"
-        let jobIdPostEscape = jobIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{job_id}", with: jobIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 
     /**
@@ -248,59 +200,15 @@ open class WebAPI {
     }
 
     /**
-     Submit batch scraping job
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func webSubmitBatchScrapingJob(apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return webSubmitBatchScrapingJobWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Submit batch scraping job
-     - POST /v1/web/batch
-     - Submit a batch of URLs for scraping. (Phase 6)
-     - API Key:
-       - type: apiKey X-API-Key (HEADER)
-       - name: ApiKeyAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func webSubmitBatchScrapingJobWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/web/batch"
-        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
      Take a screenshot
      
+     - parameter screenshotRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func webTakeAScreenshot(apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return webTakeAScreenshotWithRequestBuilder().execute(apiResponseQueue) { result in
+    open class func webTakeAScreenshot(screenshotRequest: ScreenshotRequest, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return webTakeAScreenshotWithRequestBuilder(screenshotRequest: screenshotRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -313,21 +221,22 @@ open class WebAPI {
     /**
      Take a screenshot
      - POST /v1/web/screenshot
-     - Take a screenshot of a URL. (browser engine)
+     - Render a URL in the browser engine and return a PNG screenshot.  ``screenshot`` is the PNG, base64-encoded. ``width``/``height`` set the viewport; ``full_page`` captures the whole scrollable page. Billed as a browser scrape (plus the proxy tier); a page that loads without a screenshot is a 502 and costs nothing.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
+     - parameter screenshotRequest: (body)  
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func webTakeAScreenshotWithRequestBuilder() -> RequestBuilder<AnyCodable> {
+    open class func webTakeAScreenshotWithRequestBuilder(screenshotRequest: ScreenshotRequest) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/web/screenshot"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: screenshotRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

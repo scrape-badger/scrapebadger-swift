@@ -54,6 +54,9 @@ ScrapeBadger/Classes/OpenAPIs/Models/BillingLogListResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/BillingLogResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/BrandsResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ColorsResponse.swift
+ScrapeBadger/Classes/OpenAPIs/Models/ExtractRequest.swift
+ScrapeBadger/Classes/OpenAPIs/Models/ExtractRequestExtractRulesValue.swift
+ScrapeBadger/Classes/OpenAPIs/Models/ExtractRule.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleCreate.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleDeliveryLogListResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleDeliveryLogResponse.swift
@@ -67,6 +70,7 @@ ScrapeBadger/Classes/OpenAPIs/Models/HTTPValidationErrorDetail.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ItemDetailResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/MarketsResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse.swift
+ScrapeBadger/Classes/OpenAPIs/Models/ScreenshotRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/SearchResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/StatusesResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/StreamMonitorCreate.swift
@@ -119,6 +123,9 @@ docs/ColorsResponse.md
 docs/DepopAPI.md
 docs/DuckDuckGoAPI.md
 docs/EBayAPI.md
+docs/ExtractRequest.md
+docs/ExtractRequestExtractRulesValue.md
+docs/ExtractRule.md
 docs/FacebookAPI.md
 docs/FilterRuleCreate.md
 docs/FilterRuleDeliveryLogListResponse.md
@@ -147,6 +154,7 @@ docs/PortalApiRoutersV1TwitterFilterRulesFilterRulePricingResponse.md
 docs/RealtorAPI.md
 docs/RedditAPI.md
 docs/RedfinAPI.md
+docs/ScreenshotRequest.md
 docs/SearchResponse.md
 docs/StatusesResponse.md
 docs/StreamMonitorCreate.md

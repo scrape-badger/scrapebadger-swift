@@ -6,10 +6,8 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**webDetectAntiBotAndCaptchaSystems**](WebAPI.md#webdetectantibotandcaptchasystems) | **POST** /v1/web/detect | Detect anti-bot and CAPTCHA systems
 [**webExtractStructuredData**](WebAPI.md#webextractstructureddata) | **POST** /v1/web/extract | Extract structured data
-[**webGetBatchJobStatus**](WebAPI.md#webgetbatchjobstatus) | **GET** /v1/web/batch/{job_id} | Get batch job status
 [**webPollAnAutoUnblockDiscoveryJob**](WebAPI.md#webpollanautounblockdiscoveryjob) | **GET** /v1/web/unblock/{job_id} | Poll an auto-unblock discovery job
 [**webScrapeAUrl**](WebAPI.md#webscrapeaurl) | **POST** /v1/web/scrape | Scrape a URL
-[**webSubmitBatchScrapingJob**](WebAPI.md#websubmitbatchscrapingjob) | **POST** /v1/web/batch | Submit batch scraping job
 [**webTakeAScreenshot**](WebAPI.md#webtakeascreenshot) | **POST** /v1/web/screenshot | Take a screenshot
 [**webWebScraperHealthCheck**](WebAPI.md#webwebscraperhealthcheck) | **GET** /v1/web/health | Web scraper health check
 [**webWebScraperHealthCheckHead**](WebAPI.md#webwebscraperhealthcheckhead) | **HEAD** /v1/web/health | Web scraper health check
@@ -63,68 +61,22 @@ This endpoint does not need any parameter.
 
 # **webExtractStructuredData**
 ```swift
-    open class func webExtractStructuredData(completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func webExtractStructuredData(extractRequest: ExtractRequest, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Extract structured data
 
-Extract structured data from a URL using CSS or XPath selectors. (Phase 6)
+Scrape a URL and extract fields with CSS/XPath selectors and/or AI.  ``extract_rules`` maps a field to a selector and returns ``data``; ``ai_extract_rules`` (field -> description) and ``ai_query`` return ``ai_extraction``. Billed as a scrape, plus the AI extraction credits when AI is asked for and succeeds.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ScrapeBadger
 
+let extractRequest = ExtractRequest(url: "url_example", waitFor: "waitFor_example", country: "country_example", proxyTier: "proxyTier_example", extractRules: "TODO", aiExtractRules: "TODO", aiQuery: "aiQuery_example", renderJs: false) // ExtractRequest | 
 
 // Extract structured data
-WebAPI.webExtractStructuredData() { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-**AnyCodable**
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **webGetBatchJobStatus**
-```swift
-    open class func webGetBatchJobStatus(jobId: String, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
-```
-
-Get batch job status
-
-Get the status of a batch scraping job. (Phase 6)
-
-### Example
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import ScrapeBadger
-
-let jobId = "jobId_example" // String | 
-
-// Get batch job status
-WebAPI.webGetBatchJobStatus(jobId: jobId) { (response, error) in
+WebAPI.webExtractStructuredData(extractRequest: extractRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -140,7 +92,7 @@ WebAPI.webGetBatchJobStatus(jobId: jobId) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **jobId** | **String** |  | 
+ **extractRequest** | [**ExtractRequest**](ExtractRequest.md) |  | 
 
 ### Return type
 
@@ -152,7 +104,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -253,69 +205,24 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **webSubmitBatchScrapingJob**
-```swift
-    open class func webSubmitBatchScrapingJob(completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
-```
-
-Submit batch scraping job
-
-Submit a batch of URLs for scraping. (Phase 6)
-
-### Example
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import ScrapeBadger
-
-
-// Submit batch scraping job
-WebAPI.webSubmitBatchScrapingJob() { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-**AnyCodable**
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **webTakeAScreenshot**
 ```swift
-    open class func webTakeAScreenshot(completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func webTakeAScreenshot(screenshotRequest: ScreenshotRequest, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Take a screenshot
 
-Take a screenshot of a URL. (browser engine)
+Render a URL in the browser engine and return a PNG screenshot.  ``screenshot`` is the PNG, base64-encoded. ``width``/``height`` set the viewport; ``full_page`` captures the whole scrollable page. Billed as a browser scrape (plus the proxy tier); a page that loads without a screenshot is a 502 and costs nothing.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ScrapeBadger
 
+let screenshotRequest = ScreenshotRequest(url: "url_example", waitFor: "waitFor_example", country: "country_example", proxyTier: "proxyTier_example", fullPage: false, width: 123, height: 123) // ScreenshotRequest | 
 
 // Take a screenshot
-WebAPI.webTakeAScreenshot() { (response, error) in
+WebAPI.webTakeAScreenshot(screenshotRequest: screenshotRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -328,7 +235,10 @@ WebAPI.webTakeAScreenshot() { (response, error) in
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **screenshotRequest** | [**ScreenshotRequest**](ScreenshotRequest.md) |  | 
 
 ### Return type
 
@@ -340,7 +250,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
