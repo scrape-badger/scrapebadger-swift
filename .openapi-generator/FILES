@@ -37,6 +37,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/RedfinAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/TikTokAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/TwitterAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/VintedAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/WallapopAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/WalmartAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/WebAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/YahooAPI.swift
@@ -183,6 +184,7 @@ docs/VintedSellerSummary.md
 docs/VintedStatus.md
 docs/VintedUserProfile.md
 docs/VintedUserSummary.md
+docs/WallapopAPI.md
 docs/WalmartAPI.md
 docs/WebAPI.md
 docs/WebhookCreate.md
