@@ -252,6 +252,16 @@ Class | Method | HTTP request | Description
 *GooglePlayAPI* | [**googlePlayListMarkets**](docs/GooglePlayAPI.md#googleplaylistmarkets) | **GET** /v1/google-play/markets | List markets
 *GooglePlayAPI* | [**googlePlaySearchApps**](docs/GooglePlayAPI.md#googleplaysearchapps) | **GET** /v1/google-play/search | Search apps
 *GooglePlayAPI* | [**googlePlayTopCharts**](docs/GooglePlayAPI.md#googleplaytopcharts) | **GET** /v1/google-play/collections/{collection} | Top charts
+*GumtreeAPI* | [**gumtreeGetListing**](docs/GumtreeAPI.md#gumtreegetlisting) | **GET** /v1/gumtree/listings/{listing_id} | Get listing
+*GumtreeAPI* | [**gumtreeGetSearchFilters**](docs/GumtreeAPI.md#gumtreegetsearchfilters) | **GET** /v1/gumtree/search/filters | Get search filters
+*GumtreeAPI* | [**gumtreeGetSellerListings**](docs/GumtreeAPI.md#gumtreegetsellerlistings) | **GET** /v1/gumtree/listings/{listing_id}/seller-listings | Get seller listings
+*GumtreeAPI* | [**gumtreeGumtreeScraperHealthCheck**](docs/GumtreeAPI.md#gumtreegumtreescraperhealthcheck) | **GET** /v1/gumtree/health | Gumtree scraper health check
+*GumtreeAPI* | [**gumtreeGumtreeScraperHealthCheckHead**](docs/GumtreeAPI.md#gumtreegumtreescraperhealthcheckhead) | **HEAD** /v1/gumtree/health | Gumtree scraper health check
+*GumtreeAPI* | [**gumtreeListCategories**](docs/GumtreeAPI.md#gumtreelistcategories) | **GET** /v1/gumtree/categories | List categories
+*GumtreeAPI* | [**gumtreeListLocations**](docs/GumtreeAPI.md#gumtreelistlocations) | **GET** /v1/gumtree/locations | List locations
+*GumtreeAPI* | [**gumtreeLocationSuggestions**](docs/GumtreeAPI.md#gumtreelocationsuggestions) | **GET** /v1/gumtree/locations/autocomplete | Location suggestions
+*GumtreeAPI* | [**gumtreeSearchListings**](docs/GumtreeAPI.md#gumtreesearchlistings) | **GET** /v1/gumtree/search | Search listings
+*GumtreeAPI* | [**gumtreeSearchSuggestions**](docs/GumtreeAPI.md#gumtreesearchsuggestions) | **GET** /v1/gumtree/autocomplete | Search suggestions
 *IdealistaAPI* | [**idealistaAgencyByPhone**](docs/IdealistaAPI.md#idealistaagencybyphone) | **GET** /v1/idealista/agency/by-phone/{phone} | Agency by phone
 *IdealistaAPI* | [**idealistaAgencyProfileListings**](docs/IdealistaAPI.md#idealistaagencyprofilelistings) | **GET** /v1/idealista/agency/{short_name} | Agency profile + listings
 *IdealistaAPI* | [**idealistaGetListingEngagementStats**](docs/IdealistaAPI.md#idealistagetlistingengagementstats) | **GET** /v1/idealista/properties/{property_code}/stats | Get listing engagement stats
