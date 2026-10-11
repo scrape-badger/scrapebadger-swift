@@ -290,16 +290,25 @@ open class FacebookAPI {
     }
 
     /**
+     * enum for parameter sort
+     */
+    public enum Sort_facebookGetGroupPosts: String, CaseIterable {
+        case newest = "newest"
+        case relevance = "relevance"
+    }
+
+    /**
      Get group posts
      
      - parameter groupId: (path)  
      - parameter after: (query)  (optional)
+     - parameter sort: (query) newest | relevance (optional, default to .newest)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func facebookGetGroupPosts(groupId: String, after: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return facebookGetGroupPostsWithRequestBuilder(groupId: groupId, after: after).execute(apiResponseQueue) { result in
+    open class func facebookGetGroupPosts(groupId: String, after: String? = nil, sort: Sort_facebookGetGroupPosts? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return facebookGetGroupPostsWithRequestBuilder(groupId: groupId, after: after, sort: sort).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -312,15 +321,16 @@ open class FacebookAPI {
     /**
      Get group posts
      - GET /v1/facebook/groups/{group_id}/posts
-     - Get a Facebook group's post feed.
+     - Get a public Facebook group's post feed.  ``sort`` is ``newest`` (newest first by post time, the default) or ``relevance`` (Facebook's \"top posts\" ranking, which moves posts with fresh comments up). Facebook serves 3 posts per page to logged-out visitors; follow ``end_cursor`` while ``has_next_page`` for older posts.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter groupId: (path)  
      - parameter after: (query)  (optional)
+     - parameter sort: (query) newest | relevance (optional, default to .newest)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func facebookGetGroupPostsWithRequestBuilder(groupId: String, after: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func facebookGetGroupPostsWithRequestBuilder(groupId: String, after: String? = nil, sort: Sort_facebookGetGroupPosts? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/facebook/groups/{group_id}/posts"
         let groupIdPreEscape = "\(APIHelper.mapValueToPathItem(groupId))"
         let groupIdPostEscape = groupIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -331,6 +341,7 @@ open class FacebookAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "after": (wrappedValue: after?.encodeToJSON(), isExplode: true),
+            "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [

@@ -296,12 +296,12 @@ Name | Type | Description  | Notes
 
 # **facebookGetGroupPosts**
 ```swift
-    open class func facebookGetGroupPosts(groupId: String, after: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func facebookGetGroupPosts(groupId: String, after: String? = nil, sort: Sort_facebookGetGroupPosts? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Get group posts
 
-Get a Facebook group's post feed.
+Get a public Facebook group's post feed.  ``sort`` is ``newest`` (newest first by post time, the default) or ``relevance`` (Facebook's \"top posts\" ranking, which moves posts with fresh comments up). Facebook serves 3 posts per page to logged-out visitors; follow ``end_cursor`` while ``has_next_page`` for older posts.
 
 ### Example
 ```swift
@@ -310,9 +310,10 @@ import ScrapeBadger
 
 let groupId = "groupId_example" // String | 
 let after = "after_example" // String |  (optional)
+let sort = "sort_example" // String | newest | relevance (optional) (default to .newest)
 
 // Get group posts
-FacebookAPI.facebookGetGroupPosts(groupId: groupId, after: after) { (response, error) in
+FacebookAPI.facebookGetGroupPosts(groupId: groupId, after: after, sort: sort) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -330,6 +331,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **groupId** | **String** |  | 
  **after** | **String** |  | [optional] 
+ **sort** | **String** | newest | relevance | [optional] [default to .newest]
 
 ### Return type
 
