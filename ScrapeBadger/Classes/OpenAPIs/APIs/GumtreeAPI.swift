@@ -13,15 +13,25 @@ import AnyCodable
 open class GumtreeAPI {
 
     /**
+     * enum for parameter market
+     */
+    public enum Market_gumtreeGetListing: String, CaseIterable {
+        case uk = "uk"
+        case au = "au"
+        case za = "za"
+    }
+
+    /**
      Get listing
      
-     - parameter listingId: (path) Gumtree listing id — the number at the end of a gumtree.com/p/... URL 
+     - parameter listingId: (path) Gumtree listing id — the number at the end of the listing URL (uk/au: ~10 digits; za: the full 26-digit ad id, not the short one) 
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func gumtreeGetListing(listingId: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return gumtreeGetListingWithRequestBuilder(listingId: listingId).execute(apiResponseQueue) { result in
+    open class func gumtreeGetListing(listingId: String, market: Market_gumtreeGetListing? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return gumtreeGetListingWithRequestBuilder(listingId: listingId, market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -38,10 +48,11 @@ open class GumtreeAPI {
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter listingId: (path) Gumtree listing id — the number at the end of a gumtree.com/p/... URL 
+     - parameter listingId: (path) Gumtree listing id — the number at the end of the listing URL (uk/au: ~10 digits; za: the full 26-digit ad id, not the short one) 
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func gumtreeGetListingWithRequestBuilder(listingId: String) -> RequestBuilder<AnyCodable> {
+    open class func gumtreeGetListingWithRequestBuilder(listingId: String, market: Market_gumtreeGetListing? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/gumtree/listings/{listing_id}"
         let listingIdPreEscape = "\(APIHelper.mapValueToPathItem(listingId))"
         let listingIdPostEscape = listingIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -49,62 +60,9 @@ open class GumtreeAPI {
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get search filters
-     
-     - parameter category: (query) Category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;. Default &#39;all&#39;. (optional, default to "all")
-     - parameter location: (query) Location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). Default &#39;uk&#39;. (optional, default to "uk")
-     - parameter query: (query)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func gumtreeGetSearchFilters(category: String? = nil, location: String? = nil, query: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return gumtreeGetSearchFiltersWithRequestBuilder(category: category, location: location, query: query).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Get search filters
-     - GET /v1/gumtree/search/filters
-     - Filters, sort orders and radius options for a category, with live counts.
-     - API Key:
-       - type: apiKey X-API-Key (HEADER)
-       - name: ApiKeyAuth
-     - parameter category: (query) Category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;. Default &#39;all&#39;. (optional, default to "all")
-     - parameter location: (query) Location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). Default &#39;uk&#39;. (optional, default to "uk")
-     - parameter query: (query)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func gumtreeGetSearchFiltersWithRequestBuilder(category: String? = nil, location: String? = nil, query: String? = nil) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/gumtree/search/filters"
-        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "category": (wrappedValue: category?.encodeToJSON(), isExplode: true),
-            "location": (wrappedValue: location?.encodeToJSON(), isExplode: true),
-            "query": (wrappedValue: query?.encodeToJSON(), isExplode: true),
+            "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -119,16 +77,97 @@ open class GumtreeAPI {
     }
 
     /**
-     Get seller listings
+     * enum for parameter market
+     */
+    public enum Market_gumtreeGetSearchFilters: String, CaseIterable {
+        case uk = "uk"
+        case au = "au"
+        case za = "za"
+    }
+
+    /**
+     Get search filters
      
-     - parameter listingId: (path) Gumtree listing id — the number at the end of a gumtree.com/p/... URL 
-     - parameter page: (query)  (optional, default to 1)
+     - parameter category: (query) uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (optional, default to "all")
+     - parameter location: (query) uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country. (optional)
+     - parameter query: (query) Optional keywords to scope the counts (optional)
+     - parameter filters: (query) za only: filters already applied (e.g. &#39;ma:toyota&#39; to list Toyota models) (optional)
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func gumtreeGetSellerListings(listingId: String, page: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return gumtreeGetSellerListingsWithRequestBuilder(listingId: listingId, page: page).execute(apiResponseQueue) { result in
+    open class func gumtreeGetSearchFilters(category: String? = nil, location: String? = nil, query: String? = nil, filters: String? = nil, market: Market_gumtreeGetSearchFilters? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return gumtreeGetSearchFiltersWithRequestBuilder(category: category, location: location, query: query, filters: filters, market: market).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get search filters
+     - GET /v1/gumtree/search/filters
+     - Filters, sort orders and radius options for a category, with live counts.  Feed a `key` and a `value` back into `/search` as `filters=key:value`. au bills 2x (browser render).
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter category: (query) uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (optional, default to "all")
+     - parameter location: (query) uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country. (optional)
+     - parameter query: (query) Optional keywords to scope the counts (optional)
+     - parameter filters: (query) za only: filters already applied (e.g. &#39;ma:toyota&#39; to list Toyota models) (optional)
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func gumtreeGetSearchFiltersWithRequestBuilder(category: String? = nil, location: String? = nil, query: String? = nil, filters: String? = nil, market: Market_gumtreeGetSearchFilters? = nil) -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/gumtree/search/filters"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "category": (wrappedValue: category?.encodeToJSON(), isExplode: true),
+            "location": (wrappedValue: location?.encodeToJSON(), isExplode: true),
+            "query": (wrappedValue: query?.encodeToJSON(), isExplode: true),
+            "filters": (wrappedValue: filters?.encodeToJSON(), isExplode: true),
+            "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     * enum for parameter market
+     */
+    public enum Market_gumtreeGetSellerListings: String, CaseIterable {
+        case uk = "uk"
+        case au = "au"
+        case za = "za"
+    }
+
+    /**
+     Get seller listings
+     
+     - parameter listingId: (path) Gumtree listing id — the number at the end of the listing URL (uk/au: ~10 digits; za: the full 26-digit ad id, not the short one) 
+     - parameter page: (query)  (optional, default to 1)
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func gumtreeGetSellerListings(listingId: String, page: Int? = nil, market: Market_gumtreeGetSellerListings? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return gumtreeGetSellerListingsWithRequestBuilder(listingId: listingId, page: page, market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -145,11 +184,12 @@ open class GumtreeAPI {
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter listingId: (path) Gumtree listing id — the number at the end of a gumtree.com/p/... URL 
+     - parameter listingId: (path) Gumtree listing id — the number at the end of the listing URL (uk/au: ~10 digits; za: the full 26-digit ad id, not the short one) 
      - parameter page: (query)  (optional, default to 1)
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func gumtreeGetSellerListingsWithRequestBuilder(listingId: String, page: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func gumtreeGetSellerListingsWithRequestBuilder(listingId: String, page: Int? = nil, market: Market_gumtreeGetSellerListings? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/gumtree/listings/{listing_id}/seller-listings"
         let listingIdPreEscape = "\(APIHelper.mapValueToPathItem(listingId))"
         let listingIdPostEscape = listingIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -160,6 +200,7 @@ open class GumtreeAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
+            "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -264,15 +305,25 @@ open class GumtreeAPI {
     }
 
     /**
+     * enum for parameter market
+     */
+    public enum Market_gumtreeListCategories: String, CaseIterable {
+        case uk = "uk"
+        case au = "au"
+        case za = "za"
+    }
+
+    /**
      List categories
      
-     - parameter parentId: (query) Parent category id (default: all) (optional, default to 1)
+     - parameter parentId: (query) Category id to list the children of (default: all) (optional)
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func gumtreeListCategories(parentId: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return gumtreeListCategoriesWithRequestBuilder(parentId: parentId).execute(apiResponseQueue) { result in
+    open class func gumtreeListCategories(parentId: Int? = nil, market: Market_gumtreeListCategories? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return gumtreeListCategoriesWithRequestBuilder(parentId: parentId, market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -285,14 +336,15 @@ open class GumtreeAPI {
     /**
      List categories
      - GET /v1/gumtree/categories
-     - Browse Gumtree's category tree. A node's `slug` is the `/search` category.
+     - Browse Gumtree's category tree.  A node's `slug` (uk) or `id` (au/za) is the `/search` category.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter parentId: (query) Parent category id (default: all) (optional, default to 1)
+     - parameter parentId: (query) Category id to list the children of (default: all) (optional)
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func gumtreeListCategoriesWithRequestBuilder(parentId: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func gumtreeListCategoriesWithRequestBuilder(parentId: Int? = nil, market: Market_gumtreeListCategories? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/gumtree/categories"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -300,6 +352,7 @@ open class GumtreeAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "parent_id": (wrappedValue: parentId?.encodeToJSON(), isExplode: true),
+            "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -314,15 +367,25 @@ open class GumtreeAPI {
     }
 
     /**
+     * enum for parameter market
+     */
+    public enum Market_gumtreeListLocations: String, CaseIterable {
+        case uk = "uk"
+        case au = "au"
+        case za = "za"
+    }
+
+    /**
      List locations
      
-     - parameter parentId: (query) Parent location id (default: UK) (optional, default to 10000392)
+     - parameter parentId: (query) Location id to list the children of (default: the whole country) (optional)
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func gumtreeListLocations(parentId: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return gumtreeListLocationsWithRequestBuilder(parentId: parentId).execute(apiResponseQueue) { result in
+    open class func gumtreeListLocations(parentId: Int? = nil, market: Market_gumtreeListLocations? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return gumtreeListLocationsWithRequestBuilder(parentId: parentId, market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -335,14 +398,15 @@ open class GumtreeAPI {
     /**
      List locations
      - GET /v1/gumtree/locations
-     - Browse Gumtree's location tree.
+     - Browse Gumtree's location tree.  uk: UK -> nations -> counties -> towns. au: states -> regions -> areas, each with its live ad count (browser render, bills 5x). za: provinces -> towns.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter parentId: (query) Parent location id (default: UK) (optional, default to 10000392)
+     - parameter parentId: (query) Location id to list the children of (default: the whole country) (optional)
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func gumtreeListLocationsWithRequestBuilder(parentId: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func gumtreeListLocationsWithRequestBuilder(parentId: Int? = nil, market: Market_gumtreeListLocations? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/gumtree/locations"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -350,6 +414,7 @@ open class GumtreeAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "parent_id": (wrappedValue: parentId?.encodeToJSON(), isExplode: true),
+            "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -364,15 +429,70 @@ open class GumtreeAPI {
     }
 
     /**
-     Location suggestions
+     List markets
      
-     - parameter query: (query) Town or postcode prefix, e.g. &#39;manch&#39; 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func gumtreeLocationSuggestions(query: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return gumtreeLocationSuggestionsWithRequestBuilder(query: query).execute(apiResponseQueue) { result in
+    open class func gumtreeListMarkets(apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return gumtreeListMarketsWithRequestBuilder().execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     List markets
+     - GET /v1/gumtree/markets
+     - The Gumtree sites this API covers (uk, au, za) with currency and id formats.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func gumtreeListMarketsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/gumtree/markets"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     * enum for parameter market
+     */
+    public enum Market_gumtreeLocationSuggestions: String, CaseIterable {
+        case uk = "uk"
+        case au = "au"
+        case za = "za"
+    }
+
+    /**
+     Location suggestions
+     
+     - parameter query: (query) Town, area or postcode prefix, e.g. &#39;manch&#39; or &#39;SW1A&#39; 
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func gumtreeLocationSuggestions(query: String, market: Market_gumtreeLocationSuggestions? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return gumtreeLocationSuggestionsWithRequestBuilder(query: query, market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -385,14 +505,15 @@ open class GumtreeAPI {
     /**
      Location suggestions
      - GET /v1/gumtree/locations/autocomplete
-     - Resolve a place name or postcode to Gumtree locations with coordinates.
+     - Resolve a place name or postcode to Gumtree location ids (uk: with coordinates).  The `id` (au/za) or `name` (uk) is what `/search` takes as `location`.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter query: (query) Town or postcode prefix, e.g. &#39;manch&#39; 
+     - parameter query: (query) Town, area or postcode prefix, e.g. &#39;manch&#39; or &#39;SW1A&#39; 
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func gumtreeLocationSuggestionsWithRequestBuilder(query: String) -> RequestBuilder<AnyCodable> {
+    open class func gumtreeLocationSuggestionsWithRequestBuilder(query: String, market: Market_gumtreeLocationSuggestions? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/gumtree/locations/autocomplete"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -400,6 +521,7 @@ open class GumtreeAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "query": (wrappedValue: query.encodeToJSON(), isExplode: true),
+            "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -433,26 +555,36 @@ open class GumtreeAPI {
     }
 
     /**
+     * enum for parameter market
+     */
+    public enum Market_gumtreeSearchListings: String, CaseIterable {
+        case uk = "uk"
+        case au = "au"
+        case za = "za"
+    }
+
+    /**
      Search listings
      
      - parameter query: (query) Search keywords, e.g. &#39;mountain bike&#39; (optional)
-     - parameter category: (query) Category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;. Default &#39;all&#39;. (optional, default to "all")
-     - parameter location: (query) Location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). Default &#39;uk&#39;. (optional, default to "uk")
-     - parameter distance: (query) Radius in miles (optional)
-     - parameter minPrice: (query) GBP; needs a category (optional)
-     - parameter maxPrice: (query) GBP; needs a category (optional)
-     - parameter sort: (query)  (optional)
-     - parameter sellerType: (query)  (optional)
-     - parameter urgentOnly: (query)  (optional, default to false)
-     - parameter withPhotos: (query)  (optional, default to false)
-     - parameter filters: (query) Category filters as key:value pairs, e.g. &#39;vehicle_make:bmw,vehicle_fuel_type:petrol&#39; (optional)
+     - parameter category: (query) uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (optional, default to "all")
+     - parameter location: (query) uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country. (optional)
+     - parameter distance: (query) Radius around &#x60;location&#x60;: miles (uk) or km (au). Not offered by za. (optional)
+     - parameter minPrice: (query) Minimum price in the market&#39;s currency (uk: needs a category, not &#39;all&#39;) (optional)
+     - parameter maxPrice: (query) Maximum price in the market&#39;s currency (uk: needs a category, not &#39;all&#39;) (optional)
+     - parameter sort: (query) Result ordering (default relevance). &#39;distance&#39; needs uk, or au with a location. (optional)
+     - parameter sellerType: (query) uk/za: &#39;trade&#39; covers dealers, agencies and recruiters. au: not supported — use a category filter such as &#39;cars.forsaleby_s:ownr&#39;. (optional)
+     - parameter urgentOnly: (query) uk only: only ads marked urgent (optional, default to false)
+     - parameter withPhotos: (query) uk only: only ads with photos (optional, default to false)
+     - parameter filters: (query) Category-specific filters as comma-separated key:value pairs, e.g. &#39;vehicle_make:bmw,vehicle_fuel_type:petrol,min_vehicle_mileage:10000&#39; (uk), &#39;cars.carmake_s:toyota,cars.forsaleby_s:ownr&#39; (au) or &#39;ma:toyota,fu:petrol,max_km:100000&#39; (za). Range filters take min_&lt;key&gt;/max_&lt;key&gt;. Discover keys and values with /search/filters for the same market. (optional)
      - parameter page: (query)  (optional, default to 1)
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func gumtreeSearchListings(query: String? = nil, category: String? = nil, location: String? = nil, distance: Double? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, sort: Sort_gumtreeSearchListings? = nil, sellerType: SellerType_gumtreeSearchListings? = nil, urgentOnly: Bool? = nil, withPhotos: Bool? = nil, filters: String? = nil, page: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return gumtreeSearchListingsWithRequestBuilder(query: query, category: category, location: location, distance: distance, minPrice: minPrice, maxPrice: maxPrice, sort: sort, sellerType: sellerType, urgentOnly: urgentOnly, withPhotos: withPhotos, filters: filters, page: page).execute(apiResponseQueue) { result in
+    open class func gumtreeSearchListings(query: String? = nil, category: String? = nil, location: String? = nil, distance: Double? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, sort: Sort_gumtreeSearchListings? = nil, sellerType: SellerType_gumtreeSearchListings? = nil, urgentOnly: Bool? = nil, withPhotos: Bool? = nil, filters: String? = nil, page: Int? = nil, market: Market_gumtreeSearchListings? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return gumtreeSearchListingsWithRequestBuilder(query: query, category: category, location: location, distance: distance, minPrice: minPrice, maxPrice: maxPrice, sort: sort, sellerType: sellerType, urgentOnly: urgentOnly, withPhotos: withPhotos, filters: filters, page: page, market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -465,25 +597,26 @@ open class GumtreeAPI {
     /**
      Search listings
      - GET /v1/gumtree/search
-     - Search gumtree.com listings. ~25-30 per page, up to 50 pages.
+     - Search Gumtree listings in the UK, Australia or South Africa.  Up to 50 pages. Page size: uk 25, au 24 (plus up to 6 featured top ads), za 20. An au search runs a real browser (~10-20 s) and bills 2x.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter query: (query) Search keywords, e.g. &#39;mountain bike&#39; (optional)
-     - parameter category: (query) Category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;. Default &#39;all&#39;. (optional, default to "all")
-     - parameter location: (query) Location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). Default &#39;uk&#39;. (optional, default to "uk")
-     - parameter distance: (query) Radius in miles (optional)
-     - parameter minPrice: (query) GBP; needs a category (optional)
-     - parameter maxPrice: (query) GBP; needs a category (optional)
-     - parameter sort: (query)  (optional)
-     - parameter sellerType: (query)  (optional)
-     - parameter urgentOnly: (query)  (optional, default to false)
-     - parameter withPhotos: (query)  (optional, default to false)
-     - parameter filters: (query) Category filters as key:value pairs, e.g. &#39;vehicle_make:bmw,vehicle_fuel_type:petrol&#39; (optional)
+     - parameter category: (query) uk: category slug, e.g. &#39;cars&#39;, &#39;for-sale&#39;, &#39;property-to-rent&#39;, &#39;jobs&#39;, &#39;bicycles&#39;. au/za: numeric category id, e.g. &#39;18320&#39; (au cars) or &#39;9077&#39; (za cars). Use /categories to browse the tree. Default &#39;all&#39;. (optional, default to "all")
+     - parameter location: (query) uk: location slug (&#39;london&#39;), town name or UK postcode (&#39;SW1A 1AA&#39;). au/za: numeric location id, e.g. &#39;3003435&#39; (au Sydney) or &#39;3100003&#39; (za Gauteng). Use /locations/autocomplete to resolve one. Default: the whole country. (optional)
+     - parameter distance: (query) Radius around &#x60;location&#x60;: miles (uk) or km (au). Not offered by za. (optional)
+     - parameter minPrice: (query) Minimum price in the market&#39;s currency (uk: needs a category, not &#39;all&#39;) (optional)
+     - parameter maxPrice: (query) Maximum price in the market&#39;s currency (uk: needs a category, not &#39;all&#39;) (optional)
+     - parameter sort: (query) Result ordering (default relevance). &#39;distance&#39; needs uk, or au with a location. (optional)
+     - parameter sellerType: (query) uk/za: &#39;trade&#39; covers dealers, agencies and recruiters. au: not supported — use a category filter such as &#39;cars.forsaleby_s:ownr&#39;. (optional)
+     - parameter urgentOnly: (query) uk only: only ads marked urgent (optional, default to false)
+     - parameter withPhotos: (query) uk only: only ads with photos (optional, default to false)
+     - parameter filters: (query) Category-specific filters as comma-separated key:value pairs, e.g. &#39;vehicle_make:bmw,vehicle_fuel_type:petrol,min_vehicle_mileage:10000&#39; (uk), &#39;cars.carmake_s:toyota,cars.forsaleby_s:ownr&#39; (au) or &#39;ma:toyota,fu:petrol,max_km:100000&#39; (za). Range filters take min_&lt;key&gt;/max_&lt;key&gt;. Discover keys and values with /search/filters for the same market. (optional)
      - parameter page: (query)  (optional, default to 1)
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func gumtreeSearchListingsWithRequestBuilder(query: String? = nil, category: String? = nil, location: String? = nil, distance: Double? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, sort: Sort_gumtreeSearchListings? = nil, sellerType: SellerType_gumtreeSearchListings? = nil, urgentOnly: Bool? = nil, withPhotos: Bool? = nil, filters: String? = nil, page: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func gumtreeSearchListingsWithRequestBuilder(query: String? = nil, category: String? = nil, location: String? = nil, distance: Double? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, sort: Sort_gumtreeSearchListings? = nil, sellerType: SellerType_gumtreeSearchListings? = nil, urgentOnly: Bool? = nil, withPhotos: Bool? = nil, filters: String? = nil, page: Int? = nil, market: Market_gumtreeSearchListings? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/gumtree/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -502,6 +635,7 @@ open class GumtreeAPI {
             "with_photos": (wrappedValue: withPhotos?.encodeToJSON(), isExplode: true),
             "filters": (wrappedValue: filters?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
+            "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -516,15 +650,25 @@ open class GumtreeAPI {
     }
 
     /**
+     * enum for parameter market
+     */
+    public enum Market_gumtreeSearchSuggestions: String, CaseIterable {
+        case uk = "uk"
+        case au = "au"
+        case za = "za"
+    }
+
+    /**
      Search suggestions
      
      - parameter query: (query) Partial search term, e.g. &#39;iph&#39; 
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func gumtreeSearchSuggestions(query: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return gumtreeSearchSuggestionsWithRequestBuilder(query: query).execute(apiResponseQueue) { result in
+    open class func gumtreeSearchSuggestions(query: String, market: Market_gumtreeSearchSuggestions? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return gumtreeSearchSuggestionsWithRequestBuilder(query: query, market: market).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -542,9 +686,10 @@ open class GumtreeAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter query: (query) Partial search term, e.g. &#39;iph&#39; 
+     - parameter market: (query) Which Gumtree: &#39;uk&#39; (gumtree.com, GBP), &#39;au&#39; (gumtree.com.au, AUD) or &#39;za&#39; (gumtree.co.za, ZAR). Separate sites — ids from one market mean nothing in another. (optional, default to .uk)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func gumtreeSearchSuggestionsWithRequestBuilder(query: String) -> RequestBuilder<AnyCodable> {
+    open class func gumtreeSearchSuggestionsWithRequestBuilder(query: String, market: Market_gumtreeSearchSuggestions? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/gumtree/autocomplete"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -552,6 +697,7 @@ open class GumtreeAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "query": (wrappedValue: query.encodeToJSON(), isExplode: true),
+            "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
