@@ -1048,7 +1048,7 @@ let kgmid = "kgmid_example" // String | Knowledge Graph entity ID (optional)
 let si = "si_example" // String | Cached search params (optional)
 let ibp = "ibp_example" // String | Layout control (optional)
 let uds = "uds_example" // String | Google filter string (optional)
-let aiOverview = true // Bool | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s and 1 credit when the SERP defers the overview. (optional) (default to false)
+let aiOverview = true // Bool | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. (optional) (default to false)
 
 // Google web search
 GoogleAPI.googleGoogleWebSearch(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, device: device, userAgent: userAgent, output: output, location: location, lr: lr, tbs: tbs, safe: safe, uule: uule, filter: filter, nfpr: nfpr, cr: cr, ludocid: ludocid, lsig: lsig, kgmid: kgmid, si: si, ibp: ibp, uds: uds, aiOverview: aiOverview) { (response, error) in
@@ -1090,7 +1090,7 @@ Name | Type | Description  | Notes
  **si** | **String** | Cached search params | [optional] 
  **ibp** | **String** | Layout control | [optional] 
  **uds** | **String** | Google filter string | [optional] 
- **aiOverview** | **Bool** | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s and 1 credit when the SERP defers the overview. | [optional] [default to false]
+ **aiOverview** | **Bool** | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. | [optional] [default to false]
 
 ### Return type
 

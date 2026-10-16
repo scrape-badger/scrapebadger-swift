@@ -1091,7 +1091,7 @@ open class GoogleAPI {
      - parameter si: (query) Cached search params (optional)
      - parameter ibp: (query) Layout control (optional)
      - parameter uds: (query) Google filter string (optional)
-     - parameter aiOverview: (query) Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s and 1 credit when the SERP defers the overview. (optional, default to false)
+     - parameter aiOverview: (query) Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. (optional, default to false)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -1137,7 +1137,7 @@ open class GoogleAPI {
      - parameter si: (query) Cached search params (optional)
      - parameter ibp: (query) Layout control (optional)
      - parameter uds: (query) Google filter string (optional)
-     - parameter aiOverview: (query) Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s and 1 credit when the SERP defers the overview. (optional, default to false)
+     - parameter aiOverview: (query) Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. (optional, default to false)
      - returns: RequestBuilder<AnyCodable> 
      */
     open class func googleGoogleWebSearchWithRequestBuilder(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, device: Device_googleGoogleWebSearch? = nil, userAgent: String? = nil, output: Output_googleGoogleWebSearch? = nil, location: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, uule: String? = nil, filter: Int? = nil, nfpr: Int? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil, aiOverview: Bool? = nil) -> RequestBuilder<AnyCodable> {
