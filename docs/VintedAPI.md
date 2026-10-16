@@ -477,7 +477,7 @@ Name | Type | Description  | Notes
 
 # **vintedSearchByImage**
 ```swift
-    open class func vintedSearchByImage(vintedImageSearchRequest: VintedImageSearchRequest, completion: @escaping (_ data: SearchResponse?, _ error: Error?) -> Void)
+    open class func vintedSearchByImage(vintedImageSearchRequest: VintedImageSearchRequest, completion: @escaping (_ data: PortalApiRoutersVintedSchemasSearchResponse?, _ error: Error?) -> Void)
 ```
 
 Search by image
@@ -512,7 +512,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SearchResponse**](SearchResponse.md)
+[**PortalApiRoutersVintedSchemasSearchResponse**](PortalApiRoutersVintedSchemasSearchResponse.md)
 
 ### Authorization
 
@@ -527,7 +527,7 @@ Name | Type | Description  | Notes
 
 # **vintedSearchVintedItems**
 ```swift
-    open class func vintedSearchVintedItems(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil, completion: @escaping (_ data: SearchResponse?, _ error: Error?) -> Void)
+    open class func vintedSearchVintedItems(query: String, market: String? = nil, sellerCountry: String? = nil, page: Int? = nil, perPage: Int? = nil, priceFrom: Double? = nil, priceTo: Double? = nil, brandIds: String? = nil, catalogIds: String? = nil, colorIds: String? = nil, sizeIds: String? = nil, materialIds: String? = nil, time: Int? = nil, searchSessionId: String? = nil, statusIds: String? = nil, order: String? = nil, completion: @escaping (_ data: PortalApiRoutersVintedSchemasSearchResponse?, _ error: Error?) -> Void)
 ```
 
 Search Vinted items
@@ -592,7 +592,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SearchResponse**](SearchResponse.md)
+[**PortalApiRoutersVintedSchemasSearchResponse**](PortalApiRoutersVintedSchemasSearchResponse.md)
 
 ### Authorization
 
