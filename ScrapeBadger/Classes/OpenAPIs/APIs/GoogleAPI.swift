@@ -836,6 +836,103 @@ open class GoogleAPI {
     }
 
     /**
+     * enum for parameter output
+     */
+    public enum Output_googleGoogleLightWebSearch: String, CaseIterable {
+        case json = "json"
+        case html = "html"
+    }
+
+    /**
+     Google Light web search
+     
+     - parameter q: (query) Search query (supports Google operators) 
+     - parameter gl: (query) Country code (optional, default to "us")
+     - parameter hl: (query) Language code (optional, default to "en")
+     - parameter num: (query)  (optional, default to 10)
+     - parameter start: (query) Page offset (0, 10, 20...) (optional, default to 0)
+     - parameter domain: (query) Google domain (optional, default to "google.com")
+     - parameter location: (query) City-level geo-targeting (optional)
+     - parameter uule: (query) Encoded location (optional)
+     - parameter lr: (query) Language restrict (e.g. lang_en) (optional)
+     - parameter tbs: (query) Time filter (e.g. qdr:d) (optional)
+     - parameter safe: (query) Safe search: off or active (optional, default to "off")
+     - parameter filter: (query)  (optional)
+     - parameter nfpr: (query) Disable auto-correction (optional, default to 0)
+     - parameter output: (query)  (optional, default to .json)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func googleGoogleLightWebSearch(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, location: String? = nil, uule: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, filter: Int? = nil, nfpr: Int? = nil, output: Output_googleGoogleLightWebSearch? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return googleGoogleLightWebSearchWithRequestBuilder(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, location: location, uule: uule, lr: lr, tbs: tbs, safe: safe, filter: filter, nfpr: nfpr, output: output).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Google Light web search
+     - GET /v1/google/light/search
+     - Organic results and related searches only. Costs 10 credits per successful uncached request, compared with 20 credits for regular Google Search. Light always skips rich SERP blocks; mode and ai_overview cannot enable them.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter q: (query) Search query (supports Google operators) 
+     - parameter gl: (query) Country code (optional, default to "us")
+     - parameter hl: (query) Language code (optional, default to "en")
+     - parameter num: (query)  (optional, default to 10)
+     - parameter start: (query) Page offset (0, 10, 20...) (optional, default to 0)
+     - parameter domain: (query) Google domain (optional, default to "google.com")
+     - parameter location: (query) City-level geo-targeting (optional)
+     - parameter uule: (query) Encoded location (optional)
+     - parameter lr: (query) Language restrict (e.g. lang_en) (optional)
+     - parameter tbs: (query) Time filter (e.g. qdr:d) (optional)
+     - parameter safe: (query) Safe search: off or active (optional, default to "off")
+     - parameter filter: (query)  (optional)
+     - parameter nfpr: (query) Disable auto-correction (optional, default to 0)
+     - parameter output: (query)  (optional, default to .json)
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func googleGoogleLightWebSearchWithRequestBuilder(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, location: String? = nil, uule: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, filter: Int? = nil, nfpr: Int? = nil, output: Output_googleGoogleLightWebSearch? = nil) -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/google/light/search"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "q": (wrappedValue: q.encodeToJSON(), isExplode: true),
+            "gl": (wrappedValue: gl?.encodeToJSON(), isExplode: true),
+            "hl": (wrappedValue: hl?.encodeToJSON(), isExplode: true),
+            "num": (wrappedValue: num?.encodeToJSON(), isExplode: true),
+            "start": (wrappedValue: start?.encodeToJSON(), isExplode: true),
+            "domain": (wrappedValue: domain?.encodeToJSON(), isExplode: true),
+            "location": (wrappedValue: location?.encodeToJSON(), isExplode: true),
+            "uule": (wrappedValue: uule?.encodeToJSON(), isExplode: true),
+            "lr": (wrappedValue: lr?.encodeToJSON(), isExplode: true),
+            "tbs": (wrappedValue: tbs?.encodeToJSON(), isExplode: true),
+            "safe": (wrappedValue: safe?.encodeToJSON(), isExplode: true),
+            "filter": (wrappedValue: filter?.encodeToJSON(), isExplode: true),
+            "nfpr": (wrappedValue: nfpr?.encodeToJSON(), isExplode: true),
+            "output": (wrappedValue: output?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Google scraper health check
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.

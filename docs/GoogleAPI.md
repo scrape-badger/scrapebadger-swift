@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**googleGoogleFlightsCalendarCheapestFarePerDate**](GoogleAPI.md#googlegoogleflightscalendarcheapestfareperdate) | **GET** /v1/google/flights/calendar | Google Flights calendar — cheapest fare per date
 [**googleGoogleFlightsSearch**](GoogleAPI.md#googlegoogleflightssearch) | **GET** /v1/google/flights/search | Google Flights search
 [**googleGoogleLensVisualSearch**](GoogleAPI.md#googlegooglelensvisualsearch) | **GET** /v1/google/lens/search | Google Lens visual search
+[**googleGoogleLightWebSearch**](GoogleAPI.md#googlegooglelightwebsearch) | **GET** /v1/google/light/search | Google Light web search
 [**googleGoogleScraperHealthCheck**](GoogleAPI.md#googlegooglescraperhealthcheck) | **GET** /v1/google/health | Google scraper health check
 [**googleGoogleScraperHealthCheckHead**](GoogleAPI.md#googlegooglescraperhealthcheckhead) | **HEAD** /v1/google/health | Google scraper health check
 [**googleGoogleSearchSuggestions**](GoogleAPI.md#googlegooglesearchsuggestions) | **GET** /v1/google/autocomplete | Google search suggestions
@@ -789,6 +790,82 @@ Name | Type | Description  | Notes
  **product** | **Bool** | Only the tiles Google marked buyable (price + stock), drawn from the same grid | [optional] [default to false]
  **visualMatches** | **Bool** | Always true in practice — &#x60;false&#x60; is reported back in &#x60;warnings&#x60; | [optional] [default to true]
  **exactMatches** | **Bool** | Return only the pages hosting this image, flagged exact_match. Available for most images (8/10 in sampling); falls back to the full grid otherwise, saying so in warnings | [optional] [default to false]
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **googleGoogleLightWebSearch**
+```swift
+    open class func googleGoogleLightWebSearch(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, location: String? = nil, uule: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, filter: Int? = nil, nfpr: Int? = nil, output: Output_googleGoogleLightWebSearch? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Google Light web search
+
+Organic results and related searches only. Costs 10 credits per successful uncached request, compared with 20 credits for regular Google Search. Light always skips rich SERP blocks; mode and ai_overview cannot enable them.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let q = "q_example" // String | Search query (supports Google operators)
+let gl = "gl_example" // String | Country code (optional) (default to "us")
+let hl = "hl_example" // String | Language code (optional) (default to "en")
+let num = 987 // Int |  (optional) (default to 10)
+let start = 987 // Int | Page offset (0, 10, 20...) (optional) (default to 0)
+let domain = "domain_example" // String | Google domain (optional) (default to "google.com")
+let location = "location_example" // String | City-level geo-targeting (optional)
+let uule = "uule_example" // String | Encoded location (optional)
+let lr = "lr_example" // String | Language restrict (e.g. lang_en) (optional)
+let tbs = "tbs_example" // String | Time filter (e.g. qdr:d) (optional)
+let safe = "safe_example" // String | Safe search: off or active (optional) (default to "off")
+let filter = 987 // Int |  (optional)
+let nfpr = 987 // Int | Disable auto-correction (optional) (default to 0)
+let output = "output_example" // String |  (optional) (default to .json)
+
+// Google Light web search
+GoogleAPI.googleGoogleLightWebSearch(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, location: location, uule: uule, lr: lr, tbs: tbs, safe: safe, filter: filter, nfpr: nfpr, output: output) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **q** | **String** | Search query (supports Google operators) | 
+ **gl** | **String** | Country code | [optional] [default to &quot;us&quot;]
+ **hl** | **String** | Language code | [optional] [default to &quot;en&quot;]
+ **num** | **Int** |  | [optional] [default to 10]
+ **start** | **Int** | Page offset (0, 10, 20...) | [optional] [default to 0]
+ **domain** | **String** | Google domain | [optional] [default to &quot;google.com&quot;]
+ **location** | **String** | City-level geo-targeting | [optional] 
+ **uule** | **String** | Encoded location | [optional] 
+ **lr** | **String** | Language restrict (e.g. lang_en) | [optional] 
+ **tbs** | **String** | Time filter (e.g. qdr:d) | [optional] 
+ **safe** | **String** | Safe search: off or active | [optional] [default to &quot;off&quot;]
+ **filter** | **Int** |  | [optional] 
+ **nfpr** | **Int** | Disable auto-correction | [optional] [default to 0]
+ **output** | **String** |  | [optional] [default to .json]
 
 ### Return type
 
