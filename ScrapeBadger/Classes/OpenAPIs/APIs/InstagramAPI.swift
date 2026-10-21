@@ -34,7 +34,7 @@ open class InstagramAPI {
     /**
      About this account
      - GET /v1/instagram/users/{username}/about
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview. Country, join date and former usernames.
+     - Country, join date and former usernames.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -84,7 +84,6 @@ open class InstagramAPI {
     /**
      Blended top search
      - GET /v1/instagram/search/top
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -134,7 +133,7 @@ open class InstagramAPI {
     /**
      Get active stories
      - GET /v1/instagram/users/{username}/stories
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview. Active stories (account pool only).
+     - Active stories (account pool only).
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -184,7 +183,6 @@ open class InstagramAPI {
     /**
      Get audio track
      - GET /v1/instagram/audio/{audio_id}
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -294,7 +292,7 @@ open class InstagramAPI {
     /**
      Get followers
      - GET /v1/instagram/users/{username}/followers
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview. Followers list, paginated (account pool).
+     - Followers list, paginated (account pool).
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -354,7 +352,6 @@ open class InstagramAPI {
     /**
      Get following
      - GET /v1/instagram/users/{username}/following
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -410,7 +407,6 @@ open class InstagramAPI {
     /**
      Get hashtag info
      - GET /v1/instagram/hashtags/{tag}
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -460,7 +456,6 @@ open class InstagramAPI {
     /**
      Get highlights
      - GET /v1/instagram/users/{username}/highlights
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -510,7 +505,6 @@ open class InstagramAPI {
     /**
      Get likers
      - GET /v1/instagram/media/{code}/likers
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -560,7 +554,6 @@ open class InstagramAPI {
     /**
      Get location
      - GET /v1/instagram/locations/{location_pk}
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -712,7 +705,6 @@ open class InstagramAPI {
     /**
      Get tagged posts
      - GET /v1/instagram/users/{username}/tagged
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -828,7 +820,6 @@ open class InstagramAPI {
     /**
      Get user reels
      - GET /v1/instagram/users/{username}/reels
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -974,7 +965,6 @@ open class InstagramAPI {
     /**
      Recent hashtag posts
      - GET /v1/instagram/hashtags/{tag}/recent
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -1030,7 +1020,6 @@ open class InstagramAPI {
     /**
      Related profiles
      - GET /v1/instagram/users/{username}/related
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -1080,7 +1069,6 @@ open class InstagramAPI {
     /**
      Search hashtags
      - GET /v1/instagram/search/hashtags
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -1130,7 +1118,6 @@ open class InstagramAPI {
     /**
      Search users
      - GET /v1/instagram/search/users
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -1182,7 +1169,6 @@ open class InstagramAPI {
     /**
      Top hashtag posts
      - GET /v1/instagram/hashtags/{tag}/top
-     - **Temporarily unavailable.** The authenticated Instagram tier is offline, so this endpoint currently returns `503 temporarily_unavailable` (not billed, `Retry-After` set) — see https://docs.scrapebadger.com/instagram/overview.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth

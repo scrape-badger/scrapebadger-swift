@@ -85,7 +85,8 @@ open class EBayAPI {
     /**
      Completed / sold listings
      
-     - parameter query: (query) Search keywords 
+     - parameter query: (query) Search keywords. Optional when &#x60;seller&#x60; is set. (optional)
+     - parameter seller: (query) Only this seller&#39;s sold listings (eBay username). Works without &#x60;query&#x60;. (optional)
      - parameter domain: (query) Marketplace domain (com, co.uk, de …) (optional, default to "com")
      - parameter categoryId: (query) Restrict to a category id (optional)
      - parameter page: (query)  (optional, default to 1)
@@ -100,8 +101,8 @@ open class EBayAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func ebayCompletedSoldListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil, language: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return ebayCompletedSoldListingsWithRequestBuilder(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice, location: location, language: language).execute(apiResponseQueue) { result in
+    open class func ebayCompletedSoldListings(query: String? = nil, seller: String? = nil, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil, language: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return ebayCompletedSoldListingsWithRequestBuilder(query: query, seller: seller, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice, location: location, language: language).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -114,11 +115,12 @@ open class EBayAPI {
     /**
      Completed / sold listings
      - GET /v1/ebay/completed
-     - Search completed/sold listings — eBay's sold-price history.  eBay pads a short result set with \"results matching fewer words\" and counts only the exact ones in ``pagination.total_results``. Results come back in eBay's own ranking order with the exact matches first, and each one carries ``exact_match`` (true/false) so a price series can be built without parsing titles. An empty ``results`` with ``total_results: 0`` is eBay's own answer and costs 0 credits — a fetch failure is never a 200.  ``price`` is what the listing sold for, including the market's buyer-protection fee, as a local buyer sees it. It is ``null`` on one shape: an auction that also accepted offers (``bids`` set). eBay's sold index answers those with either the listing's start/Buy-It-Now price or the price it sold at, varying between identical requests with nothing to say which, so no number there is trustworthy — ``/v1/ebay/items/{item_id}`` carries the winning bid for them (before the fee). A listing that closed purely on an accepted Best Offer prices normally: eBay never publishes the accepted amount, so ``price`` is the listed one, exactly as its own item page shows.
+     - Search completed/sold listings — eBay's sold-price history.  Pass ``query``, ``seller`` or both. ``seller`` alone returns everything that seller sold, page by page, with no keyword needed.  eBay pads a short result set with \"results matching fewer words\" and counts only the exact ones in ``pagination.total_results``. Results come back in eBay's own ranking order with the exact matches first, and each one carries ``exact_match`` (true/false) so a price series can be built without parsing titles. An empty ``results`` with ``total_results: 0`` is eBay's own answer and costs 0 credits — a fetch failure is never a 200.  ``price`` is what the listing sold for, including the market's buyer-protection fee, as a local buyer sees it. It is ``null`` on one shape: an auction that also accepted offers (``bids`` set). eBay's sold index answers those with either the listing's start/Buy-It-Now price or the price it sold at, varying between identical requests with nothing to say which, so no number there is trustworthy — ``/v1/ebay/items/{item_id}`` carries the winning bid for them (before the fee). A listing that closed purely on an accepted Best Offer prices normally: eBay never publishes the accepted amount, so ``price`` is the listed one, exactly as its own item page shows.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter query: (query) Search keywords 
+     - parameter query: (query) Search keywords. Optional when &#x60;seller&#x60; is set. (optional)
+     - parameter seller: (query) Only this seller&#39;s sold listings (eBay username). Works without &#x60;query&#x60;. (optional)
      - parameter domain: (query) Marketplace domain (com, co.uk, de …) (optional, default to "com")
      - parameter categoryId: (query) Restrict to a category id (optional)
      - parameter page: (query)  (optional, default to 1)
@@ -131,14 +133,15 @@ open class EBayAPI {
      - parameter language: (query) english|japanese|chinese|korean (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func ebayCompletedSoldListingsWithRequestBuilder(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil, language: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func ebayCompletedSoldListingsWithRequestBuilder(query: String? = nil, seller: String? = nil, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil, language: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/ebay/completed"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": (wrappedValue: query.encodeToJSON(), isExplode: true),
+            "query": (wrappedValue: query?.encodeToJSON(), isExplode: true),
+            "seller": (wrappedValue: seller?.encodeToJSON(), isExplode: true),
             "domain": (wrappedValue: domain?.encodeToJSON(), isExplode: true),
             "category_id": (wrappedValue: categoryId?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),

@@ -84,19 +84,20 @@ Name | Type | Description  | Notes
 
 # **ebayCompletedSoldListings**
 ```swift
-    open class func ebayCompletedSoldListings(query: String, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil, language: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func ebayCompletedSoldListings(query: String? = nil, seller: String? = nil, domain: String? = nil, categoryId: String? = nil, page: Int? = nil, perPage: Int? = nil, sortBy: String? = nil, condition: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, location: String? = nil, language: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Completed / sold listings
 
-Search completed/sold listings — eBay's sold-price history.  eBay pads a short result set with \"results matching fewer words\" and counts only the exact ones in ``pagination.total_results``. Results come back in eBay's own ranking order with the exact matches first, and each one carries ``exact_match`` (true/false) so a price series can be built without parsing titles. An empty ``results`` with ``total_results: 0`` is eBay's own answer and costs 0 credits — a fetch failure is never a 200.  ``price`` is what the listing sold for, including the market's buyer-protection fee, as a local buyer sees it. It is ``null`` on one shape: an auction that also accepted offers (``bids`` set). eBay's sold index answers those with either the listing's start/Buy-It-Now price or the price it sold at, varying between identical requests with nothing to say which, so no number there is trustworthy — ``/v1/ebay/items/{item_id}`` carries the winning bid for them (before the fee). A listing that closed purely on an accepted Best Offer prices normally: eBay never publishes the accepted amount, so ``price`` is the listed one, exactly as its own item page shows.
+Search completed/sold listings — eBay's sold-price history.  Pass ``query``, ``seller`` or both. ``seller`` alone returns everything that seller sold, page by page, with no keyword needed.  eBay pads a short result set with \"results matching fewer words\" and counts only the exact ones in ``pagination.total_results``. Results come back in eBay's own ranking order with the exact matches first, and each one carries ``exact_match`` (true/false) so a price series can be built without parsing titles. An empty ``results`` with ``total_results: 0`` is eBay's own answer and costs 0 credits — a fetch failure is never a 200.  ``price`` is what the listing sold for, including the market's buyer-protection fee, as a local buyer sees it. It is ``null`` on one shape: an auction that also accepted offers (``bids`` set). eBay's sold index answers those with either the listing's start/Buy-It-Now price or the price it sold at, varying between identical requests with nothing to say which, so no number there is trustworthy — ``/v1/ebay/items/{item_id}`` carries the winning bid for them (before the fee). A listing that closed purely on an accepted Best Offer prices normally: eBay never publishes the accepted amount, so ``price`` is the listed one, exactly as its own item page shows.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ScrapeBadger
 
-let query = "query_example" // String | Search keywords
+let query = "query_example" // String | Search keywords. Optional when `seller` is set. (optional)
+let seller = "seller_example" // String | Only this seller's sold listings (eBay username). Works without `query`. (optional)
 let domain = "domain_example" // String | Marketplace domain (com, co.uk, de …) (optional) (default to "com")
 let categoryId = "categoryId_example" // String | Restrict to a category id (optional)
 let page = 987 // Int |  (optional) (default to 1)
@@ -109,7 +110,7 @@ let location = "location_example" // String | domestic|worldwide (optional)
 let language = "language_example" // String | english|japanese|chinese|korean (optional)
 
 // Completed / sold listings
-EBayAPI.ebayCompletedSoldListings(query: query, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice, location: location, language: language) { (response, error) in
+EBayAPI.ebayCompletedSoldListings(query: query, seller: seller, domain: domain, categoryId: categoryId, page: page, perPage: perPage, sortBy: sortBy, condition: condition, minPrice: minPrice, maxPrice: maxPrice, location: location, language: language) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -125,7 +126,8 @@ EBayAPI.ebayCompletedSoldListings(query: query, domain: domain, categoryId: cate
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **String** | Search keywords | 
+ **query** | **String** | Search keywords. Optional when &#x60;seller&#x60; is set. | [optional] 
+ **seller** | **String** | Only this seller&#39;s sold listings (eBay username). Works without &#x60;query&#x60;. | [optional] 
  **domain** | **String** | Marketplace domain (com, co.uk, de …) | [optional] [default to &quot;com&quot;]
  **categoryId** | **String** | Restrict to a category id | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
