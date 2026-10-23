@@ -19,14 +19,16 @@ public struct AccountInfo: Codable, JSONEncodable, Hashable {
     public var tier: String?
     public var rateLimitPerMinute: Int?
     public var subscription: SubscriptionInfo?
+    public var agentTrial: AgentTrialInfo?
 
-    public init(creditsBalance: Int, subscriptionCreditsBalance: Int, totalCreditsBalance: Int, tier: String?, rateLimitPerMinute: Int?, subscription: SubscriptionInfo? = nil) {
+    public init(creditsBalance: Int, subscriptionCreditsBalance: Int, totalCreditsBalance: Int, tier: String?, rateLimitPerMinute: Int?, subscription: SubscriptionInfo? = nil, agentTrial: AgentTrialInfo? = nil) {
         self.creditsBalance = creditsBalance
         self.subscriptionCreditsBalance = subscriptionCreditsBalance
         self.totalCreditsBalance = totalCreditsBalance
         self.tier = tier
         self.rateLimitPerMinute = rateLimitPerMinute
         self.subscription = subscription
+        self.agentTrial = agentTrial
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -36,6 +38,7 @@ public struct AccountInfo: Codable, JSONEncodable, Hashable {
         case tier
         case rateLimitPerMinute = "rate_limit_per_minute"
         case subscription
+        case agentTrial = "agent_trial"
     }
 
     // Encodable protocol methods
@@ -48,6 +51,7 @@ public struct AccountInfo: Codable, JSONEncodable, Hashable {
         try container.encode(tier, forKey: .tier)
         try container.encode(rateLimitPerMinute, forKey: .rateLimitPerMinute)
         try container.encodeIfPresent(subscription, forKey: .subscription)
+        try container.encodeIfPresent(agentTrial, forKey: .agentTrial)
     }
 }
 

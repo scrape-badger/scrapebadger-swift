@@ -24,6 +24,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/DuckDuckGoAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/EBayAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/EtsyAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/FacebookAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/FeedbackAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/GeminiAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/GoogleAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/GooglePlayAPI.swift
@@ -36,9 +37,12 @@ ScrapeBadger/Classes/OpenAPIs/APIs/LinkedInAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/LoopNetAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/NaverAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/PerplexityAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/QuoteAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/RealtorAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/RedditAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/RedfinAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/RequestsAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/ResultsAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/TargetAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/TikTokAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/TwitterAPI.swift
@@ -57,6 +61,7 @@ ScrapeBadger/Classes/OpenAPIs/JSONDataEncoding.swift
 ScrapeBadger/Classes/OpenAPIs/JSONEncodingHelper.swift
 ScrapeBadger/Classes/OpenAPIs/Models.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AccountInfo.swift
+ScrapeBadger/Classes/OpenAPIs/Models/AgentTrialInfo.swift
 ScrapeBadger/Classes/OpenAPIs/Models/BillingLogListResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/BillingLogResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Brandid.swift
@@ -70,6 +75,7 @@ ScrapeBadger/Classes/OpenAPIs/Models/Description.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ExtractRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ExtractRequestExtractRulesValue.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ExtractRule.swift
+ScrapeBadger/Classes/OpenAPIs/Models/FeedbackRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleCreate.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleDeliveryLogListResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleDeliveryLogResponse.swift
@@ -97,6 +103,7 @@ ScrapeBadger/Classes/OpenAPIs/Models/Product.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ProductPrice.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ProductResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Productcode.swift
+ScrapeBadger/Classes/OpenAPIs/Models/QuoteRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Ratings.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ScreenshotRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Searchterm.swift
@@ -141,6 +148,7 @@ ScrapeBadger/Classes/OpenAPIs/Validation.swift
 docs/ASOSAPI.md
 docs/AccountAPI.md
 docs/AccountInfo.md
+docs/AgentTrialInfo.md
 docs/AirbnbAPI.md
 docs/AliExpressAPI.md
 docs/AmazonAPI.md
@@ -169,6 +177,8 @@ docs/ExtractRequest.md
 docs/ExtractRequestExtractRulesValue.md
 docs/ExtractRule.md
 docs/FacebookAPI.md
+docs/FeedbackAPI.md
+docs/FeedbackRequest.md
 docs/FilterRuleCreate.md
 docs/FilterRuleDeliveryLogListResponse.md
 docs/FilterRuleDeliveryLogResponse.md
@@ -208,10 +218,14 @@ docs/Product.md
 docs/ProductPrice.md
 docs/ProductResponse.md
 docs/Productcode.md
+docs/QuoteAPI.md
+docs/QuoteRequest.md
 docs/Ratings.md
 docs/RealtorAPI.md
 docs/RedditAPI.md
 docs/RedfinAPI.md
+docs/RequestsAPI.md
+docs/ResultsAPI.md
 docs/ScreenshotRequest.md
 docs/Searchterm.md
 docs/StatusesResponse.md
