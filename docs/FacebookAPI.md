@@ -32,7 +32,7 @@ Method | HTTP request | Description
 
 # **facebookBrowseAMarketplaceCategory**
 ```swift
-    open class func facebookBrowseAMarketplaceCategory(category: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, sortBy: String? = nil, after: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func facebookBrowseAMarketplaceCategory(category: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, sortBy: String? = nil, radius: Int? = nil, after: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Browse a Marketplace category
@@ -49,10 +49,11 @@ let location = "location_example" // String |  (optional) (default to "nyc")
 let minPrice = 987 // Int |  (optional)
 let maxPrice = 987 // Int |  (optional)
 let sortBy = "sortBy_example" // String |  (optional)
+let radius = 987 // Int | Radius around the location (km, or miles in the US) (optional)
 let after = "after_example" // String |  (optional)
 
 // Browse a Marketplace category
-FacebookAPI.facebookBrowseAMarketplaceCategory(category: category, location: location, minPrice: minPrice, maxPrice: maxPrice, sortBy: sortBy, after: after) { (response, error) in
+FacebookAPI.facebookBrowseAMarketplaceCategory(category: category, location: location, minPrice: minPrice, maxPrice: maxPrice, sortBy: sortBy, radius: radius, after: after) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -73,6 +74,7 @@ Name | Type | Description  | Notes
  **minPrice** | **Int** |  | [optional] 
  **maxPrice** | **Int** |  | [optional] 
  **sortBy** | **String** |  | [optional] 
+ **radius** | **Int** | Radius around the location (km, or miles in the US) | [optional] 
  **after** | **String** |  | [optional] 
 
 ### Return type

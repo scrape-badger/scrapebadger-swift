@@ -20,13 +20,14 @@ open class FacebookAPI {
      - parameter minPrice: (query)  (optional)
      - parameter maxPrice: (query)  (optional)
      - parameter sortBy: (query)  (optional)
+     - parameter radius: (query) Radius around the location (km, or miles in the US) (optional)
      - parameter after: (query)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func facebookBrowseAMarketplaceCategory(category: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, sortBy: String? = nil, after: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return facebookBrowseAMarketplaceCategoryWithRequestBuilder(category: category, location: location, minPrice: minPrice, maxPrice: maxPrice, sortBy: sortBy, after: after).execute(apiResponseQueue) { result in
+    open class func facebookBrowseAMarketplaceCategory(category: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, sortBy: String? = nil, radius: Int? = nil, after: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return facebookBrowseAMarketplaceCategoryWithRequestBuilder(category: category, location: location, minPrice: minPrice, maxPrice: maxPrice, sortBy: sortBy, radius: radius, after: after).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -48,10 +49,11 @@ open class FacebookAPI {
      - parameter minPrice: (query)  (optional)
      - parameter maxPrice: (query)  (optional)
      - parameter sortBy: (query)  (optional)
+     - parameter radius: (query) Radius around the location (km, or miles in the US) (optional)
      - parameter after: (query)  (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func facebookBrowseAMarketplaceCategoryWithRequestBuilder(category: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, sortBy: String? = nil, after: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func facebookBrowseAMarketplaceCategoryWithRequestBuilder(category: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, sortBy: String? = nil, radius: Int? = nil, after: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/facebook/marketplace/category/{category}"
         let categoryPreEscape = "\(APIHelper.mapValueToPathItem(category))"
         let categoryPostEscape = categoryPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -65,6 +67,7 @@ open class FacebookAPI {
             "min_price": (wrappedValue: minPrice?.encodeToJSON(), isExplode: true),
             "max_price": (wrappedValue: maxPrice?.encodeToJSON(), isExplode: true),
             "sort_by": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
+            "radius": (wrappedValue: radius?.encodeToJSON(), isExplode: true),
             "after": (wrappedValue: after?.encodeToJSON(), isExplode: true),
         ])
 
