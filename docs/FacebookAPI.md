@@ -18,6 +18,7 @@ Method | HTTP request | Description
 [**facebookGetProfilePosts**](FacebookAPI.md#facebookgetprofileposts) | **GET** /v1/facebook/profiles/{identifier}/posts | Get profile posts
 [**facebookListCategories**](FacebookAPI.md#facebooklistcategories) | **GET** /v1/facebook/marketplace/categories | List categories
 [**facebookListLocations**](FacebookAPI.md#facebooklistlocations) | **GET** /v1/facebook/marketplace/locations | List locations
+[**facebookResolveATownPostcodeToAMarketplaceLocation**](FacebookAPI.md#facebookresolveatownpostcodetoamarketplacelocation) | **GET** /v1/facebook/marketplace/locations/resolve | Resolve a town/postcode to a Marketplace location
 [**facebookSearchAdvertiserPages**](FacebookAPI.md#facebooksearchadvertiserpages) | **GET** /v1/facebook/ads/pages/search | Search advertiser pages
 [**facebookSearchEvents**](FacebookAPI.md#facebooksearchevents) | **GET** /v1/facebook/search/events | Search events
 [**facebookSearchEverything**](FacebookAPI.md#facebooksearcheverything) | **GET** /v1/facebook/search | Search everything
@@ -738,6 +739,62 @@ FacebookAPI.facebookListLocations() { (response, error) in
 
 ### Parameters
 This endpoint does not need any parameter.
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **facebookResolveATownPostcodeToAMarketplaceLocation**
+```swift
+    open class func facebookResolveATownPostcodeToAMarketplaceLocation(query: String? = nil, latitude: Double? = nil, longitude: Double? = nil, country: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Resolve a town/postcode to a Marketplace location
+
+Resolve a town, postcode or coordinates to a Facebook Marketplace place id.  Facebook keys Marketplace by place, not coordinates, and only a place slug or numeric place id works as ``location``. Pass the returned ``place_id`` as ``location`` on Marketplace search/category to centre results anywhere, not just the preset catalogue. Postcodes resolve exactly; a bare town name in an ambiguous country is best paired with ``country`` (e.g. ``gb``).
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let query = "query_example" // String | Town, city, postcode or address (e.g. 'Durham', 'DH1 3LE') (optional)
+let latitude = 987 // Double | Resolve this exact point instead (optional)
+let longitude = 987 // Double |  (optional)
+let country = "country_example" // String | ISO country code hint for an ambiguous name (e.g. gb) (optional)
+
+// Resolve a town/postcode to a Marketplace location
+FacebookAPI.facebookResolveATownPostcodeToAMarketplaceLocation(query: query, latitude: latitude, longitude: longitude, country: country) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **String** | Town, city, postcode or address (e.g. &#39;Durham&#39;, &#39;DH1 3LE&#39;) | [optional] 
+ **latitude** | **Double** | Resolve this exact point instead | [optional] 
+ **longitude** | **Double** |  | [optional] 
+ **country** | **String** | ISO country code hint for an ambiguous name (e.g. gb) | [optional] 
 
 ### Return type
 

@@ -775,6 +775,65 @@ open class FacebookAPI {
     }
 
     /**
+     Resolve a town/postcode to a Marketplace location
+     
+     - parameter query: (query) Town, city, postcode or address (e.g. &#39;Durham&#39;, &#39;DH1 3LE&#39;) (optional)
+     - parameter latitude: (query) Resolve this exact point instead (optional)
+     - parameter longitude: (query)  (optional)
+     - parameter country: (query) ISO country code hint for an ambiguous name (e.g. gb) (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func facebookResolveATownPostcodeToAMarketplaceLocation(query: String? = nil, latitude: Double? = nil, longitude: Double? = nil, country: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return facebookResolveATownPostcodeToAMarketplaceLocationWithRequestBuilder(query: query, latitude: latitude, longitude: longitude, country: country).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Resolve a town/postcode to a Marketplace location
+     - GET /v1/facebook/marketplace/locations/resolve
+     - Resolve a town, postcode or coordinates to a Facebook Marketplace place id.  Facebook keys Marketplace by place, not coordinates, and only a place slug or numeric place id works as ``location``. Pass the returned ``place_id`` as ``location`` on Marketplace search/category to centre results anywhere, not just the preset catalogue. Postcodes resolve exactly; a bare town name in an ambiguous country is best paired with ``country`` (e.g. ``gb``).
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter query: (query) Town, city, postcode or address (e.g. &#39;Durham&#39;, &#39;DH1 3LE&#39;) (optional)
+     - parameter latitude: (query) Resolve this exact point instead (optional)
+     - parameter longitude: (query)  (optional)
+     - parameter country: (query) ISO country code hint for an ambiguous name (e.g. gb) (optional)
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func facebookResolveATownPostcodeToAMarketplaceLocationWithRequestBuilder(query: String? = nil, latitude: Double? = nil, longitude: Double? = nil, country: String? = nil) -> RequestBuilder<AnyCodable> {
+        let localVariablePath = "/v1/facebook/marketplace/locations/resolve"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "query": (wrappedValue: query?.encodeToJSON(), isExplode: true),
+            "latitude": (wrappedValue: latitude?.encodeToJSON(), isExplode: true),
+            "longitude": (wrappedValue: longitude?.encodeToJSON(), isExplode: true),
+            "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Search advertiser pages
      
      - parameter query: (query) Advertiser name or keyword 

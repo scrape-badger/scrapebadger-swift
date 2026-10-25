@@ -220,6 +220,7 @@ Class | Method | HTTP request | Description
 *FacebookAPI* | [**facebookGetProfilePosts**](docs/FacebookAPI.md#facebookgetprofileposts) | **GET** /v1/facebook/profiles/{identifier}/posts | Get profile posts
 *FacebookAPI* | [**facebookListCategories**](docs/FacebookAPI.md#facebooklistcategories) | **GET** /v1/facebook/marketplace/categories | List categories
 *FacebookAPI* | [**facebookListLocations**](docs/FacebookAPI.md#facebooklistlocations) | **GET** /v1/facebook/marketplace/locations | List locations
+*FacebookAPI* | [**facebookResolveATownPostcodeToAMarketplaceLocation**](docs/FacebookAPI.md#facebookresolveatownpostcodetoamarketplacelocation) | **GET** /v1/facebook/marketplace/locations/resolve | Resolve a town/postcode to a Marketplace location
 *FacebookAPI* | [**facebookSearchAdvertiserPages**](docs/FacebookAPI.md#facebooksearchadvertiserpages) | **GET** /v1/facebook/ads/pages/search | Search advertiser pages
 *FacebookAPI* | [**facebookSearchEvents**](docs/FacebookAPI.md#facebooksearchevents) | **GET** /v1/facebook/search/events | Search events
 *FacebookAPI* | [**facebookSearchEverything**](docs/FacebookAPI.md#facebooksearcheverything) | **GET** /v1/facebook/search | Search everything
