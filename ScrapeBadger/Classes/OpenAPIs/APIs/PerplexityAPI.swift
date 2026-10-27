@@ -17,12 +17,13 @@ open class PerplexityAPI {
      
      - parameter prompt: (query) The prompt to send to Perplexity (max 4096 characters). 
      - parameter country: (query) ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. (optional)
+     - parameter strictCountry: (query) Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (optional, default to false)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func perplexityAskPerplexityAQuestion(prompt: String, country: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return perplexityAskPerplexityAQuestionWithRequestBuilder(prompt: prompt, country: country).execute(apiResponseQueue) { result in
+    open class func perplexityAskPerplexityAQuestion(prompt: String, country: String? = nil, strictCountry: Bool? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return perplexityAskPerplexityAQuestionWithRequestBuilder(prompt: prompt, country: country, strictCountry: strictCountry).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -41,9 +42,10 @@ open class PerplexityAPI {
        - name: ApiKeyAuth
      - parameter prompt: (query) The prompt to send to Perplexity (max 4096 characters). 
      - parameter country: (query) ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. (optional)
+     - parameter strictCountry: (query) Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (optional, default to false)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func perplexityAskPerplexityAQuestionWithRequestBuilder(prompt: String, country: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func perplexityAskPerplexityAQuestionWithRequestBuilder(prompt: String, country: String? = nil, strictCountry: Bool? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/perplexity/ask"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -52,6 +54,7 @@ open class PerplexityAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "prompt": (wrappedValue: prompt.encodeToJSON(), isExplode: true),
             "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
+            "strict_country": (wrappedValue: strictCountry?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -119,12 +122,13 @@ open class PerplexityAPI {
      - parameter aliases: (query) Comma-separated alternative names. (optional)
      - parameter competitors: (query) Comma-separated competitor names. (optional)
      - parameter country: (query) ISO-3166 alpha-2 egress country. (optional)
+     - parameter strictCountry: (query) Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (optional, default to false)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func perplexityMeasureABrandSVisibilityInAPerplexityAnswer(prompt: String, brand: String, domain: String? = nil, aliases: String? = nil, competitors: String? = nil, country: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return perplexityMeasureABrandSVisibilityInAPerplexityAnswerWithRequestBuilder(prompt: prompt, brand: brand, domain: domain, aliases: aliases, competitors: competitors, country: country).execute(apiResponseQueue) { result in
+    open class func perplexityMeasureABrandSVisibilityInAPerplexityAnswer(prompt: String, brand: String, domain: String? = nil, aliases: String? = nil, competitors: String? = nil, country: String? = nil, strictCountry: Bool? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return perplexityMeasureABrandSVisibilityInAPerplexityAnswerWithRequestBuilder(prompt: prompt, brand: brand, domain: domain, aliases: aliases, competitors: competitors, country: country, strictCountry: strictCountry).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -147,9 +151,10 @@ open class PerplexityAPI {
      - parameter aliases: (query) Comma-separated alternative names. (optional)
      - parameter competitors: (query) Comma-separated competitor names. (optional)
      - parameter country: (query) ISO-3166 alpha-2 egress country. (optional)
+     - parameter strictCountry: (query) Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (optional, default to false)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func perplexityMeasureABrandSVisibilityInAPerplexityAnswerWithRequestBuilder(prompt: String, brand: String, domain: String? = nil, aliases: String? = nil, competitors: String? = nil, country: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func perplexityMeasureABrandSVisibilityInAPerplexityAnswerWithRequestBuilder(prompt: String, brand: String, domain: String? = nil, aliases: String? = nil, competitors: String? = nil, country: String? = nil, strictCountry: Bool? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/perplexity/brand-visibility"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -162,6 +167,7 @@ open class PerplexityAPI {
             "aliases": (wrappedValue: aliases?.encodeToJSON(), isExplode: true),
             "competitors": (wrappedValue: competitors?.encodeToJSON(), isExplode: true),
             "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
+            "strict_country": (wrappedValue: strictCountry?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
