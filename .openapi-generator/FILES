@@ -15,6 +15,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/AmazonAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/ApartmentsAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/AppStoreAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/BaiduAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/BatchAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/BestBuyAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/BingAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/BookingAPI.swift
@@ -62,6 +63,10 @@ ScrapeBadger/Classes/OpenAPIs/JSONEncodingHelper.swift
 ScrapeBadger/Classes/OpenAPIs/Models.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AccountInfo.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AgentTrialInfo.swift
+ScrapeBadger/Classes/OpenAPIs/Models/BatchItem.swift
+ScrapeBadger/Classes/OpenAPIs/Models/BatchItemQueryValue.swift
+ScrapeBadger/Classes/OpenAPIs/Models/BatchItemQueryValueAnyOfInner.swift
+ScrapeBadger/Classes/OpenAPIs/Models/BatchRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/BillingLogListResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/BillingLogResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Brandid.swift
@@ -139,6 +144,7 @@ ScrapeBadger/Classes/OpenAPIs/Models/WebhookCreate.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookListItem.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookListResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookResponse.swift
+ScrapeBadger/Classes/OpenAPIs/Models/WebhookSecret.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookTestRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookTestResponse.swift
 ScrapeBadger/Classes/OpenAPIs/OpenISO8601DateFormatter.swift
@@ -155,6 +161,11 @@ docs/AmazonAPI.md
 docs/ApartmentsAPI.md
 docs/AppStoreAPI.md
 docs/BaiduAPI.md
+docs/BatchAPI.md
+docs/BatchItem.md
+docs/BatchItemQueryValue.md
+docs/BatchItemQueryValueAnyOfInner.md
+docs/BatchRequest.md
 docs/BestBuyAPI.md
 docs/BillingLogListResponse.md
 docs/BillingLogResponse.md
@@ -267,6 +278,7 @@ docs/WebhookCreate.md
 docs/WebhookListItem.md
 docs/WebhookListResponse.md
 docs/WebhookResponse.md
+docs/WebhookSecret.md
 docs/WebhookTestRequest.md
 docs/WebhookTestResponse.md
 docs/YahooAPI.md

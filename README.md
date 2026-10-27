@@ -86,6 +86,8 @@ Class | Method | HTTP request | Description
 *ASOSAPI* | [**asosSearchProducts**](docs/ASOSAPI.md#asossearchproducts) | **GET** /v1/asos/search | Search products
 *ASOSAPI* | [**asosSearchSuggestions**](docs/ASOSAPI.md#asossearchsuggestions) | **GET** /v1/asos/autocomplete | Search suggestions
 *AccountAPI* | [**accountGetAccountInfo**](docs/AccountAPI.md#accountgetaccountinfo) | **GET** /v1/account/me | Get account info
+*AccountAPI* | [**accountGetTheWebhookSigningSecret**](docs/AccountAPI.md#accountgetthewebhooksigningsecret) | **GET** /v1/account/webhook-secret | Get the webhook signing secret
+*AccountAPI* | [**accountRotateTheWebhookSigningSecret**](docs/AccountAPI.md#accountrotatethewebhooksigningsecret) | **POST** /v1/account/webhook-secret/rotate | Rotate the webhook signing secret
 *AirbnbAPI* | [**airbnbAirbnbScraperHealthCheck**](docs/AirbnbAPI.md#airbnbairbnbscraperhealthcheck) | **GET** /v1/airbnb/health | Airbnb scraper health check
 *AirbnbAPI* | [**airbnbAirbnbScraperHealthCheckHead**](docs/AirbnbAPI.md#airbnbairbnbscraperhealthcheckhead) | **HEAD** /v1/airbnb/health | Airbnb scraper health check
 *AirbnbAPI* | [**airbnbGetAvailabilityCalendar**](docs/AirbnbAPI.md#airbnbgetavailabilitycalendar) | **GET** /v1/airbnb/listings/{room_id}/calendar | Get availability calendar
@@ -136,6 +138,7 @@ Class | Method | HTTP request | Description
 *BaiduAPI* | [**baiduBaiduScraperHealthCheckHead**](docs/BaiduAPI.md#baidubaiduscraperhealthcheckhead) | **HEAD** /v1/baidu/health | Baidu scraper health check
 *BaiduAPI* | [**baiduBaiduWebSearch**](docs/BaiduAPI.md#baidubaiduwebsearch) | **GET** /v1/baidu/search | Baidu web search
 *BaiduAPI* | [**baiduSearchSuggestions**](docs/BaiduAPI.md#baidusearchsuggestions) | **GET** /v1/baidu/autocomplete | Search suggestions
+*BatchAPI* | [**batchSubmitABatchOfAsyncRequests**](docs/BatchAPI.md#batchsubmitabatchofasyncrequests) | **POST** /v1/batch | Submit a batch of async requests
 *BestBuyAPI* | [**bestbuyBrowseACategory**](docs/BestBuyAPI.md#bestbuybrowseacategory) | **GET** /v1/bestbuy/category | Browse a category
 *BestBuyAPI* | [**bestbuyGetCategories**](docs/BestBuyAPI.md#bestbuygetcategories) | **GET** /v1/bestbuy/categories | Get categories
 *BestBuyAPI* | [**bestbuyGetLaptopAndComputerDeals**](docs/BestBuyAPI.md#bestbuygetlaptopandcomputerdeals) | **GET** /v1/bestbuy/deals | Get laptop and computer deals
@@ -649,6 +652,10 @@ Class | Method | HTTP request | Description
 
  - [AccountInfo](docs/AccountInfo.md)
  - [AgentTrialInfo](docs/AgentTrialInfo.md)
+ - [BatchItem](docs/BatchItem.md)
+ - [BatchItemQueryValue](docs/BatchItemQueryValue.md)
+ - [BatchItemQueryValueAnyOfInner](docs/BatchItemQueryValueAnyOfInner.md)
+ - [BatchRequest](docs/BatchRequest.md)
  - [BillingLogListResponse](docs/BillingLogListResponse.md)
  - [BillingLogResponse](docs/BillingLogResponse.md)
  - [Brandid](docs/Brandid.md)
@@ -726,6 +733,7 @@ Class | Method | HTTP request | Description
  - [WebhookListItem](docs/WebhookListItem.md)
  - [WebhookListResponse](docs/WebhookListResponse.md)
  - [WebhookResponse](docs/WebhookResponse.md)
+ - [WebhookSecret](docs/WebhookSecret.md)
  - [WebhookTestRequest](docs/WebhookTestRequest.md)
  - [WebhookTestResponse](docs/WebhookTestResponse.md)
 
