@@ -20,6 +20,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/BestBuyAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/BingAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/BookingAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/ChatGPTAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/CopilotAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/DepopAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/DuckDuckGoAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/EBayAPI.swift
@@ -179,6 +180,7 @@ docs/ChatGPTAPI.md
 docs/ColorsResponse.md
 docs/Colour.md
 docs/Colourwayid.md
+docs/CopilotAPI.md
 docs/DepopAPI.md
 docs/Description.md
 docs/DuckDuckGoAPI.md
