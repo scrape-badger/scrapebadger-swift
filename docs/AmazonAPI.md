@@ -338,12 +338,12 @@ Name | Type | Description  | Notes
 
 # **amazonGetProductReviews**
 ```swift
-    open class func amazonGetProductReviews(asin: String, domain: String? = nil, page: Int? = nil, sortBy: String? = nil, star: String? = nil, verifiedOnly: Bool? = nil, mediaOnly: Bool? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func amazonGetProductReviews(asin: String, domain: String? = nil, page: Int? = nil, sortBy: String? = nil, star: String? = nil, verifiedOnly: Bool? = nil, mediaOnly: Bool? = nil, mode: String? = nil, maxPages: Int? = nil, perStar: Bool? = nil, limit: Int? = nil, wootOffer: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Get product reviews
 
-Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page's public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (``ratings_total`` reports the true total). ``pagination`` gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised ``star`` or ``sort_by`` is rejected with 422 rather than silently answered with unfiltered reviews.
+Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page's public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (``ratings_total`` reports the true total). ``pagination`` gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised ``star`` or ``sort_by`` is rejected with 422 rather than silently answered with unfiltered reviews.  ``mode=full`` serves the rest, pool first and woot second: one pool account is leased and the authenticated review pages are walked until Amazon stops returning new rows (a gate, the review-limit banner or an expired session rotates the lease), then — when ``woot_offer`` names a current woot.com offer page carrying the ASIN (.com only) — Amazon-owned woot.com's anonymous reviews endpoint is fanned out as a bonus and merged in, deduped by review id. The same filter / sort / pagination contract applies to the collected set. When no source produced rows the answer is 503 (``pool_exhausted``, or ``reviews_unavailable`` when both paths ran) — never an empty 200 that reads as \"no reviews\". Auth, rate limits, credits and usage logging are the gateway's, exactly as for every other mode of this endpoint.
 
 ### Example
 ```swift
@@ -357,9 +357,14 @@ let sortBy = "sortBy_example" // String | helpful | recent (optional) (default t
 let star = "star_example" // String | 1-5 | one_star..five_star | positive | critical | all_stars (optional)
 let verifiedOnly = true // Bool |  (optional) (default to false)
 let mediaOnly = true // Bool |  (optional) (default to false)
+let mode = "mode_example" // String | public (anonymous featured block) | full (authenticated account pool) (optional) (default to "public")
+let maxPages = 987 // Int | full mode: pages to walk per star sweep (optional) (default to 10)
+let perStar = true // Bool | full mode: sweep each star filter and merge + dedupe (optional) (default to false)
+let limit = 987 // Int | full mode: stop at this many distinct reviews (optional)
+let wootOffer = "wootOffer_example" // String | full mode + .com: URL (or slug) of a CURRENT woot.com offer page carrying the ASIN — unlocks the anonymous woot reviews endpoint as a bonus transport after the account pool (optional)
 
 // Get product reviews
-AmazonAPI.amazonGetProductReviews(asin: asin, domain: domain, page: page, sortBy: sortBy, star: star, verifiedOnly: verifiedOnly, mediaOnly: mediaOnly) { (response, error) in
+AmazonAPI.amazonGetProductReviews(asin: asin, domain: domain, page: page, sortBy: sortBy, star: star, verifiedOnly: verifiedOnly, mediaOnly: mediaOnly, mode: mode, maxPages: maxPages, perStar: perStar, limit: limit, wootOffer: wootOffer) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -382,6 +387,11 @@ Name | Type | Description  | Notes
  **star** | **String** | 1-5 | one_star..five_star | positive | critical | all_stars | [optional] 
  **verifiedOnly** | **Bool** |  | [optional] [default to false]
  **mediaOnly** | **Bool** |  | [optional] [default to false]
+ **mode** | **String** | public (anonymous featured block) | full (authenticated account pool) | [optional] [default to &quot;public&quot;]
+ **maxPages** | **Int** | full mode: pages to walk per star sweep | [optional] [default to 10]
+ **perStar** | **Bool** | full mode: sweep each star filter and merge + dedupe | [optional] [default to false]
+ **limit** | **Int** | full mode: stop at this many distinct reviews | [optional] 
+ **wootOffer** | **String** | full mode + .com: URL (or slug) of a CURRENT woot.com offer page carrying the ASIN — unlocks the anonymous woot reviews endpoint as a bonus transport after the account pool | [optional] 
 
 ### Return type
 

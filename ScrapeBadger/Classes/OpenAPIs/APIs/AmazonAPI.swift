@@ -349,12 +349,17 @@ open class AmazonAPI {
      - parameter star: (query) 1-5 | one_star..five_star | positive | critical | all_stars (optional)
      - parameter verifiedOnly: (query)  (optional, default to false)
      - parameter mediaOnly: (query)  (optional, default to false)
+     - parameter mode: (query) public (anonymous featured block) | full (authenticated account pool) (optional, default to "public")
+     - parameter maxPages: (query) full mode: pages to walk per star sweep (optional, default to 10)
+     - parameter perStar: (query) full mode: sweep each star filter and merge + dedupe (optional, default to false)
+     - parameter limit: (query) full mode: stop at this many distinct reviews (optional)
+     - parameter wootOffer: (query) full mode + .com: URL (or slug) of a CURRENT woot.com offer page carrying the ASIN — unlocks the anonymous woot reviews endpoint as a bonus transport after the account pool (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func amazonGetProductReviews(asin: String, domain: String? = nil, page: Int? = nil, sortBy: String? = nil, star: String? = nil, verifiedOnly: Bool? = nil, mediaOnly: Bool? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return amazonGetProductReviewsWithRequestBuilder(asin: asin, domain: domain, page: page, sortBy: sortBy, star: star, verifiedOnly: verifiedOnly, mediaOnly: mediaOnly).execute(apiResponseQueue) { result in
+    open class func amazonGetProductReviews(asin: String, domain: String? = nil, page: Int? = nil, sortBy: String? = nil, star: String? = nil, verifiedOnly: Bool? = nil, mediaOnly: Bool? = nil, mode: String? = nil, maxPages: Int? = nil, perStar: Bool? = nil, limit: Int? = nil, wootOffer: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return amazonGetProductReviewsWithRequestBuilder(asin: asin, domain: domain, page: page, sortBy: sortBy, star: star, verifiedOnly: verifiedOnly, mediaOnly: mediaOnly, mode: mode, maxPages: maxPages, perStar: perStar, limit: limit, wootOffer: wootOffer).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -367,7 +372,7 @@ open class AmazonAPI {
     /**
      Get product reviews
      - GET /v1/amazon/products/{asin}/reviews
-     - Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page's public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (``ratings_total`` reports the true total). ``pagination`` gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised ``star`` or ``sort_by`` is rejected with 422 rather than silently answered with unfiltered reviews.
+     - Customer reviews for an ASIN, filtered, sorted and paginated.  Reviews come from the product page's public featured block, which is the only review surface Amazon serves anonymously — a subset of the full history (``ratings_total`` reports the true total). ``pagination`` gives the filtered count and the last page, so paging past it returns an empty list. An unrecognised ``star`` or ``sort_by`` is rejected with 422 rather than silently answered with unfiltered reviews.  ``mode=full`` serves the rest, pool first and woot second: one pool account is leased and the authenticated review pages are walked until Amazon stops returning new rows (a gate, the review-limit banner or an expired session rotates the lease), then — when ``woot_offer`` names a current woot.com offer page carrying the ASIN (.com only) — Amazon-owned woot.com's anonymous reviews endpoint is fanned out as a bonus and merged in, deduped by review id. The same filter / sort / pagination contract applies to the collected set. When no source produced rows the answer is 503 (``pool_exhausted``, or ``reviews_unavailable`` when both paths ran) — never an empty 200 that reads as \"no reviews\". Auth, rate limits, credits and usage logging are the gateway's, exactly as for every other mode of this endpoint.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -378,9 +383,14 @@ open class AmazonAPI {
      - parameter star: (query) 1-5 | one_star..five_star | positive | critical | all_stars (optional)
      - parameter verifiedOnly: (query)  (optional, default to false)
      - parameter mediaOnly: (query)  (optional, default to false)
+     - parameter mode: (query) public (anonymous featured block) | full (authenticated account pool) (optional, default to "public")
+     - parameter maxPages: (query) full mode: pages to walk per star sweep (optional, default to 10)
+     - parameter perStar: (query) full mode: sweep each star filter and merge + dedupe (optional, default to false)
+     - parameter limit: (query) full mode: stop at this many distinct reviews (optional)
+     - parameter wootOffer: (query) full mode + .com: URL (or slug) of a CURRENT woot.com offer page carrying the ASIN — unlocks the anonymous woot reviews endpoint as a bonus transport after the account pool (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func amazonGetProductReviewsWithRequestBuilder(asin: String, domain: String? = nil, page: Int? = nil, sortBy: String? = nil, star: String? = nil, verifiedOnly: Bool? = nil, mediaOnly: Bool? = nil) -> RequestBuilder<AnyCodable> {
+    open class func amazonGetProductReviewsWithRequestBuilder(asin: String, domain: String? = nil, page: Int? = nil, sortBy: String? = nil, star: String? = nil, verifiedOnly: Bool? = nil, mediaOnly: Bool? = nil, mode: String? = nil, maxPages: Int? = nil, perStar: Bool? = nil, limit: Int? = nil, wootOffer: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/amazon/products/{asin}/reviews"
         let asinPreEscape = "\(APIHelper.mapValueToPathItem(asin))"
         let asinPostEscape = asinPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -396,6 +406,11 @@ open class AmazonAPI {
             "star": (wrappedValue: star?.encodeToJSON(), isExplode: true),
             "verified_only": (wrappedValue: verifiedOnly?.encodeToJSON(), isExplode: true),
             "media_only": (wrappedValue: mediaOnly?.encodeToJSON(), isExplode: true),
+            "mode": (wrappedValue: mode?.encodeToJSON(), isExplode: true),
+            "max_pages": (wrappedValue: maxPages?.encodeToJSON(), isExplode: true),
+            "per_star": (wrappedValue: perStar?.encodeToJSON(), isExplode: true),
+            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
+            "woot_offer": (wrappedValue: wootOffer?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
