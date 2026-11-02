@@ -122,7 +122,7 @@ import ScrapeBadger
 
 let roomId = "roomId_example" // String | 
 let month = 987 // Int | Start month (1-12) (optional) (default to 1)
-let year = 987 // Int | Start year (optional) (default to 2026)
+let year = 987 // Int | Start year (current UTC year when omitted) (optional)
 let months = 987 // Int | Number of months (max 12) (optional) (default to 12)
 let currency = "currency_example" // String |  (optional)
 let locale = "locale_example" // String |  (optional)
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **roomId** | **String** |  | 
  **month** | **Int** | Start month (1-12) | [optional] [default to 1]
- **year** | **Int** | Start year | [optional] [default to 2026]
+ **year** | **Int** | Start year (current UTC year when omitted) | [optional] 
  **months** | **Int** | Number of months (max 12) | [optional] [default to 12]
  **currency** | **String** |  | [optional] 
  **locale** | **String** |  | [optional] 

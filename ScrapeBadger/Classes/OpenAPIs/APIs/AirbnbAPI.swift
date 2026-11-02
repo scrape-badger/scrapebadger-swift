@@ -107,7 +107,7 @@ open class AirbnbAPI {
      
      - parameter roomId: (path)  
      - parameter month: (query) Start month (1-12) (optional, default to 1)
-     - parameter year: (query) Start year (optional, default to 2026)
+     - parameter year: (query) Start year (current UTC year when omitted) (optional)
      - parameter months: (query) Number of months (max 12) (optional, default to 12)
      - parameter currency: (query)  (optional)
      - parameter locale: (query)  (optional)
@@ -135,7 +135,7 @@ open class AirbnbAPI {
        - name: ApiKeyAuth
      - parameter roomId: (path)  
      - parameter month: (query) Start month (1-12) (optional, default to 1)
-     - parameter year: (query) Start year (optional, default to 2026)
+     - parameter year: (query) Start year (current UTC year when omitted) (optional)
      - parameter months: (query) Number of months (max 12) (optional, default to 12)
      - parameter currency: (query)  (optional)
      - parameter locale: (query)  (optional)
