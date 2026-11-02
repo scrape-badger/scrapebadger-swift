@@ -1048,8 +1048,8 @@ open class RedditAPI {
     /**
      Search Reddit posts
      
-     - parameter q: (query) Search query 
-     - parameter subreddit: (query) Restrict to subreddit (optional)
+     - parameter q: (query) Search query (Reddit search syntax), at most 256 UTF-8 bytes 
+     - parameter subreddit: (query) Restrict to a subreddit, or several joined with + (sales+startups) (optional)
      - parameter sort: (query) Sort: relevance, hot, top, new, comments (optional, default to "relevance")
      - parameter t: (query) Time: hour, day, week, month, year, all (optional, default to "all")
      - parameter limit: (query)  (optional, default to 25)
@@ -1072,12 +1072,12 @@ open class RedditAPI {
     /**
      Search Reddit posts
      - GET /v1/reddit/search/posts
-     - Search Reddit's current web UI globally or within a subreddit.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit's native page may contain fewer rows than limit; continue while after is present.
+     - Search Reddit's current web UI globally or within one or more subreddits.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit's native page may contain fewer rows than limit; continue while after is present.  Reddit reads only the first 256 UTF-8 bytes of a search query and ignores the rest, so a longer query returns 422. Several subreddits are searched as (q) (subreddit:a OR subreddit:b ...), and that whole string counts toward the limit: split long subreddit lists across requests.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter q: (query) Search query 
-     - parameter subreddit: (query) Restrict to subreddit (optional)
+     - parameter q: (query) Search query (Reddit search syntax), at most 256 UTF-8 bytes 
+     - parameter subreddit: (query) Restrict to a subreddit, or several joined with + (sales+startups) (optional)
      - parameter sort: (query) Sort: relevance, hot, top, new, comments (optional, default to "relevance")
      - parameter t: (query) Time: hour, day, week, month, year, all (optional, default to "all")
      - parameter limit: (query)  (optional, default to 25)
@@ -1113,7 +1113,7 @@ open class RedditAPI {
     /**
      Search subreddits
      
-     - parameter q: (query) Search query 
+     - parameter q: (query) Search query, at most 256 UTF-8 bytes 
      - parameter limit: (query)  (optional, default to 25)
      - parameter after: (query)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -1134,11 +1134,11 @@ open class RedditAPI {
     /**
      Search subreddits
      - GET /v1/reddit/search/subreddits
-     - Search communities using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count.
+     - Search communities using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count. A query over 256 UTF-8 bytes returns 422, because Reddit would silently drop the rest.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter q: (query) Search query 
+     - parameter q: (query) Search query, at most 256 UTF-8 bytes 
      - parameter limit: (query)  (optional, default to 25)
      - parameter after: (query)  (optional)
      - returns: RequestBuilder<AnyCodable> 
@@ -1169,7 +1169,7 @@ open class RedditAPI {
     /**
      Search users
      
-     - parameter q: (query) Search query 
+     - parameter q: (query) Search query, at most 256 UTF-8 bytes 
      - parameter limit: (query)  (optional, default to 25)
      - parameter after: (query)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -1190,11 +1190,11 @@ open class RedditAPI {
     /**
      Search users
      - GET /v1/reddit/search/users
-     - Search profiles using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit.
+     - Search profiles using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit. A query over 256 UTF-8 bytes returns 422, because Reddit would silently drop the rest.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter q: (query) Search query 
+     - parameter q: (query) Search query, at most 256 UTF-8 bytes 
      - parameter limit: (query)  (optional, default to 25)
      - parameter after: (query)  (optional)
      - returns: RequestBuilder<AnyCodable> 

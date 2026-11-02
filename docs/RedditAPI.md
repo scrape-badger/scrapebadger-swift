@@ -1027,15 +1027,15 @@ This endpoint does not need any parameter.
 
 Search Reddit posts
 
-Search Reddit's current web UI globally or within a subreddit.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit's native page may contain fewer rows than limit; continue while after is present.
+Search Reddit's current web UI globally or within one or more subreddits.  Pass pagination.after unchanged with the same query, scope, sort and time filter. Search cursors expire after 30 minutes. Reddit's native page may contain fewer rows than limit; continue while after is present.  Reddit reads only the first 256 UTF-8 bytes of a search query and ignores the rest, so a longer query returns 422. Several subreddits are searched as (q) (subreddit:a OR subreddit:b ...), and that whole string counts toward the limit: split long subreddit lists across requests.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ScrapeBadger
 
-let q = "q_example" // String | Search query
-let subreddit = "subreddit_example" // String | Restrict to subreddit (optional)
+let q = "q_example" // String | Search query (Reddit search syntax), at most 256 UTF-8 bytes
+let subreddit = "subreddit_example" // String | Restrict to a subreddit, or several joined with + (sales+startups) (optional)
 let sort = "sort_example" // String | Sort: relevance, hot, top, new, comments (optional) (default to "relevance")
 let t = "t_example" // String | Time: hour, day, week, month, year, all (optional) (default to "all")
 let limit = 987 // Int |  (optional) (default to 25)
@@ -1058,8 +1058,8 @@ RedditAPI.redditSearchRedditPosts(q: q, subreddit: subreddit, sort: sort, t: t, 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **q** | **String** | Search query | 
- **subreddit** | **String** | Restrict to subreddit | [optional] 
+ **q** | **String** | Search query (Reddit search syntax), at most 256 UTF-8 bytes | 
+ **subreddit** | **String** | Restrict to a subreddit, or several joined with + (sales+startups) | [optional] 
  **sort** | **String** | Sort: relevance, hot, top, new, comments | [optional] [default to &quot;relevance&quot;]
  **t** | **String** | Time: hour, day, week, month, year, all | [optional] [default to &quot;all&quot;]
  **limit** | **Int** |  | [optional] [default to 25]
@@ -1087,14 +1087,14 @@ Name | Type | Description  | Notes
 
 Search subreddits
 
-Search communities using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count.
+Search communities using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. weekly_visitors and weekly_contributions are activity counters, separate from the subscriber count. A query over 256 UTF-8 bytes returns 422, because Reddit would silently drop the rest.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ScrapeBadger
 
-let q = "q_example" // String | Search query
+let q = "q_example" // String | Search query, at most 256 UTF-8 bytes
 let limit = 987 // Int |  (optional) (default to 25)
 let after = "after_example" // String |  (optional)
 
@@ -1115,7 +1115,7 @@ RedditAPI.redditSearchSubreddits(q: q, limit: limit, after: after) { (response, 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **q** | **String** | Search query | 
+ **q** | **String** | Search query, at most 256 UTF-8 bytes | 
  **limit** | **Int** |  | [optional] [default to 25]
  **after** | **String** |  | [optional] 
 
@@ -1141,14 +1141,14 @@ Name | Type | Description  | Notes
 
 Search users
 
-Search profiles using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit.
+Search profiles using Reddit's current web UI ranking and pagination.  Pass pagination.after unchanged with the same query. Search cursors expire after 30 minutes. The native page may contain fewer rows than limit. A query over 256 UTF-8 bytes returns 422, because Reddit would silently drop the rest.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ScrapeBadger
 
-let q = "q_example" // String | Search query
+let q = "q_example" // String | Search query, at most 256 UTF-8 bytes
 let limit = 987 // Int |  (optional) (default to 25)
 let after = "after_example" // String |  (optional)
 
@@ -1169,7 +1169,7 @@ RedditAPI.redditSearchUsers(q: q, limit: limit, after: after) { (response, error
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **q** | **String** | Search query | 
+ **q** | **String** | Search query, at most 256 UTF-8 bytes | 
  **limit** | **Int** |  | [optional] [default to 25]
  **after** | **String** |  | [optional] 
 
