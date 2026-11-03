@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 # **perplexityAskPerplexityAQuestion**
 ```swift
-    open class func perplexityAskPerplexityAQuestion(prompt: String, country: String? = nil, strictCountry: Bool? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func perplexityAskPerplexityAQuestion(prompt: String, country: String? = nil, strictCountry: Bool? = nil, location: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Ask Perplexity a question
@@ -29,9 +29,10 @@ import ScrapeBadger
 let prompt = "prompt_example" // String | The prompt to send to Perplexity (max 4096 characters).
 let country = "country_example" // String | ISO-3166 alpha-2 egress country, e.g. 'US', 'GB', 'DE'. (optional)
 let strictCountry = true // Bool | Answer only from an exit in `country`, never another one; 503 `country_unavailable` (not billed) when none answers. Requires `country`. (optional) (default to false)
+let location = "location_example" // String | Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or 'lat,lng' in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP's city. It does not pick the egress: `country` does. (optional)
 
 // Ask Perplexity a question
-PerplexityAPI.perplexityAskPerplexityAQuestion(prompt: prompt, country: country, strictCountry: strictCountry) { (response, error) in
+PerplexityAPI.perplexityAskPerplexityAQuestion(prompt: prompt, country: country, strictCountry: strictCountry, location: location) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -50,6 +51,7 @@ Name | Type | Description  | Notes
  **prompt** | **String** | The prompt to send to Perplexity (max 4096 characters). | 
  **country** | **String** | ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. | [optional] 
  **strictCountry** | **Bool** | Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. | [optional] [default to false]
+ **location** | **String** | Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does. | [optional] 
 
 ### Return type
 
@@ -114,7 +116,7 @@ This endpoint does not need any parameter.
 
 # **perplexityMeasureABrandSVisibilityInAPerplexityAnswer**
 ```swift
-    open class func perplexityMeasureABrandSVisibilityInAPerplexityAnswer(prompt: String, brand: String, domain: String? = nil, aliases: String? = nil, competitors: String? = nil, country: String? = nil, strictCountry: Bool? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func perplexityMeasureABrandSVisibilityInAPerplexityAnswer(prompt: String, brand: String, domain: String? = nil, aliases: String? = nil, competitors: String? = nil, country: String? = nil, strictCountry: Bool? = nil, location: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Measure a brand's visibility in a Perplexity answer
@@ -133,9 +135,10 @@ let aliases = "aliases_example" // String | Comma-separated alternative names. (
 let competitors = "competitors_example" // String | Comma-separated competitor names. (optional)
 let country = "country_example" // String | ISO-3166 alpha-2 egress country. (optional)
 let strictCountry = true // Bool | Answer only from an exit in `country`, never another one; 503 `country_unavailable` (not billed) when none answers. Requires `country`. (optional) (default to false)
+let location = "location_example" // String | Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or 'lat,lng' in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP's city. It does not pick the egress: `country` does. (optional)
 
 // Measure a brand's visibility in a Perplexity answer
-PerplexityAPI.perplexityMeasureABrandSVisibilityInAPerplexityAnswer(prompt: prompt, brand: brand, domain: domain, aliases: aliases, competitors: competitors, country: country, strictCountry: strictCountry) { (response, error) in
+PerplexityAPI.perplexityMeasureABrandSVisibilityInAPerplexityAnswer(prompt: prompt, brand: brand, domain: domain, aliases: aliases, competitors: competitors, country: country, strictCountry: strictCountry, location: location) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -158,6 +161,7 @@ Name | Type | Description  | Notes
  **competitors** | **String** | Comma-separated competitor names. | [optional] 
  **country** | **String** | ISO-3166 alpha-2 egress country. | [optional] 
  **strictCountry** | **Bool** | Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. | [optional] [default to false]
+ **location** | **String** | Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does. | [optional] 
 
 ### Return type
 

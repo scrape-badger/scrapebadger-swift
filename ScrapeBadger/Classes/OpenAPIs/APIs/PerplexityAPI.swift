@@ -18,12 +18,13 @@ open class PerplexityAPI {
      - parameter prompt: (query) The prompt to send to Perplexity (max 4096 characters). 
      - parameter country: (query) ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. (optional)
      - parameter strictCountry: (query) Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (optional, default to false)
+     - parameter location: (query) Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func perplexityAskPerplexityAQuestion(prompt: String, country: String? = nil, strictCountry: Bool? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return perplexityAskPerplexityAQuestionWithRequestBuilder(prompt: prompt, country: country, strictCountry: strictCountry).execute(apiResponseQueue) { result in
+    open class func perplexityAskPerplexityAQuestion(prompt: String, country: String? = nil, strictCountry: Bool? = nil, location: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return perplexityAskPerplexityAQuestionWithRequestBuilder(prompt: prompt, country: country, strictCountry: strictCountry, location: location).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -43,9 +44,10 @@ open class PerplexityAPI {
      - parameter prompt: (query) The prompt to send to Perplexity (max 4096 characters). 
      - parameter country: (query) ISO-3166 alpha-2 egress country, e.g. &#39;US&#39;, &#39;GB&#39;, &#39;DE&#39;. (optional)
      - parameter strictCountry: (query) Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (optional, default to false)
+     - parameter location: (query) Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func perplexityAskPerplexityAQuestionWithRequestBuilder(prompt: String, country: String? = nil, strictCountry: Bool? = nil) -> RequestBuilder<AnyCodable> {
+    open class func perplexityAskPerplexityAQuestionWithRequestBuilder(prompt: String, country: String? = nil, strictCountry: Bool? = nil, location: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/perplexity/ask"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -55,6 +57,7 @@ open class PerplexityAPI {
             "prompt": (wrappedValue: prompt.encodeToJSON(), isExplode: true),
             "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
             "strict_country": (wrappedValue: strictCountry?.encodeToJSON(), isExplode: true),
+            "location": (wrappedValue: location?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -123,12 +126,13 @@ open class PerplexityAPI {
      - parameter competitors: (query) Comma-separated competitor names. (optional)
      - parameter country: (query) ISO-3166 alpha-2 egress country. (optional)
      - parameter strictCountry: (query) Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (optional, default to false)
+     - parameter location: (query) Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func perplexityMeasureABrandSVisibilityInAPerplexityAnswer(prompt: String, brand: String, domain: String? = nil, aliases: String? = nil, competitors: String? = nil, country: String? = nil, strictCountry: Bool? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return perplexityMeasureABrandSVisibilityInAPerplexityAnswerWithRequestBuilder(prompt: prompt, brand: brand, domain: domain, aliases: aliases, competitors: competitors, country: country, strictCountry: strictCountry).execute(apiResponseQueue) { result in
+    open class func perplexityMeasureABrandSVisibilityInAPerplexityAnswer(prompt: String, brand: String, domain: String? = nil, aliases: String? = nil, competitors: String? = nil, country: String? = nil, strictCountry: Bool? = nil, location: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return perplexityMeasureABrandSVisibilityInAPerplexityAnswerWithRequestBuilder(prompt: prompt, brand: brand, domain: domain, aliases: aliases, competitors: competitors, country: country, strictCountry: strictCountry, location: location).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -152,9 +156,10 @@ open class PerplexityAPI {
      - parameter competitors: (query) Comma-separated competitor names. (optional)
      - parameter country: (query) ISO-3166 alpha-2 egress country. (optional)
      - parameter strictCountry: (query) Answer only from an exit in &#x60;country&#x60;, never another one; 503 &#x60;country_unavailable&#x60; (not billed) when none answers. Requires &#x60;country&#x60;. (optional, default to false)
+     - parameter location: (query) Where the asker is: a city (tokyo, osaka, seoul, new-york, london, ...) or &#39;lat,lng&#39; in decimal degrees. Perplexity answers a local-sounding question for it instead of the exit IP&#39;s city. It does not pick the egress: &#x60;country&#x60; does. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func perplexityMeasureABrandSVisibilityInAPerplexityAnswerWithRequestBuilder(prompt: String, brand: String, domain: String? = nil, aliases: String? = nil, competitors: String? = nil, country: String? = nil, strictCountry: Bool? = nil) -> RequestBuilder<AnyCodable> {
+    open class func perplexityMeasureABrandSVisibilityInAPerplexityAnswerWithRequestBuilder(prompt: String, brand: String, domain: String? = nil, aliases: String? = nil, competitors: String? = nil, country: String? = nil, strictCountry: Bool? = nil, location: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/perplexity/brand-visibility"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -168,6 +173,7 @@ open class PerplexityAPI {
             "competitors": (wrappedValue: competitors?.encodeToJSON(), isExplode: true),
             "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
             "strict_country": (wrappedValue: strictCountry?.encodeToJSON(), isExplode: true),
+            "location": (wrappedValue: location?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
