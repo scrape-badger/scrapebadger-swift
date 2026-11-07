@@ -260,6 +260,7 @@ Class | Method | HTTP request | Description
 *GeminiAPI* | [**geminiMeasureABrandSVisibilityInAGeminiAnswer**](docs/GeminiAPI.md#geminimeasureabrandsvisibilityinageminianswer) | **GET** /v1/gemini/brand-visibility | Measure a brand&#39;s visibility in a Gemini answer
 *GeminiAPI* | [**geminiMeasureABrandSVisibilityInAGeminiAnswerPost**](docs/GeminiAPI.md#geminimeasureabrandsvisibilityinageminianswerpost) | **POST** /v1/gemini/brand-visibility | Measure a brand&#39;s visibility in a Gemini answer (POST)
 *GitHubAPI* | [**githubGetProfile**](docs/GitHubAPI.md#githubgetprofile) | **GET** /v1/github/profiles/{username} | Get profile
+*GitHubAPI* | [**githubGetRepository**](docs/GitHubAPI.md#githubgetrepository) | **GET** /v1/github/repositories/{owner}/{repo} | Get repository
 *GoogleAPI* | [**googleGetAuthorCitationsPerYearChart**](docs/GoogleAPI.md#googlegetauthorcitationsperyearchart) | **GET** /v1/google/scholar/author/citation | Get author citations-per-year chart
 *GoogleAPI* | [**googleGetBusinessPosts**](docs/GoogleAPI.md#googlegetbusinessposts) | **GET** /v1/google/maps/posts | Get business posts
 *GoogleAPI* | [**googleGetCitationFormatsForAScholarPaper**](docs/GoogleAPI.md#googlegetcitationformatsforascholarpaper) | **GET** /v1/google/scholar/cite | Get citation formats for a Scholar paper
@@ -729,14 +730,31 @@ Class | Method | HTTP request | Description
  - [GitHubActivityOverview](docs/GitHubActivityOverview.md)
  - [GitHubActivityRow](docs/GitHubActivityRow.md)
  - [GitHubCalendarDay](docs/GitHubCalendarDay.md)
+ - [GitHubCommitActor](docs/GitHubCommitActor.md)
+ - [GitHubCommitChecks](docs/GitHubCommitChecks.md)
+ - [GitHubCommunityFile](docs/GitHubCommunityFile.md)
  - [GitHubContributions](docs/GitHubContributions.md)
+ - [GitHubForkComparison](docs/GitHubForkComparison.md)
+ - [GitHubFundingLink](docs/GitHubFundingLink.md)
  - [GitHubLanguage](docs/GitHubLanguage.md)
+ - [GitHubLatestCommit](docs/GitHubLatestCommit.md)
  - [GitHubNamedLink](docs/GitHubNamedLink.md)
  - [GitHubPagination](docs/GitHubPagination.md)
  - [GitHubProfile](docs/GitHubProfile.md)
  - [GitHubProfileResponse](docs/GitHubProfileResponse.md)
  - [GitHubReadme](docs/GitHubReadme.md)
+ - [GitHubReadmeHeading](docs/GitHubReadmeHeading.md)
  - [GitHubRepository](docs/GitHubRepository.md)
+ - [GitHubRepositoryAccount](docs/GitHubRepositoryAccount.md)
+ - [GitHubRepositoryFile](docs/GitHubRepositoryFile.md)
+ - [GitHubRepositoryFunding](docs/GitHubRepositoryFunding.md)
+ - [GitHubRepositoryIdentity](docs/GitHubRepositoryIdentity.md)
+ - [GitHubRepositoryLanguage](docs/GitHubRepositoryLanguage.md)
+ - [GitHubRepositoryLicense](docs/GitHubRepositoryLicense.md)
+ - [GitHubRepositoryReadme](docs/GitHubRepositoryReadme.md)
+ - [GitHubRepositoryReference](docs/GitHubRepositoryReference.md)
+ - [GitHubRepositoryRelease](docs/GitHubRepositoryRelease.md)
+ - [GitHubRepositoryResponse](docs/GitHubRepositoryResponse.md)
  - [GitHubSocialAccount](docs/GitHubSocialAccount.md)
  - [GitHubStatus](docs/GitHubStatus.md)
  - [GitHubTextLink](docs/GitHubTextLink.md)

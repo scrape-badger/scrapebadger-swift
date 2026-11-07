@@ -5,6 +5,7 @@ All URIs are relative to *https://scrapebadger.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**githubGetProfile**](GitHubAPI.md#githubgetprofile) | **GET** /v1/github/profiles/{username} | Get profile
+[**githubGetRepository**](GitHubAPI.md#githubgetrepository) | **GET** /v1/github/repositories/{owner}/{repo} | Get repository
 
 
 # **githubGetProfile**
@@ -53,6 +54,58 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**GitHubProfileResponse**](GitHubProfileResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **githubGetRepository**
+```swift
+    open class func githubGetRepository(owner: String, repo: String, completion: @escaping (_ data: GitHubRepositoryResponse?, _ error: Error?) -> Void)
+```
+
+Get repository
+
+Public default-branch repository detail, native README, files and latest commit.  Use owner.login and name from a profile repository summary. Root file and contributor previews are not exhaustive recursive trees or membership lists. No GitHub token, market, ref, search or pagination parameter is accepted.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let owner = "owner_example" // String | 
+let repo = "repo_example" // String | 
+
+// Get repository
+GitHubAPI.githubGetRepository(owner: owner, repo: repo) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **owner** | **String** |  | 
+ **repo** | **String** |  | 
+
+### Return type
+
+[**GitHubRepositoryResponse**](GitHubRepositoryResponse.md)
 
 ### Authorization
 
