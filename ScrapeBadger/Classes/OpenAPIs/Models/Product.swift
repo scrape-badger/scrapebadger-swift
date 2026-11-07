@@ -29,11 +29,11 @@ public struct Product: Codable, JSONEncodable, Hashable {
     public var isRestockingSoon: Isrestockingsoon?
     public var isInStock: Isinstock?
     public var gender: Gender?
-    public var description: Description?
+    public var description: Description1?
     public var ratings: Ratings?
     public var breadcrumbs: [[String: AnyCodable]]?
 
-    public init(id: Int, name: String, productCode: Productcode? = nil, brandName: Brandname? = nil, brandId: Brandid? = nil, colour: Colour? = nil, colourWayId: Colourwayid? = nil, price: ProductPrice? = nil, url: Url? = nil, imageUrl: Imageurl? = nil, additionalImageUrls: [String]? = nil, images: [[String: AnyCodable]]? = nil, variants: [Variant]? = nil, isSellingFast: Issellingfast? = nil, isRestockingSoon: Isrestockingsoon? = nil, isInStock: Isinstock? = nil, gender: Gender? = nil, description: Description? = nil, ratings: Ratings? = nil, breadcrumbs: [[String: AnyCodable]]? = nil) {
+    public init(id: Int, name: String, productCode: Productcode? = nil, brandName: Brandname? = nil, brandId: Brandid? = nil, colour: Colour? = nil, colourWayId: Colourwayid? = nil, price: ProductPrice? = nil, url: Url? = nil, imageUrl: Imageurl? = nil, additionalImageUrls: [String]? = nil, images: [[String: AnyCodable]]? = nil, variants: [Variant]? = nil, isSellingFast: Issellingfast? = nil, isRestockingSoon: Isrestockingsoon? = nil, isInStock: Isinstock? = nil, gender: Gender? = nil, description: Description1? = nil, ratings: Ratings? = nil, breadcrumbs: [[String: AnyCodable]]? = nil) {
         self.id = id
         self.name = name
         self.productCode = productCode
@@ -144,7 +144,7 @@ public struct Product: Codable, JSONEncodable, Hashable {
         isRestockingSoon = try container.decodeIfPresent(Isrestockingsoon.self, forKey: .isRestockingSoon)
         isInStock = try container.decodeIfPresent(Isinstock.self, forKey: .isInStock)
         gender = try container.decodeIfPresent(Gender.self, forKey: .gender)
-        description = try container.decodeIfPresent(Description.self, forKey: .description)
+        description = try container.decodeIfPresent(Description1.self, forKey: .description)
         ratings = try container.decodeIfPresent(Ratings.self, forKey: .ratings)
         breadcrumbs = try container.decodeIfPresent([[String: AnyCodable]].self, forKey: .breadcrumbs)
         var nonAdditionalPropertyKeys = Set<String>()

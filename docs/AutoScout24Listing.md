@@ -1,0 +1,72 @@
+# AutoScout24Listing
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**id** | **String** |  | 
+**crossReferenceId** | **String** |  | [optional] 
+**position** | **Int** |  | 
+**title** | **String** |  | 
+**url** | **String** |  | 
+**images** | **[String]** |  | [optional] 
+**onlinePurchaseImages** | **[String]** |  | [optional] 
+**price** | **Double** |  | [optional] 
+**currency** | **String** |  | [optional] [default to "EUR"]
+**priceFormatted** | **String** |  | [optional] 
+**priceEvaluation** | **Int** |  | [optional] 
+**priceEvaluationEnabled** | **Bool** |  | [optional] 
+**priceDetails** | **[String: AnyCodable]** |  | [optional] 
+**oldPriceFormatted** | **String** |  | [optional] 
+**isSuperDeal** | **Bool** |  | [optional] 
+**isConditionalPrice** | **Bool** |  | [optional] 
+**vatLabelRequired** | **Bool** |  | [optional] 
+**make** | **String** |  | [optional] 
+**model** | **String** |  | [optional] 
+**modelId** | **Int** |  | [optional] 
+**modelGroup** | **String** |  | [optional] 
+**variant** | **String** |  | [optional] 
+**motorType** | **String** |  | [optional] 
+**version** | **String** |  | [optional] 
+**subtitle** | **String** |  | [optional] 
+**articleType** | **String** |  | [optional] 
+**offerType** | **String** |  | [optional] 
+**fuel** | **String** |  | [optional] 
+**fuelType** | **String** |  | [optional] 
+**transmission** | **String** |  | [optional] 
+**mileageKm** | **Int** |  | [optional] 
+**firstRegistration** | **String** |  | [optional] 
+**registrationYear** | **Int** |  | [optional] 
+**registrationMonth** | **Int** |  | [optional] 
+**powerKw** | **Double** |  | [optional] 
+**powerHp** | **Double** |  | [optional] 
+**displacementCc** | **Int** |  | [optional] 
+**isDamaged** | **Bool** |  | [optional] 
+**availableNow** | **Bool** |  | [optional] 
+**availableAt** | **String** |  | [optional] 
+**availableUtc** | **Double** |  | [optional] 
+**availabilityInDays** | **Int** |  | [optional] 
+**location** | **[String: AnyCodable]** |  | [optional] 
+**seller** | **[String: AnyCodable]** |  | [optional] 
+**rating** | **Double** |  | [optional] 
+**ratingCount** | **Int** |  | [optional] 
+**ratingsEnabled** | **Bool** |  | [optional] 
+**leasing** | **[String: AnyCodable]** |  | [optional] 
+**seals** | [[String: AnyCodable]] |  | [optional] 
+**onlinePurchase** | **[String: AnyCodable]** |  | [optional] 
+**electricVehicleBanner** | **[String: AnyCodable]** |  | [optional] 
+**isDeliverable** | **Bool** |  | [optional] 
+**hasVideo** | **Bool** |  | [optional] 
+**has360Image** | **Bool** |  | [optional] 
+**interestLevel** | **String** |  | [optional] 
+**isTrending** | **Bool** |  | [optional] 
+**adTier** | **String** |  | [optional] 
+**resultType** | **String** |  | [optional] 
+**resultSection** | **String** |  | [optional] 
+**specialConditions** | **[AnyCodable]** |  | [optional] 
+**vehicleDetails** | [[String: AnyCodable]] |  | [optional] 
+**wltpValues** | **[String]** |  | [optional] 
+**vehicle** | **[String: AnyCodable]** | Additional native vehicle attributes, including localized labels. | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
