@@ -133,6 +133,7 @@ Class | Method | HTTP request | Description
 *AppStoreAPI* | [**appStoreSearchApps**](docs/AppStoreAPI.md#appstoresearchapps) | **GET** /v1/app-store/search | Search apps
 *AppStoreAPI* | [**appStoreTopCharts**](docs/AppStoreAPI.md#appstoretopcharts) | **GET** /v1/app-store/charts | Top charts
 *AutoScout24API* | [**autoscout24CheckAutoscout24Health**](docs/AutoScout24API.md#autoscout24checkautoscout24health) | **GET** /v1/autoscout24/health | Check AutoScout24 health
+*AutoScout24API* | [**autoscout24GetListing**](docs/AutoScout24API.md#autoscout24getlisting) | **GET** /v1/autoscout24/listing | Get listing
 *AutoScout24API* | [**autoscout24ListMarkets**](docs/AutoScout24API.md#autoscout24listmarkets) | **GET** /v1/autoscout24/markets | List markets
 *AutoScout24API* | [**autoscout24ListSearchFilters**](docs/AutoScout24API.md#autoscout24listsearchfilters) | **GET** /v1/autoscout24/filters | List search filters
 *AutoScout24API* | [**autoscout24SearchVehicles**](docs/AutoScout24API.md#autoscout24searchvehicles) | **GET** /v1/autoscout24/search | Search vehicles
@@ -674,6 +675,8 @@ Class | Method | HTTP request | Description
  - [Article](docs/Article.md)
  - [AutoScout24FiltersResponse](docs/AutoScout24FiltersResponse.md)
  - [AutoScout24Listing](docs/AutoScout24Listing.md)
+ - [AutoScout24ListingDetail](docs/AutoScout24ListingDetail.md)
+ - [AutoScout24ListingResponse](docs/AutoScout24ListingResponse.md)
  - [AutoScout24Market](docs/AutoScout24Market.md)
  - [AutoScout24MarketsResponse](docs/AutoScout24MarketsResponse.md)
  - [AutoScout24SearchResponse](docs/AutoScout24SearchResponse.md)

@@ -57,6 +57,76 @@ open class AutoScout24API {
     }
 
     /**
+     * enum for parameter market
+     */
+    public enum Market_autoscout24GetListing: String, CaseIterable {
+        case de = "de"
+        case at = "at"
+        case be = "be"
+        case es = "es"
+        case fr = "fr"
+        case it = "it"
+        case lu = "lu"
+        case nl = "nl"
+    }
+
+    /**
+     Get listing
+     
+     - parameter url: (query) Full HTTPS listing URL from search results. Supply url or listing_id, not both. (optional)
+     - parameter listingId: (query) Listing UUID from search results; requires no SEO slug. (optional)
+     - parameter market: (query) Inferred from URL, otherwise de. Explicit market must match the URL host. (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func autoscout24GetListing(url: String? = nil, listingId: String? = nil, market: Market_autoscout24GetListing? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AutoScout24ListingResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return autoscout24GetListingWithRequestBuilder(url: url, listingId: listingId, market: market).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get listing
+     - GET /v1/autoscout24/listing
+     - Full public vehicle specifications, equipment, photos, price and seller data.  Exactly one of url or listing_id is required. Supported markets match /markets. Successful detail costs 10 credits; removed or missing listings return an unbilled 404. Invalid inputs return 422 and source failures 503.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter url: (query) Full HTTPS listing URL from search results. Supply url or listing_id, not both. (optional)
+     - parameter listingId: (query) Listing UUID from search results; requires no SEO slug. (optional)
+     - parameter market: (query) Inferred from URL, otherwise de. Explicit market must match the URL host. (optional)
+     - returns: RequestBuilder<AutoScout24ListingResponse> 
+     */
+    open class func autoscout24GetListingWithRequestBuilder(url: String? = nil, listingId: String? = nil, market: Market_autoscout24GetListing? = nil) -> RequestBuilder<AutoScout24ListingResponse> {
+        let localVariablePath = "/v1/autoscout24/listing"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "url": (wrappedValue: url?.encodeToJSON(), isExplode: true),
+            "listing_id": (wrappedValue: listingId?.encodeToJSON(), isExplode: true),
+            "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AutoScout24ListingResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      List markets
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -299,7 +369,7 @@ open class AutoScout24API {
     /**
      Search vehicles
      - GET /v1/autoscout24/search
-     - Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Listing detail is not included in this API.
+     - Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Pass a result's url or id to /listing for its full specifications and equipment.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth

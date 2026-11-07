@@ -5,6 +5,7 @@ All URIs are relative to *https://scrapebadger.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**autoscout24CheckAutoscout24Health**](AutoScout24API.md#autoscout24checkautoscout24health) | **GET** /v1/autoscout24/health | Check AutoScout24 health
+[**autoscout24GetListing**](AutoScout24API.md#autoscout24getlisting) | **GET** /v1/autoscout24/listing | Get listing
 [**autoscout24ListMarkets**](AutoScout24API.md#autoscout24listmarkets) | **GET** /v1/autoscout24/markets | List markets
 [**autoscout24ListSearchFilters**](AutoScout24API.md#autoscout24listsearchfilters) | **GET** /v1/autoscout24/filters | List search filters
 [**autoscout24SearchVehicles**](AutoScout24API.md#autoscout24searchvehicles) | **GET** /v1/autoscout24/search | Search vehicles
@@ -42,6 +43,60 @@ This endpoint does not need any parameter.
 ### Return type
 
 **AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **autoscout24GetListing**
+```swift
+    open class func autoscout24GetListing(url: String? = nil, listingId: String? = nil, market: Market_autoscout24GetListing? = nil, completion: @escaping (_ data: AutoScout24ListingResponse?, _ error: Error?) -> Void)
+```
+
+Get listing
+
+Full public vehicle specifications, equipment, photos, price and seller data.  Exactly one of url or listing_id is required. Supported markets match /markets. Successful detail costs 10 credits; removed or missing listings return an unbilled 404. Invalid inputs return 422 and source failures 503.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let url = "url_example" // String | Full HTTPS listing URL from search results. Supply url or listing_id, not both. (optional)
+let listingId = "listingId_example" // String | Listing UUID from search results; requires no SEO slug. (optional)
+let market = "market_example" // String | Inferred from URL, otherwise de. Explicit market must match the URL host. (optional)
+
+// Get listing
+AutoScout24API.autoscout24GetListing(url: url, listingId: listingId, market: market) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **url** | **String** | Full HTTPS listing URL from search results. Supply url or listing_id, not both. | [optional] 
+ **listingId** | **String** | Listing UUID from search results; requires no SEO slug. | [optional] 
+ **market** | **String** | Inferred from URL, otherwise de. Explicit market must match the URL host. | [optional] 
+
+### Return type
+
+[**AutoScout24ListingResponse**](AutoScout24ListingResponse.md)
 
 ### Authorization
 
@@ -159,7 +214,7 @@ Name | Type | Description  | Notes
 
 Search vehicles
 
-Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Listing detail is not included in this API.
+Search live vehicle cards, seller/location information and current filter taxonomy.  Browsing is capped at 200 pages (normally 20 cards each). Narrow the query to reach more inventory. Empty results cost zero credits. Pass a result's url or id to /listing for its full specifications and equipment.
 
 ### Example
 ```swift

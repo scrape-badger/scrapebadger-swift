@@ -71,6 +71,8 @@ ScrapeBadger/Classes/OpenAPIs/Models/AgentTrialInfo.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Article.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AutoScout24FiltersResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AutoScout24Listing.swift
+ScrapeBadger/Classes/OpenAPIs/Models/AutoScout24ListingDetail.swift
+ScrapeBadger/Classes/OpenAPIs/Models/AutoScout24ListingResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AutoScout24Market.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AutoScout24MarketsResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AutoScout24SearchResponse.swift
@@ -238,6 +240,8 @@ docs/Article.md
 docs/AutoScout24API.md
 docs/AutoScout24FiltersResponse.md
 docs/AutoScout24Listing.md
+docs/AutoScout24ListingDetail.md
+docs/AutoScout24ListingResponse.md
 docs/AutoScout24Market.md
 docs/AutoScout24MarketsResponse.md
 docs/AutoScout24SearchResponse.md
