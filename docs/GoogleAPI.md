@@ -808,7 +808,7 @@ Name | Type | Description  | Notes
 
 # **googleGoogleLightWebSearch**
 ```swift
-    open class func googleGoogleLightWebSearch(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, location: String? = nil, uule: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, filter: Int? = nil, nfpr: Int? = nil, output: Output_googleGoogleLightWebSearch? = nil, googleDomain: String? = nil, lat: Double? = nil, lon: Double? = nil, radius: Double? = nil, colorScheme: ColorScheme_googleGoogleLightWebSearch? = nil, tbm: Tbm_googleGoogleLightWebSearch? = nil, udm: String? = nil, noCache: Bool? = nil, asDt: String? = nil, asEpq: String? = nil, asEq: String? = nil, asLq: String? = nil, asNlo: String? = nil, asNhi: String? = nil, asOq: String? = nil, asQ: String? = nil, asQdr: String? = nil, asRq: String? = nil, asSitesearch: String? = nil, device: String? = nil, userAgent: String? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func googleGoogleLightWebSearch(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, location: String? = nil, uule: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, filter: Int? = nil, nfpr: Int? = nil, output: Output_googleGoogleLightWebSearch? = nil, oq: String? = nil, sourceid: String? = nil, ie: String? = nil, googleDomain: String? = nil, lat: Double? = nil, lon: Double? = nil, radius: Double? = nil, colorScheme: ColorScheme_googleGoogleLightWebSearch? = nil, tbm: Tbm_googleGoogleLightWebSearch? = nil, udm: String? = nil, noCache: Bool? = nil, asDt: String? = nil, asEpq: String? = nil, asEq: String? = nil, asLq: String? = nil, asNlo: String? = nil, asNhi: String? = nil, asOq: String? = nil, asQ: String? = nil, asQdr: String? = nil, asRq: String? = nil, asSitesearch: String? = nil, device: String? = nil, userAgent: String? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Google Light web search
@@ -834,13 +834,16 @@ let safe = "safe_example" // String | Safe search: off or active (optional) (def
 let filter = 987 // Int |  (optional)
 let nfpr = 987 // Int | Disable auto-correction (optional) (default to 0)
 let output = "output_example" // String |  (optional) (default to .json)
+let oq = "oq_example" // String | Original query sent to Google. Defaults to q; an empty string omits it. (optional)
+let sourceid = "sourceid_example" // String | Google source identifier. Defaults to chrome; an empty string omits it. (optional)
+let ie = "ie_example" // String | Google input encoding hint. Defaults to UTF-8; an empty string omits it. (optional)
 let googleDomain = "googleDomain_example" // String | Alias for domain; Google requests use google.com with country targeting. (optional)
 let lat = 987 // Double | Latitude; supply together with lon instead of location or uule. (optional)
 let lon = 987 // Double | Longitude; supply together with lat. (optional)
 let radius = 987 // Double | Location accuracy in meters; requires lat/lon or a named city with a known center. (optional)
 let colorScheme = "colorScheme_example" // String | Google color scheme. (optional)
 let tbm = "tbm_example" // String | Google search type. Use output=html for verticals; dedicated APIs provide parsed vertical results. (optional)
-let udm = "udm_example" // String | Google result filter: 14 web, 18 forums. Other verticals require output=html. (optional)
+let udm = "udm_example" // String | Google result filter: web or 14 for web, 18 for forums. Other verticals require output=html. (optional)
 let noCache = true // Bool | Bypass result caches and request a fresh Google fetch. (optional) (default to false)
 let asDt = "asDt_example" // String | Site restriction mode: i includes, e excludes as_sitesearch. (optional)
 let asEpq = "asEpq_example" // String | Exact phrase. (optional)
@@ -864,7 +867,7 @@ let ibp = "ibp_example" // String | Layout control. (optional)
 let uds = "uds_example" // String | Google filter string. (optional)
 
 // Google Light web search
-GoogleAPI.googleGoogleLightWebSearch(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, location: location, uule: uule, lr: lr, tbs: tbs, safe: safe, filter: filter, nfpr: nfpr, output: output, googleDomain: googleDomain, lat: lat, lon: lon, radius: radius, colorScheme: colorScheme, tbm: tbm, udm: udm, noCache: noCache, asDt: asDt, asEpq: asEpq, asEq: asEq, asLq: asLq, asNlo: asNlo, asNhi: asNhi, asOq: asOq, asQ: asQ, asQdr: asQdr, asRq: asRq, asSitesearch: asSitesearch, device: device, userAgent: userAgent, cr: cr, ludocid: ludocid, lsig: lsig, kgmid: kgmid, si: si, ibp: ibp, uds: uds) { (response, error) in
+GoogleAPI.googleGoogleLightWebSearch(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, location: location, uule: uule, lr: lr, tbs: tbs, safe: safe, filter: filter, nfpr: nfpr, output: output, oq: oq, sourceid: sourceid, ie: ie, googleDomain: googleDomain, lat: lat, lon: lon, radius: radius, colorScheme: colorScheme, tbm: tbm, udm: udm, noCache: noCache, asDt: asDt, asEpq: asEpq, asEq: asEq, asLq: asLq, asNlo: asNlo, asNhi: asNhi, asOq: asOq, asQ: asQ, asQdr: asQdr, asRq: asRq, asSitesearch: asSitesearch, device: device, userAgent: userAgent, cr: cr, ludocid: ludocid, lsig: lsig, kgmid: kgmid, si: si, ibp: ibp, uds: uds) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -894,13 +897,16 @@ Name | Type | Description  | Notes
  **filter** | **Int** |  | [optional] 
  **nfpr** | **Int** | Disable auto-correction | [optional] [default to 0]
  **output** | **String** |  | [optional] [default to .json]
+ **oq** | **String** | Original query sent to Google. Defaults to q; an empty string omits it. | [optional] 
+ **sourceid** | **String** | Google source identifier. Defaults to chrome; an empty string omits it. | [optional] 
+ **ie** | **String** | Google input encoding hint. Defaults to UTF-8; an empty string omits it. | [optional] 
  **googleDomain** | **String** | Alias for domain; Google requests use google.com with country targeting. | [optional] 
  **lat** | **Double** | Latitude; supply together with lon instead of location or uule. | [optional] 
  **lon** | **Double** | Longitude; supply together with lat. | [optional] 
  **radius** | **Double** | Location accuracy in meters; requires lat/lon or a named city with a known center. | [optional] 
  **colorScheme** | **String** | Google color scheme. | [optional] 
  **tbm** | **String** | Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. | [optional] 
- **udm** | **String** | Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html. | [optional] 
+ **udm** | **String** | Google result filter: web or 14 for web, 18 for forums. Other verticals require output&#x3D;html. | [optional] 
  **noCache** | **Bool** | Bypass result caches and request a fresh Google fetch. | [optional] [default to false]
  **asDt** | **String** | Site restriction mode: i includes, e excludes as_sitesearch. | [optional] 
  **asEpq** | **String** | Exact phrase. | [optional] 
@@ -1146,7 +1152,7 @@ Name | Type | Description  | Notes
 
 # **googleGoogleWebSearch**
 ```swift
-    open class func googleGoogleWebSearch(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, device: Device_googleGoogleWebSearch? = nil, userAgent: String? = nil, output: Output_googleGoogleWebSearch? = nil, location: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, uule: String? = nil, filter: Int? = nil, nfpr: Int? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil, aiOverview: Bool? = nil, mode: Mode_googleGoogleWebSearch? = nil, expandRelatedQuestions: String? = nil, googleDomain: String? = nil, lat: Double? = nil, lon: Double? = nil, radius: Double? = nil, colorScheme: ColorScheme_googleGoogleWebSearch? = nil, tbm: Tbm_googleGoogleWebSearch? = nil, udm: String? = nil, noCache: Bool? = nil, asDt: String? = nil, asEpq: String? = nil, asEq: String? = nil, asLq: String? = nil, asNlo: String? = nil, asNhi: String? = nil, asOq: String? = nil, asQ: String? = nil, asQdr: String? = nil, asRq: String? = nil, asSitesearch: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func googleGoogleWebSearch(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, device: Device_googleGoogleWebSearch? = nil, userAgent: String? = nil, output: Output_googleGoogleWebSearch? = nil, location: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, uule: String? = nil, filter: Int? = nil, nfpr: Int? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil, aiOverview: Bool? = nil, mode: Mode_googleGoogleWebSearch? = nil, expandRelatedQuestions: String? = nil, oq: String? = nil, sourceid: String? = nil, ie: String? = nil, googleDomain: String? = nil, lat: Double? = nil, lon: Double? = nil, radius: Double? = nil, colorScheme: ColorScheme_googleGoogleWebSearch? = nil, tbm: Tbm_googleGoogleWebSearch? = nil, udm: String? = nil, noCache: Bool? = nil, asDt: String? = nil, asEpq: String? = nil, asEq: String? = nil, asLq: String? = nil, asNlo: String? = nil, asNhi: String? = nil, asOq: String? = nil, asQ: String? = nil, asQdr: String? = nil, asRq: String? = nil, asSitesearch: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Google web search
@@ -1184,13 +1190,16 @@ let uds = "uds_example" // String | Google filter string (optional)
 let aiOverview = true // Bool | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. (optional) (default to false)
 let mode = "mode_example" // String |  (optional) (default to .full)
 let expandRelatedQuestions = "expandRelatedQuestions_example" // String | Open all People Also Ask answers (true) or the first N (0-99). (optional)
+let oq = "oq_example" // String | Original query sent to Google. Defaults to q; an empty string omits it. (optional)
+let sourceid = "sourceid_example" // String | Google source identifier. Defaults to chrome; an empty string omits it. (optional)
+let ie = "ie_example" // String | Google input encoding hint. Defaults to UTF-8; an empty string omits it. (optional)
 let googleDomain = "googleDomain_example" // String | Alias for domain; Google requests use google.com with country targeting. (optional)
 let lat = 987 // Double | Latitude; supply together with lon instead of location or uule. (optional)
 let lon = 987 // Double | Longitude; supply together with lat. (optional)
 let radius = 987 // Double | Location accuracy in meters; requires lat/lon or a named city with a known center. (optional)
 let colorScheme = "colorScheme_example" // String | Google color scheme. (optional)
 let tbm = "tbm_example" // String | Google search type. Use output=html for verticals; dedicated APIs provide parsed vertical results. (optional)
-let udm = "udm_example" // String | Google result filter: 14 web, 18 forums. Other verticals require output=html. (optional)
+let udm = "udm_example" // String | Google result filter: web or 14 for web, 18 for forums. Other verticals require output=html. (optional)
 let noCache = true // Bool | Bypass result caches and request a fresh Google fetch. (optional) (default to false)
 let asDt = "asDt_example" // String | Site restriction mode: i includes, e excludes as_sitesearch. (optional)
 let asEpq = "asEpq_example" // String | Exact phrase. (optional)
@@ -1205,7 +1214,7 @@ let asRq = "asRq_example" // String | Related URL; availability depends on Googl
 let asSitesearch = "asSitesearch_example" // String | Restrict results to a site. (optional)
 
 // Google web search
-GoogleAPI.googleGoogleWebSearch(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, device: device, userAgent: userAgent, output: output, location: location, lr: lr, tbs: tbs, safe: safe, uule: uule, filter: filter, nfpr: nfpr, cr: cr, ludocid: ludocid, lsig: lsig, kgmid: kgmid, si: si, ibp: ibp, uds: uds, aiOverview: aiOverview, mode: mode, expandRelatedQuestions: expandRelatedQuestions, googleDomain: googleDomain, lat: lat, lon: lon, radius: radius, colorScheme: colorScheme, tbm: tbm, udm: udm, noCache: noCache, asDt: asDt, asEpq: asEpq, asEq: asEq, asLq: asLq, asNlo: asNlo, asNhi: asNhi, asOq: asOq, asQ: asQ, asQdr: asQdr, asRq: asRq, asSitesearch: asSitesearch) { (response, error) in
+GoogleAPI.googleGoogleWebSearch(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, device: device, userAgent: userAgent, output: output, location: location, lr: lr, tbs: tbs, safe: safe, uule: uule, filter: filter, nfpr: nfpr, cr: cr, ludocid: ludocid, lsig: lsig, kgmid: kgmid, si: si, ibp: ibp, uds: uds, aiOverview: aiOverview, mode: mode, expandRelatedQuestions: expandRelatedQuestions, oq: oq, sourceid: sourceid, ie: ie, googleDomain: googleDomain, lat: lat, lon: lon, radius: radius, colorScheme: colorScheme, tbm: tbm, udm: udm, noCache: noCache, asDt: asDt, asEpq: asEpq, asEq: asEq, asLq: asLq, asNlo: asNlo, asNhi: asNhi, asOq: asOq, asQ: asQ, asQdr: asQdr, asRq: asRq, asSitesearch: asSitesearch) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -1247,13 +1256,16 @@ Name | Type | Description  | Notes
  **aiOverview** | **Bool** | Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. | [optional] [default to false]
  **mode** | **String** |  | [optional] [default to .full]
  **expandRelatedQuestions** | **String** | Open all People Also Ask answers (true) or the first N (0-99). | [optional] 
+ **oq** | **String** | Original query sent to Google. Defaults to q; an empty string omits it. | [optional] 
+ **sourceid** | **String** | Google source identifier. Defaults to chrome; an empty string omits it. | [optional] 
+ **ie** | **String** | Google input encoding hint. Defaults to UTF-8; an empty string omits it. | [optional] 
  **googleDomain** | **String** | Alias for domain; Google requests use google.com with country targeting. | [optional] 
  **lat** | **Double** | Latitude; supply together with lon instead of location or uule. | [optional] 
  **lon** | **Double** | Longitude; supply together with lat. | [optional] 
  **radius** | **Double** | Location accuracy in meters; requires lat/lon or a named city with a known center. | [optional] 
  **colorScheme** | **String** | Google color scheme. | [optional] 
  **tbm** | **String** | Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. | [optional] 
- **udm** | **String** | Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html. | [optional] 
+ **udm** | **String** | Google result filter: web or 14 for web, 18 for forums. Other verticals require output&#x3D;html. | [optional] 
  **noCache** | **Bool** | Bypass result caches and request a fresh Google fetch. | [optional] [default to false]
  **asDt** | **String** | Site restriction mode: i includes, e excludes as_sitesearch. | [optional] 
  **asEpq** | **String** | Exact phrase. | [optional] 
