@@ -844,6 +844,27 @@ open class GoogleAPI {
     }
 
     /**
+     * enum for parameter colorScheme
+     */
+    public enum ColorScheme_googleGoogleLightWebSearch: String, CaseIterable {
+        case light = "light"
+        case dark = "dark"
+    }
+
+    /**
+     * enum for parameter tbm
+     */
+    public enum Tbm_googleGoogleLightWebSearch: String, CaseIterable {
+        case isch = "isch"
+        case lcl = "lcl"
+        case vid = "vid"
+        case nws = "nws"
+        case shop = "shop"
+        case pts = "pts"
+        case bks = "bks"
+    }
+
+    /**
      Google Light web search
      
      - parameter q: (query) Search query (supports Google operators) 
@@ -860,12 +881,40 @@ open class GoogleAPI {
      - parameter filter: (query)  (optional)
      - parameter nfpr: (query) Disable auto-correction (optional, default to 0)
      - parameter output: (query)  (optional, default to .json)
+     - parameter googleDomain: (query) Alias for domain; Google requests use google.com with country targeting. (optional)
+     - parameter lat: (query) Latitude; supply together with lon instead of location or uule. (optional)
+     - parameter lon: (query) Longitude; supply together with lat. (optional)
+     - parameter radius: (query) Location accuracy in meters; requires lat/lon or a named city with a known center. (optional)
+     - parameter colorScheme: (query) Google color scheme. (optional)
+     - parameter tbm: (query) Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. (optional)
+     - parameter udm: (query) Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html. (optional)
+     - parameter noCache: (query) Bypass result caches and request a fresh Google fetch. (optional, default to false)
+     - parameter asDt: (query) Site restriction mode: i includes, e excludes as_sitesearch. (optional)
+     - parameter asEpq: (query) Exact phrase. (optional)
+     - parameter asEq: (query) Words to exclude. (optional)
+     - parameter asLq: (query) Find pages linking to this URL; availability depends on Google. (optional)
+     - parameter asNlo: (query) Numeric range minimum. (optional)
+     - parameter asNhi: (query) Numeric range maximum. (optional)
+     - parameter asOq: (query) Match any of these words. (optional)
+     - parameter asQ: (query) Additional query words. (optional)
+     - parameter asQdr: (query) Time range, such as d, w, m or y1. (optional)
+     - parameter asRq: (query) Related URL; availability depends on Google. (optional)
+     - parameter asSitesearch: (query) Restrict results to a site. (optional)
+     - parameter device: (query) Device target. (optional)
+     - parameter userAgent: (query) Custom User-Agent. (optional)
+     - parameter cr: (query) Country restrict. (optional)
+     - parameter ludocid: (query) Place CID. (optional)
+     - parameter lsig: (query) Map view ID. (optional)
+     - parameter kgmid: (query) Knowledge Graph entity ID. (optional)
+     - parameter si: (query) Cached Google parameters. (optional)
+     - parameter ibp: (query) Layout control. (optional)
+     - parameter uds: (query) Google filter string. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func googleGoogleLightWebSearch(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, location: String? = nil, uule: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, filter: Int? = nil, nfpr: Int? = nil, output: Output_googleGoogleLightWebSearch? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return googleGoogleLightWebSearchWithRequestBuilder(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, location: location, uule: uule, lr: lr, tbs: tbs, safe: safe, filter: filter, nfpr: nfpr, output: output).execute(apiResponseQueue) { result in
+    open class func googleGoogleLightWebSearch(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, location: String? = nil, uule: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, filter: Int? = nil, nfpr: Int? = nil, output: Output_googleGoogleLightWebSearch? = nil, googleDomain: String? = nil, lat: Double? = nil, lon: Double? = nil, radius: Double? = nil, colorScheme: ColorScheme_googleGoogleLightWebSearch? = nil, tbm: Tbm_googleGoogleLightWebSearch? = nil, udm: String? = nil, noCache: Bool? = nil, asDt: String? = nil, asEpq: String? = nil, asEq: String? = nil, asLq: String? = nil, asNlo: String? = nil, asNhi: String? = nil, asOq: String? = nil, asQ: String? = nil, asQdr: String? = nil, asRq: String? = nil, asSitesearch: String? = nil, device: String? = nil, userAgent: String? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return googleGoogleLightWebSearchWithRequestBuilder(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, location: location, uule: uule, lr: lr, tbs: tbs, safe: safe, filter: filter, nfpr: nfpr, output: output, googleDomain: googleDomain, lat: lat, lon: lon, radius: radius, colorScheme: colorScheme, tbm: tbm, udm: udm, noCache: noCache, asDt: asDt, asEpq: asEpq, asEq: asEq, asLq: asLq, asNlo: asNlo, asNhi: asNhi, asOq: asOq, asQ: asQ, asQdr: asQdr, asRq: asRq, asSitesearch: asSitesearch, device: device, userAgent: userAgent, cr: cr, ludocid: ludocid, lsig: lsig, kgmid: kgmid, si: si, ibp: ibp, uds: uds).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -896,9 +945,37 @@ open class GoogleAPI {
      - parameter filter: (query)  (optional)
      - parameter nfpr: (query) Disable auto-correction (optional, default to 0)
      - parameter output: (query)  (optional, default to .json)
+     - parameter googleDomain: (query) Alias for domain; Google requests use google.com with country targeting. (optional)
+     - parameter lat: (query) Latitude; supply together with lon instead of location or uule. (optional)
+     - parameter lon: (query) Longitude; supply together with lat. (optional)
+     - parameter radius: (query) Location accuracy in meters; requires lat/lon or a named city with a known center. (optional)
+     - parameter colorScheme: (query) Google color scheme. (optional)
+     - parameter tbm: (query) Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. (optional)
+     - parameter udm: (query) Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html. (optional)
+     - parameter noCache: (query) Bypass result caches and request a fresh Google fetch. (optional, default to false)
+     - parameter asDt: (query) Site restriction mode: i includes, e excludes as_sitesearch. (optional)
+     - parameter asEpq: (query) Exact phrase. (optional)
+     - parameter asEq: (query) Words to exclude. (optional)
+     - parameter asLq: (query) Find pages linking to this URL; availability depends on Google. (optional)
+     - parameter asNlo: (query) Numeric range minimum. (optional)
+     - parameter asNhi: (query) Numeric range maximum. (optional)
+     - parameter asOq: (query) Match any of these words. (optional)
+     - parameter asQ: (query) Additional query words. (optional)
+     - parameter asQdr: (query) Time range, such as d, w, m or y1. (optional)
+     - parameter asRq: (query) Related URL; availability depends on Google. (optional)
+     - parameter asSitesearch: (query) Restrict results to a site. (optional)
+     - parameter device: (query) Device target. (optional)
+     - parameter userAgent: (query) Custom User-Agent. (optional)
+     - parameter cr: (query) Country restrict. (optional)
+     - parameter ludocid: (query) Place CID. (optional)
+     - parameter lsig: (query) Map view ID. (optional)
+     - parameter kgmid: (query) Knowledge Graph entity ID. (optional)
+     - parameter si: (query) Cached Google parameters. (optional)
+     - parameter ibp: (query) Layout control. (optional)
+     - parameter uds: (query) Google filter string. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func googleGoogleLightWebSearchWithRequestBuilder(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, location: String? = nil, uule: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, filter: Int? = nil, nfpr: Int? = nil, output: Output_googleGoogleLightWebSearch? = nil) -> RequestBuilder<AnyCodable> {
+    open class func googleGoogleLightWebSearchWithRequestBuilder(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, location: String? = nil, uule: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, filter: Int? = nil, nfpr: Int? = nil, output: Output_googleGoogleLightWebSearch? = nil, googleDomain: String? = nil, lat: Double? = nil, lon: Double? = nil, radius: Double? = nil, colorScheme: ColorScheme_googleGoogleLightWebSearch? = nil, tbm: Tbm_googleGoogleLightWebSearch? = nil, udm: String? = nil, noCache: Bool? = nil, asDt: String? = nil, asEpq: String? = nil, asEq: String? = nil, asLq: String? = nil, asNlo: String? = nil, asNhi: String? = nil, asOq: String? = nil, asQ: String? = nil, asQdr: String? = nil, asRq: String? = nil, asSitesearch: String? = nil, device: String? = nil, userAgent: String? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/google/light/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -919,6 +996,34 @@ open class GoogleAPI {
             "filter": (wrappedValue: filter?.encodeToJSON(), isExplode: true),
             "nfpr": (wrappedValue: nfpr?.encodeToJSON(), isExplode: true),
             "output": (wrappedValue: output?.encodeToJSON(), isExplode: true),
+            "google_domain": (wrappedValue: googleDomain?.encodeToJSON(), isExplode: true),
+            "lat": (wrappedValue: lat?.encodeToJSON(), isExplode: true),
+            "lon": (wrappedValue: lon?.encodeToJSON(), isExplode: true),
+            "radius": (wrappedValue: radius?.encodeToJSON(), isExplode: true),
+            "color_scheme": (wrappedValue: colorScheme?.encodeToJSON(), isExplode: true),
+            "tbm": (wrappedValue: tbm?.encodeToJSON(), isExplode: true),
+            "udm": (wrappedValue: udm?.encodeToJSON(), isExplode: true),
+            "no_cache": (wrappedValue: noCache?.encodeToJSON(), isExplode: true),
+            "as_dt": (wrappedValue: asDt?.encodeToJSON(), isExplode: true),
+            "as_epq": (wrappedValue: asEpq?.encodeToJSON(), isExplode: true),
+            "as_eq": (wrappedValue: asEq?.encodeToJSON(), isExplode: true),
+            "as_lq": (wrappedValue: asLq?.encodeToJSON(), isExplode: true),
+            "as_nlo": (wrappedValue: asNlo?.encodeToJSON(), isExplode: true),
+            "as_nhi": (wrappedValue: asNhi?.encodeToJSON(), isExplode: true),
+            "as_oq": (wrappedValue: asOq?.encodeToJSON(), isExplode: true),
+            "as_q": (wrappedValue: asQ?.encodeToJSON(), isExplode: true),
+            "as_qdr": (wrappedValue: asQdr?.encodeToJSON(), isExplode: true),
+            "as_rq": (wrappedValue: asRq?.encodeToJSON(), isExplode: true),
+            "as_sitesearch": (wrappedValue: asSitesearch?.encodeToJSON(), isExplode: true),
+            "device": (wrappedValue: device?.encodeToJSON(), isExplode: true),
+            "user_agent": (wrappedValue: userAgent?.encodeToJSON(), isExplode: true),
+            "cr": (wrappedValue: cr?.encodeToJSON(), isExplode: true),
+            "ludocid": (wrappedValue: ludocid?.encodeToJSON(), isExplode: true),
+            "lsig": (wrappedValue: lsig?.encodeToJSON(), isExplode: true),
+            "kgmid": (wrappedValue: kgmid?.encodeToJSON(), isExplode: true),
+            "si": (wrappedValue: si?.encodeToJSON(), isExplode: true),
+            "ibp": (wrappedValue: ibp?.encodeToJSON(), isExplode: true),
+            "uds": (wrappedValue: uds?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -1163,6 +1268,35 @@ open class GoogleAPI {
     }
 
     /**
+     * enum for parameter mode
+     */
+    public enum Mode_googleGoogleWebSearch: String, CaseIterable {
+        case full = "full"
+        case fast = "fast"
+    }
+
+    /**
+     * enum for parameter colorScheme
+     */
+    public enum ColorScheme_googleGoogleWebSearch: String, CaseIterable {
+        case light = "light"
+        case dark = "dark"
+    }
+
+    /**
+     * enum for parameter tbm
+     */
+    public enum Tbm_googleGoogleWebSearch: String, CaseIterable {
+        case isch = "isch"
+        case lcl = "lcl"
+        case vid = "vid"
+        case nws = "nws"
+        case shop = "shop"
+        case pts = "pts"
+        case bks = "bks"
+    }
+
+    /**
      Google web search
      
      - parameter q: (query) Search query (supports Google operators) 
@@ -1189,12 +1323,33 @@ open class GoogleAPI {
      - parameter ibp: (query) Layout control (optional)
      - parameter uds: (query) Google filter string (optional)
      - parameter aiOverview: (query) Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. (optional, default to false)
+     - parameter mode: (query)  (optional, default to .full)
+     - parameter expandRelatedQuestions: (query) Open all People Also Ask answers (true) or the first N (0-99). (optional)
+     - parameter googleDomain: (query) Alias for domain; Google requests use google.com with country targeting. (optional)
+     - parameter lat: (query) Latitude; supply together with lon instead of location or uule. (optional)
+     - parameter lon: (query) Longitude; supply together with lat. (optional)
+     - parameter radius: (query) Location accuracy in meters; requires lat/lon or a named city with a known center. (optional)
+     - parameter colorScheme: (query) Google color scheme. (optional)
+     - parameter tbm: (query) Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. (optional)
+     - parameter udm: (query) Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html. (optional)
+     - parameter noCache: (query) Bypass result caches and request a fresh Google fetch. (optional, default to false)
+     - parameter asDt: (query) Site restriction mode: i includes, e excludes as_sitesearch. (optional)
+     - parameter asEpq: (query) Exact phrase. (optional)
+     - parameter asEq: (query) Words to exclude. (optional)
+     - parameter asLq: (query) Find pages linking to this URL; availability depends on Google. (optional)
+     - parameter asNlo: (query) Numeric range minimum. (optional)
+     - parameter asNhi: (query) Numeric range maximum. (optional)
+     - parameter asOq: (query) Match any of these words. (optional)
+     - parameter asQ: (query) Additional query words. (optional)
+     - parameter asQdr: (query) Time range, such as d, w, m or y1. (optional)
+     - parameter asRq: (query) Related URL; availability depends on Google. (optional)
+     - parameter asSitesearch: (query) Restrict results to a site. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func googleGoogleWebSearch(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, device: Device_googleGoogleWebSearch? = nil, userAgent: String? = nil, output: Output_googleGoogleWebSearch? = nil, location: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, uule: String? = nil, filter: Int? = nil, nfpr: Int? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil, aiOverview: Bool? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return googleGoogleWebSearchWithRequestBuilder(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, device: device, userAgent: userAgent, output: output, location: location, lr: lr, tbs: tbs, safe: safe, uule: uule, filter: filter, nfpr: nfpr, cr: cr, ludocid: ludocid, lsig: lsig, kgmid: kgmid, si: si, ibp: ibp, uds: uds, aiOverview: aiOverview).execute(apiResponseQueue) { result in
+    open class func googleGoogleWebSearch(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, device: Device_googleGoogleWebSearch? = nil, userAgent: String? = nil, output: Output_googleGoogleWebSearch? = nil, location: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, uule: String? = nil, filter: Int? = nil, nfpr: Int? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil, aiOverview: Bool? = nil, mode: Mode_googleGoogleWebSearch? = nil, expandRelatedQuestions: String? = nil, googleDomain: String? = nil, lat: Double? = nil, lon: Double? = nil, radius: Double? = nil, colorScheme: ColorScheme_googleGoogleWebSearch? = nil, tbm: Tbm_googleGoogleWebSearch? = nil, udm: String? = nil, noCache: Bool? = nil, asDt: String? = nil, asEpq: String? = nil, asEq: String? = nil, asLq: String? = nil, asNlo: String? = nil, asNhi: String? = nil, asOq: String? = nil, asQ: String? = nil, asQdr: String? = nil, asRq: String? = nil, asSitesearch: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return googleGoogleWebSearchWithRequestBuilder(q: q, gl: gl, hl: hl, num: num, start: start, domain: domain, device: device, userAgent: userAgent, output: output, location: location, lr: lr, tbs: tbs, safe: safe, uule: uule, filter: filter, nfpr: nfpr, cr: cr, ludocid: ludocid, lsig: lsig, kgmid: kgmid, si: si, ibp: ibp, uds: uds, aiOverview: aiOverview, mode: mode, expandRelatedQuestions: expandRelatedQuestions, googleDomain: googleDomain, lat: lat, lon: lon, radius: radius, colorScheme: colorScheme, tbm: tbm, udm: udm, noCache: noCache, asDt: asDt, asEpq: asEpq, asEq: asEq, asLq: asLq, asNlo: asNlo, asNhi: asNhi, asOq: asOq, asQ: asQ, asQdr: asQdr, asRq: asRq, asSitesearch: asSitesearch).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -1235,9 +1390,30 @@ open class GoogleAPI {
      - parameter ibp: (query) Layout control (optional)
      - parameter uds: (query) Google filter string (optional)
      - parameter aiOverview: (query) Chase deferred AI Overview page_token with a follow-up fetch and merge the result. Adds ~1s when the SERP defers the overview; the request price is unchanged. (optional, default to false)
+     - parameter mode: (query)  (optional, default to .full)
+     - parameter expandRelatedQuestions: (query) Open all People Also Ask answers (true) or the first N (0-99). (optional)
+     - parameter googleDomain: (query) Alias for domain; Google requests use google.com with country targeting. (optional)
+     - parameter lat: (query) Latitude; supply together with lon instead of location or uule. (optional)
+     - parameter lon: (query) Longitude; supply together with lat. (optional)
+     - parameter radius: (query) Location accuracy in meters; requires lat/lon or a named city with a known center. (optional)
+     - parameter colorScheme: (query) Google color scheme. (optional)
+     - parameter tbm: (query) Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. (optional)
+     - parameter udm: (query) Google result filter: 14 web, 18 forums. Other verticals require output&#x3D;html. (optional)
+     - parameter noCache: (query) Bypass result caches and request a fresh Google fetch. (optional, default to false)
+     - parameter asDt: (query) Site restriction mode: i includes, e excludes as_sitesearch. (optional)
+     - parameter asEpq: (query) Exact phrase. (optional)
+     - parameter asEq: (query) Words to exclude. (optional)
+     - parameter asLq: (query) Find pages linking to this URL; availability depends on Google. (optional)
+     - parameter asNlo: (query) Numeric range minimum. (optional)
+     - parameter asNhi: (query) Numeric range maximum. (optional)
+     - parameter asOq: (query) Match any of these words. (optional)
+     - parameter asQ: (query) Additional query words. (optional)
+     - parameter asQdr: (query) Time range, such as d, w, m or y1. (optional)
+     - parameter asRq: (query) Related URL; availability depends on Google. (optional)
+     - parameter asSitesearch: (query) Restrict results to a site. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func googleGoogleWebSearchWithRequestBuilder(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, device: Device_googleGoogleWebSearch? = nil, userAgent: String? = nil, output: Output_googleGoogleWebSearch? = nil, location: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, uule: String? = nil, filter: Int? = nil, nfpr: Int? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil, aiOverview: Bool? = nil) -> RequestBuilder<AnyCodable> {
+    open class func googleGoogleWebSearchWithRequestBuilder(q: String, gl: String? = nil, hl: String? = nil, num: Int? = nil, start: Int? = nil, domain: String? = nil, device: Device_googleGoogleWebSearch? = nil, userAgent: String? = nil, output: Output_googleGoogleWebSearch? = nil, location: String? = nil, lr: String? = nil, tbs: String? = nil, safe: String? = nil, uule: String? = nil, filter: Int? = nil, nfpr: Int? = nil, cr: String? = nil, ludocid: String? = nil, lsig: String? = nil, kgmid: String? = nil, si: String? = nil, ibp: String? = nil, uds: String? = nil, aiOverview: Bool? = nil, mode: Mode_googleGoogleWebSearch? = nil, expandRelatedQuestions: String? = nil, googleDomain: String? = nil, lat: Double? = nil, lon: Double? = nil, radius: Double? = nil, colorScheme: ColorScheme_googleGoogleWebSearch? = nil, tbm: Tbm_googleGoogleWebSearch? = nil, udm: String? = nil, noCache: Bool? = nil, asDt: String? = nil, asEpq: String? = nil, asEq: String? = nil, asLq: String? = nil, asNlo: String? = nil, asNhi: String? = nil, asOq: String? = nil, asQ: String? = nil, asQdr: String? = nil, asRq: String? = nil, asSitesearch: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/google/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -1268,6 +1444,27 @@ open class GoogleAPI {
             "ibp": (wrappedValue: ibp?.encodeToJSON(), isExplode: true),
             "uds": (wrappedValue: uds?.encodeToJSON(), isExplode: true),
             "ai_overview": (wrappedValue: aiOverview?.encodeToJSON(), isExplode: true),
+            "mode": (wrappedValue: mode?.encodeToJSON(), isExplode: true),
+            "expand_related_questions": (wrappedValue: expandRelatedQuestions?.encodeToJSON(), isExplode: true),
+            "google_domain": (wrappedValue: googleDomain?.encodeToJSON(), isExplode: true),
+            "lat": (wrappedValue: lat?.encodeToJSON(), isExplode: true),
+            "lon": (wrappedValue: lon?.encodeToJSON(), isExplode: true),
+            "radius": (wrappedValue: radius?.encodeToJSON(), isExplode: true),
+            "color_scheme": (wrappedValue: colorScheme?.encodeToJSON(), isExplode: true),
+            "tbm": (wrappedValue: tbm?.encodeToJSON(), isExplode: true),
+            "udm": (wrappedValue: udm?.encodeToJSON(), isExplode: true),
+            "no_cache": (wrappedValue: noCache?.encodeToJSON(), isExplode: true),
+            "as_dt": (wrappedValue: asDt?.encodeToJSON(), isExplode: true),
+            "as_epq": (wrappedValue: asEpq?.encodeToJSON(), isExplode: true),
+            "as_eq": (wrappedValue: asEq?.encodeToJSON(), isExplode: true),
+            "as_lq": (wrappedValue: asLq?.encodeToJSON(), isExplode: true),
+            "as_nlo": (wrappedValue: asNlo?.encodeToJSON(), isExplode: true),
+            "as_nhi": (wrappedValue: asNhi?.encodeToJSON(), isExplode: true),
+            "as_oq": (wrappedValue: asOq?.encodeToJSON(), isExplode: true),
+            "as_q": (wrappedValue: asQ?.encodeToJSON(), isExplode: true),
+            "as_qdr": (wrappedValue: asQdr?.encodeToJSON(), isExplode: true),
+            "as_rq": (wrappedValue: asRq?.encodeToJSON(), isExplode: true),
+            "as_sitesearch": (wrappedValue: asSitesearch?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
