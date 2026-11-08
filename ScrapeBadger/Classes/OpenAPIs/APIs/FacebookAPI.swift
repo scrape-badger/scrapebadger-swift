@@ -1058,12 +1058,14 @@ open class FacebookAPI {
      - parameter deliveryMethod: (query)  (optional)
      - parameter radius: (query) Search radius around the location (km, or miles in the US) (optional)
      - parameter after: (query)  (optional)
+     - parameter strictFilters: (query) Verify radius in km and age locally; use bounded public search continuations with partial-coverage diagnostics (optional, default to false)
+     - parameter includeDetails: (query) Enrich returned listings with full public descriptions and photos; enables verified search (optional, default to false)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func facebookSearchMarketplace(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, radius: Int? = nil, after: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return facebookSearchMarketplaceWithRequestBuilder(query: query, location: location, minPrice: minPrice, maxPrice: maxPrice, daysSinceListed: daysSinceListed, sortBy: sortBy, itemCondition: itemCondition, deliveryMethod: deliveryMethod, radius: radius, after: after).execute(apiResponseQueue) { result in
+    open class func facebookSearchMarketplace(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, radius: Int? = nil, after: String? = nil, strictFilters: Bool? = nil, includeDetails: Bool? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return facebookSearchMarketplaceWithRequestBuilder(query: query, location: location, minPrice: minPrice, maxPrice: maxPrice, daysSinceListed: daysSinceListed, sortBy: sortBy, itemCondition: itemCondition, deliveryMethod: deliveryMethod, radius: radius, after: after, strictFilters: strictFilters, includeDetails: includeDetails).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -1076,7 +1078,7 @@ open class FacebookAPI {
     /**
      Search Marketplace
      - GET /v1/facebook/marketplace/search
-     - Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.
+     - Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.  Set strict_filters=true for locally enforced radius (always km) and age. Public price-range continuations are bounded to eight pages; sort the full collected set for newest-first monitoring. Coverage and freshness are partial.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -1090,9 +1092,11 @@ open class FacebookAPI {
      - parameter deliveryMethod: (query)  (optional)
      - parameter radius: (query) Search radius around the location (km, or miles in the US) (optional)
      - parameter after: (query)  (optional)
+     - parameter strictFilters: (query) Verify radius in km and age locally; use bounded public search continuations with partial-coverage diagnostics (optional, default to false)
+     - parameter includeDetails: (query) Enrich returned listings with full public descriptions and photos; enables verified search (optional, default to false)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func facebookSearchMarketplaceWithRequestBuilder(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, radius: Int? = nil, after: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func facebookSearchMarketplaceWithRequestBuilder(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, radius: Int? = nil, after: String? = nil, strictFilters: Bool? = nil, includeDetails: Bool? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/facebook/marketplace/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -1109,6 +1113,8 @@ open class FacebookAPI {
             "delivery_method": (wrappedValue: deliveryMethod?.encodeToJSON(), isExplode: true),
             "radius": (wrappedValue: radius?.encodeToJSON(), isExplode: true),
             "after": (wrappedValue: after?.encodeToJSON(), isExplode: true),
+            "strict_filters": (wrappedValue: strictFilters?.encodeToJSON(), isExplode: true),
+            "include_details": (wrappedValue: includeDetails?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [

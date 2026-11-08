@@ -1021,12 +1021,12 @@ Name | Type | Description  | Notes
 
 # **facebookSearchMarketplace**
 ```swift
-    open class func facebookSearchMarketplace(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, radius: Int? = nil, after: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func facebookSearchMarketplace(query: String, location: String? = nil, minPrice: Int? = nil, maxPrice: Int? = nil, daysSinceListed: Int? = nil, sortBy: String? = nil, itemCondition: String? = nil, deliveryMethod: String? = nil, radius: Int? = nil, after: String? = nil, strictFilters: Bool? = nil, includeDetails: Bool? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Search Marketplace
 
-Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.
+Search Facebook Marketplace listings by keyword and location.  ``location`` must be a Facebook location slug (``london``, ``newcastleupontyne``) or a numeric Facebook place id — the ``city_page_id`` on any listing is one. Human-readable names such as ``Durham, UK`` are rejected with a 400 rather than silently searching Facebook's San Francisco default.  Set strict_filters=true for locally enforced radius (always km) and age. Public price-range continuations are bounded to eight pages; sort the full collected set for newest-first monitoring. Coverage and freshness are partial.
 
 ### Example
 ```swift
@@ -1043,9 +1043,11 @@ let itemCondition = "itemCondition_example" // String |  (optional)
 let deliveryMethod = "deliveryMethod_example" // String |  (optional)
 let radius = 987 // Int | Search radius around the location (km, or miles in the US) (optional)
 let after = "after_example" // String |  (optional)
+let strictFilters = true // Bool | Verify radius in km and age locally; use bounded public search continuations with partial-coverage diagnostics (optional) (default to false)
+let includeDetails = true // Bool | Enrich returned listings with full public descriptions and photos; enables verified search (optional) (default to false)
 
 // Search Marketplace
-FacebookAPI.facebookSearchMarketplace(query: query, location: location, minPrice: minPrice, maxPrice: maxPrice, daysSinceListed: daysSinceListed, sortBy: sortBy, itemCondition: itemCondition, deliveryMethod: deliveryMethod, radius: radius, after: after) { (response, error) in
+FacebookAPI.facebookSearchMarketplace(query: query, location: location, minPrice: minPrice, maxPrice: maxPrice, daysSinceListed: daysSinceListed, sortBy: sortBy, itemCondition: itemCondition, deliveryMethod: deliveryMethod, radius: radius, after: after, strictFilters: strictFilters, includeDetails: includeDetails) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -1071,6 +1073,8 @@ Name | Type | Description  | Notes
  **deliveryMethod** | **String** |  | [optional] 
  **radius** | **Int** | Search radius around the location (km, or miles in the US) | [optional] 
  **after** | **String** |  | [optional] 
+ **strictFilters** | **Bool** | Verify radius in km and age locally; use bounded public search continuations with partial-coverage diagnostics | [optional] [default to false]
+ **includeDetails** | **Bool** | Enrich returned listings with full public descriptions and photos; enables verified search | [optional] [default to false]
 
 ### Return type
 
