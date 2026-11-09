@@ -4,17 +4,17 @@ All URIs are relative to *https://scrapebadger.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**resultsReReadAResult**](ResultsAPI.md#resultsrereadaresult) | **GET** /v1/results/{result_id} | Re-read a result
+[**resultsReReadAResultRemoved**](ResultsAPI.md#resultsrereadaresultremoved) | **GET** /v1/results/{result_id} | Re-read a result (removed)
 
 
-# **resultsReReadAResult**
+# **resultsReReadAResultRemoved**
 ```swift
-    open class func resultsReReadAResult(resultId: String, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func resultsReReadAResultRemoved(resultId: String, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
-Re-read a result
+Re-read a result (removed)
 
-Replay a billed result (X-Result-ID) for free for ~15 minutes, optionally trimmed with jq / fields / max_items / summary. Never re-run a paid call just to reshape it.
+Removed (SCR-396): ScrapeBadger no longer stores results, so there is nothing to re-read. Always 410. Narrow a call with _jq / _fields / _max_items instead.
 
 ### Example
 ```swift
@@ -23,8 +23,8 @@ import ScrapeBadger
 
 let resultId = "resultId_example" // String | 
 
-// Re-read a result
-ResultsAPI.resultsReReadAResult(resultId: resultId) { (response, error) in
+// Re-read a result (removed)
+ResultsAPI.resultsReReadAResultRemoved(resultId: resultId) { (response, error) in
     guard error == nil else {
         print(error)
         return

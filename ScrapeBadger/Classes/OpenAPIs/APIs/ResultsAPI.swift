@@ -13,15 +13,15 @@ import AnyCodable
 open class ResultsAPI {
 
     /**
-     Re-read a result
+     Re-read a result (removed)
      
      - parameter resultId: (path)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func resultsReReadAResult(resultId: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return resultsReReadAResultWithRequestBuilder(resultId: resultId).execute(apiResponseQueue) { result in
+    open class func resultsReReadAResultRemoved(resultId: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return resultsReReadAResultRemovedWithRequestBuilder(resultId: resultId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -32,16 +32,16 @@ open class ResultsAPI {
     }
 
     /**
-     Re-read a result
+     Re-read a result (removed)
      - GET /v1/results/{result_id}
-     - Replay a billed result (X-Result-ID) for free for ~15 minutes, optionally trimmed with jq / fields / max_items / summary. Never re-run a paid call just to reshape it.
+     - Removed (SCR-396): ScrapeBadger no longer stores results, so there is nothing to re-read. Always 410. Narrow a call with _jq / _fields / _max_items instead.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter resultId: (path)  
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func resultsReReadAResultWithRequestBuilder(resultId: String) -> RequestBuilder<AnyCodable> {
+    open class func resultsReReadAResultRemovedWithRequestBuilder(resultId: String) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/results/{result_id}"
         let resultIdPreEscape = "\(APIHelper.mapValueToPathItem(resultId))"
         let resultIdPostEscape = resultIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

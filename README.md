@@ -453,7 +453,7 @@ Class | Method | HTTP request | Description
 *RedfinAPI* | [**redfinRegionAddressSuggestions**](docs/RedfinAPI.md#redfinregionaddresssuggestions) | **GET** /v1/redfin/autocomplete | Region/address suggestions
 *RedfinAPI* | [**redfinSearchProperties**](docs/RedfinAPI.md#redfinsearchproperties) | **GET** /v1/redfin/search | Search properties
 *RequestsAPI* | [**requestsPollAnAsyncRequest**](docs/RequestsAPI.md#requestspollanasyncrequest) | **GET** /v1/requests/{request_id} | Poll an async request
-*ResultsAPI* | [**resultsReReadAResult**](docs/ResultsAPI.md#resultsrereadaresult) | **GET** /v1/results/{result_id} | Re-read a result
+*ResultsAPI* | [**resultsReReadAResultRemoved**](docs/ResultsAPI.md#resultsrereadaresultremoved) | **GET** /v1/results/{result_id} | Re-read a result (removed)
 *TargetAPI* | [**targetBrowseACategory**](docs/TargetAPI.md#targetbrowseacategory) | **GET** /v1/target/category | Browse a category
 *TargetAPI* | [**targetFindNearbyStores**](docs/TargetAPI.md#targetfindnearbystores) | **GET** /v1/target/stores | Find nearby stores
 *TargetAPI* | [**targetGetCategories**](docs/TargetAPI.md#targetgetcategories) | **GET** /v1/target/categories | Get categories
