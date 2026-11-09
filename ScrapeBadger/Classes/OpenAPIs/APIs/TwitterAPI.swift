@@ -2038,31 +2038,19 @@ open class TwitterAPI {
     }
 
     /**
-     * enum for parameter sort
-     */
-    public enum Sort_twitterListDeliveryLogsForAFilterRule: String, CaseIterable {
-        case asc = "asc"
-        case desc = "desc"
-    }
-
-    /**
      List delivery logs for a filter rule
      
      - parameter ruleId: (path)  
-     - parameter deliveryStatus: (query)  (optional)
-     - parameter authorUsername: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 20)
-     - parameter sort: (query)  (optional, default to .desc)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
+    @available(*, deprecated, message: "This operation is deprecated.")
     @discardableResult
-    open class func twitterListDeliveryLogsForAFilterRule(ruleId: String, deliveryStatus: String? = nil, authorUsername: String? = nil, page: Int? = nil, pageSize: Int? = nil, sort: Sort_twitterListDeliveryLogsForAFilterRule? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: FilterRuleDeliveryLogListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return twitterListDeliveryLogsForAFilterRuleWithRequestBuilder(ruleId: ruleId, deliveryStatus: deliveryStatus, authorUsername: authorUsername, page: page, pageSize: pageSize, sort: sort).execute(apiResponseQueue) { result in
+    open class func twitterListDeliveryLogsForAFilterRule(ruleId: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+        return twitterListDeliveryLogsForAFilterRuleWithRequestBuilder(ruleId: ruleId).execute(apiResponseQueue) { result in
             switch result {
-            case let .success(response):
-                completion(response.body, nil)
+            case .success:
+                completion((), nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -2072,19 +2060,15 @@ open class TwitterAPI {
     /**
      List delivery logs for a filter rule
      - GET /v1/twitter/stream/filter-rules/{rule_id}/logs
-     - List tweet delivery logs for a specific filter rule.
+     - Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers ``410 Gone`` with ``error: delivery_logs_removed``.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter ruleId: (path)  
-     - parameter deliveryStatus: (query)  (optional)
-     - parameter authorUsername: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 20)
-     - parameter sort: (query)  (optional, default to .desc)
-     - returns: RequestBuilder<FilterRuleDeliveryLogListResponse> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func twitterListDeliveryLogsForAFilterRuleWithRequestBuilder(ruleId: String, deliveryStatus: String? = nil, authorUsername: String? = nil, page: Int? = nil, pageSize: Int? = nil, sort: Sort_twitterListDeliveryLogsForAFilterRule? = nil) -> RequestBuilder<FilterRuleDeliveryLogListResponse> {
+    @available(*, deprecated, message: "This operation is deprecated.")
+    open class func twitterListDeliveryLogsForAFilterRuleWithRequestBuilder(ruleId: String) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/twitter/stream/filter-rules/{rule_id}/logs"
         let ruleIdPreEscape = "\(APIHelper.mapValueToPathItem(ruleId))"
         let ruleIdPostEscape = ruleIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -2092,14 +2076,7 @@ open class TwitterAPI {
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "delivery_status": (wrappedValue: deliveryStatus?.encodeToJSON(), isExplode: true),
-            "author_username": (wrappedValue: authorUsername?.encodeToJSON(), isExplode: true),
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "page_size": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-            "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
             :
@@ -2107,7 +2084,7 @@ open class TwitterAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<FilterRuleDeliveryLogListResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ScrapeBadgerAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -2225,31 +2202,18 @@ open class TwitterAPI {
     }
 
     /**
-     * enum for parameter sort
-     */
-    public enum Sort_twitterListTweetDeliveryLogs: String, CaseIterable {
-        case asc = "asc"
-        case desc = "desc"
-    }
-
-    /**
      List tweet delivery logs
      
-     - parameter monitorId: (query)  (optional)
-     - parameter authorUsername: (query)  (optional)
-     - parameter deliveryStatus: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 20)
-     - parameter sort: (query)  (optional, default to .desc)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
+    @available(*, deprecated, message: "This operation is deprecated.")
     @discardableResult
-    open class func twitterListTweetDeliveryLogs(monitorId: String? = nil, authorUsername: String? = nil, deliveryStatus: String? = nil, page: Int? = nil, pageSize: Int? = nil, sort: Sort_twitterListTweetDeliveryLogs? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: TweetDeliveryLogListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return twitterListTweetDeliveryLogsWithRequestBuilder(monitorId: monitorId, authorUsername: authorUsername, deliveryStatus: deliveryStatus, page: page, pageSize: pageSize, sort: sort).execute(apiResponseQueue) { result in
+    open class func twitterListTweetDeliveryLogs(apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+        return twitterListTweetDeliveryLogsWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
-            case let .success(response):
-                completion(response.body, nil)
+            case .success:
+                completion((), nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -2259,32 +2223,19 @@ open class TwitterAPI {
     /**
      List tweet delivery logs
      - GET /v1/twitter/stream/logs
-     - List tweet delivery logs for the authenticated API key's monitors.
+     - Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers ``410 Gone`` with ``error: delivery_logs_removed``. Each tweet is delivered to your webhook or WebSocket only; keep your own log there.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
-     - parameter monitorId: (query)  (optional)
-     - parameter authorUsername: (query)  (optional)
-     - parameter deliveryStatus: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 20)
-     - parameter sort: (query)  (optional, default to .desc)
-     - returns: RequestBuilder<TweetDeliveryLogListResponse> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func twitterListTweetDeliveryLogsWithRequestBuilder(monitorId: String? = nil, authorUsername: String? = nil, deliveryStatus: String? = nil, page: Int? = nil, pageSize: Int? = nil, sort: Sort_twitterListTweetDeliveryLogs? = nil) -> RequestBuilder<TweetDeliveryLogListResponse> {
+    @available(*, deprecated, message: "This operation is deprecated.")
+    open class func twitterListTweetDeliveryLogsWithRequestBuilder() -> RequestBuilder<Void> {
         let localVariablePath = "/v1/twitter/stream/logs"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "monitor_id": (wrappedValue: monitorId?.encodeToJSON(), isExplode: true),
-            "author_username": (wrappedValue: authorUsername?.encodeToJSON(), isExplode: true),
-            "delivery_status": (wrappedValue: deliveryStatus?.encodeToJSON(), isExplode: true),
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "page_size": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-            "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
             :
@@ -2292,7 +2243,7 @@ open class TwitterAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TweetDeliveryLogListResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ScrapeBadgerAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }

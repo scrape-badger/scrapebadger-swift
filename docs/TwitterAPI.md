@@ -2051,12 +2051,12 @@ Name | Type | Description  | Notes
 
 # **twitterListDeliveryLogsForAFilterRule**
 ```swift
-    open class func twitterListDeliveryLogsForAFilterRule(ruleId: String, deliveryStatus: String? = nil, authorUsername: String? = nil, page: Int? = nil, pageSize: Int? = nil, sort: Sort_twitterListDeliveryLogsForAFilterRule? = nil, completion: @escaping (_ data: FilterRuleDeliveryLogListResponse?, _ error: Error?) -> Void)
+    open class func twitterListDeliveryLogsForAFilterRule(ruleId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 List delivery logs for a filter rule
 
-List tweet delivery logs for a specific filter rule.
+Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers ``410 Gone`` with ``error: delivery_logs_removed``.
 
 ### Example
 ```swift
@@ -2064,14 +2064,9 @@ List tweet delivery logs for a specific filter rule.
 import ScrapeBadger
 
 let ruleId = "ruleId_example" // String | 
-let deliveryStatus = "deliveryStatus_example" // String |  (optional)
-let authorUsername = "authorUsername_example" // String |  (optional)
-let page = 987 // Int |  (optional) (default to 1)
-let pageSize = 987 // Int |  (optional) (default to 20)
-let sort = "sort_example" // String |  (optional) (default to .desc)
 
 // List delivery logs for a filter rule
-TwitterAPI.twitterListDeliveryLogsForAFilterRule(ruleId: ruleId, deliveryStatus: deliveryStatus, authorUsername: authorUsername, page: page, pageSize: pageSize, sort: sort) { (response, error) in
+TwitterAPI.twitterListDeliveryLogsForAFilterRule(ruleId: ruleId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -2088,15 +2083,10 @@ TwitterAPI.twitterListDeliveryLogsForAFilterRule(ruleId: ruleId, deliveryStatus:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ruleId** | **String** |  | 
- **deliveryStatus** | **String** |  | [optional] 
- **authorUsername** | **String** |  | [optional] 
- **page** | **Int** |  | [optional] [default to 1]
- **pageSize** | **Int** |  | [optional] [default to 20]
- **sort** | **String** |  | [optional] [default to .desc]
 
 ### Return type
 
-[**FilterRuleDeliveryLogListResponse**](FilterRuleDeliveryLogListResponse.md)
+Void (empty response body)
 
 ### Authorization
 
@@ -2219,27 +2209,21 @@ Name | Type | Description  | Notes
 
 # **twitterListTweetDeliveryLogs**
 ```swift
-    open class func twitterListTweetDeliveryLogs(monitorId: String? = nil, authorUsername: String? = nil, deliveryStatus: String? = nil, page: Int? = nil, pageSize: Int? = nil, sort: Sort_twitterListTweetDeliveryLogs? = nil, completion: @escaping (_ data: TweetDeliveryLogListResponse?, _ error: Error?) -> Void)
+    open class func twitterListTweetDeliveryLogs(completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 List tweet delivery logs
 
-List tweet delivery logs for the authenticated API key's monitors.
+Removed on 2026-11-09 (SCR-396): ScrapeBadger no longer stores delivered tweets.  Always answers ``410 Gone`` with ``error: delivery_logs_removed``. Each tweet is delivered to your webhook or WebSocket only; keep your own log there.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ScrapeBadger
 
-let monitorId = "monitorId_example" // String |  (optional)
-let authorUsername = "authorUsername_example" // String |  (optional)
-let deliveryStatus = "deliveryStatus_example" // String |  (optional)
-let page = 987 // Int |  (optional) (default to 1)
-let pageSize = 987 // Int |  (optional) (default to 20)
-let sort = "sort_example" // String |  (optional) (default to .desc)
 
 // List tweet delivery logs
-TwitterAPI.twitterListTweetDeliveryLogs(monitorId: monitorId, authorUsername: authorUsername, deliveryStatus: deliveryStatus, page: page, pageSize: pageSize, sort: sort) { (response, error) in
+TwitterAPI.twitterListTweetDeliveryLogs() { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -2252,19 +2236,11 @@ TwitterAPI.twitterListTweetDeliveryLogs(monitorId: monitorId, authorUsername: au
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **monitorId** | **String** |  | [optional] 
- **authorUsername** | **String** |  | [optional] 
- **deliveryStatus** | **String** |  | [optional] 
- **page** | **Int** |  | [optional] [default to 1]
- **pageSize** | **Int** |  | [optional] [default to 20]
- **sort** | **String** |  | [optional] [default to .desc]
+This endpoint does not need any parameter.
 
 ### Return type
 
-[**TweetDeliveryLogListResponse**](TweetDeliveryLogListResponse.md)
+Void (empty response body)
 
 ### Authorization
 

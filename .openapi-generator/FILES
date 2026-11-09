@@ -112,8 +112,6 @@ ScrapeBadger/Classes/OpenAPIs/Models/FamilyFriendly.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Faq.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FeedbackRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleCreate.swift
-ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleDeliveryLogListResponse.swift
-ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleDeliveryLogResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleListResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/FilterRuleUpdate.swift
@@ -212,8 +210,6 @@ ScrapeBadger/Classes/OpenAPIs/Models/StreamMonitorUpdate.swift
 ScrapeBadger/Classes/OpenAPIs/Models/SubscriptionInfo.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Subtype.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Thumbnail.swift
-ScrapeBadger/Classes/OpenAPIs/Models/TweetDeliveryLogListResponse.swift
-ScrapeBadger/Classes/OpenAPIs/Models/TweetDeliveryLogResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Url.swift
 ScrapeBadger/Classes/OpenAPIs/Models/UserItemsResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/UserProfileResponse.swift
@@ -322,8 +318,6 @@ docs/Faq.md
 docs/FeedbackAPI.md
 docs/FeedbackRequest.md
 docs/FilterRuleCreate.md
-docs/FilterRuleDeliveryLogListResponse.md
-docs/FilterRuleDeliveryLogResponse.md
 docs/FilterRuleListResponse.md
 docs/FilterRuleResponse.md
 docs/FilterRuleUpdate.md
@@ -443,8 +437,6 @@ docs/Subtype.md
 docs/TargetAPI.md
 docs/Thumbnail.md
 docs/TikTokAPI.md
-docs/TweetDeliveryLogListResponse.md
-docs/TweetDeliveryLogResponse.md
 docs/TwitterAPI.md
 docs/Url.md
 docs/UserItemsResponse.md
