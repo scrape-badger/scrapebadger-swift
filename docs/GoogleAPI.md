@@ -844,7 +844,7 @@ let radius = 987 // Double | Location accuracy in meters; requires lat/lon or a 
 let colorScheme = "colorScheme_example" // String | Google color scheme. (optional)
 let tbm = "tbm_example" // String | Google search type. Use output=html for verticals; dedicated APIs provide parsed vertical results. (optional)
 let udm = "udm_example" // String | Google result filter: web or 14 for web, 18 for forums. Other verticals require output=html. (optional)
-let noCache = true // Bool | Bypass result caches and request a fresh Google fetch. (optional) (default to false)
+let noCache = true // Bool | Ignored: responses are never cached. (optional) (default to false)
 let asDt = "asDt_example" // String | Site restriction mode: i includes, e excludes as_sitesearch. (optional)
 let asEpq = "asEpq_example" // String | Exact phrase. (optional)
 let asEq = "asEq_example" // String | Words to exclude. (optional)
@@ -907,7 +907,7 @@ Name | Type | Description  | Notes
  **colorScheme** | **String** | Google color scheme. | [optional] 
  **tbm** | **String** | Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. | [optional] 
  **udm** | **String** | Google result filter: web or 14 for web, 18 for forums. Other verticals require output&#x3D;html. | [optional] 
- **noCache** | **Bool** | Bypass result caches and request a fresh Google fetch. | [optional] [default to false]
+ **noCache** | **Bool** | Ignored: responses are never cached. | [optional] [default to false]
  **asDt** | **String** | Site restriction mode: i includes, e excludes as_sitesearch. | [optional] 
  **asEpq** | **String** | Exact phrase. | [optional] 
  **asEq** | **String** | Words to exclude. | [optional] 
@@ -1200,7 +1200,7 @@ let radius = 987 // Double | Location accuracy in meters; requires lat/lon or a 
 let colorScheme = "colorScheme_example" // String | Google color scheme. (optional)
 let tbm = "tbm_example" // String | Google search type. Use output=html for verticals; dedicated APIs provide parsed vertical results. (optional)
 let udm = "udm_example" // String | Google result filter: web or 14 for web, 18 for forums. Other verticals require output=html. (optional)
-let noCache = true // Bool | Bypass result caches and request a fresh Google fetch. (optional) (default to false)
+let noCache = true // Bool | Ignored: responses are never cached. (optional) (default to false)
 let asDt = "asDt_example" // String | Site restriction mode: i includes, e excludes as_sitesearch. (optional)
 let asEpq = "asEpq_example" // String | Exact phrase. (optional)
 let asEq = "asEq_example" // String | Words to exclude. (optional)
@@ -1266,7 +1266,7 @@ Name | Type | Description  | Notes
  **colorScheme** | **String** | Google color scheme. | [optional] 
  **tbm** | **String** | Google search type. Use output&#x3D;html for verticals; dedicated APIs provide parsed vertical results. | [optional] 
  **udm** | **String** | Google result filter: web or 14 for web, 18 for forums. Other verticals require output&#x3D;html. | [optional] 
- **noCache** | **Bool** | Bypass result caches and request a fresh Google fetch. | [optional] [default to false]
+ **noCache** | **Bool** | Ignored: responses are never cached. | [optional] [default to false]
  **asDt** | **String** | Site restriction mode: i includes, e excludes as_sitesearch. | [optional] 
  **asEpq** | **String** | Exact phrase. | [optional] 
  **asEq** | **String** | Words to exclude. | [optional] 
