@@ -460,15 +460,19 @@ open class GoogleAPI {
      Google AI Mode search
      
      - parameter q: (query) Search query for AI-generated response 
-     - parameter gl: (query) Country code (optional, default to "us")
+     - parameter gl: (query) Google country (market) code. It shapes the answer; it does not pick the exit IP&#39;s country. Defaults to the &#x60;location&#x60;&#39;s country when &#x60;location&#x60; is set. (optional, default to "us")
      - parameter hl: (query) Language code (optional, default to "en")
      - parameter includeHtml: (query) Include the raw &#x60;answer_html&#x60; (full answer body HTML) in the response for maximum parity. It can be 100s of KB — set false when you only need the structured &#x60;text_blocks&#x60; + &#x60;markdown&#x60;. (optional, default to true)
+     - parameter location: (query) Answer as if the user were here: a Google canonical location name (e.g. &#x60;Wonju-si,Gangwon-do,South Korea&#x60;), a Google criteria ID, or an unambiguous short name within &#x60;gl&#x60;. Use only one of location, uule, or lat/lon. (optional)
+     - parameter uule: (query) A Google UULE value in its &#x60;w+&#x60; (canonical name) or &#x60;j+&#x60; (coordinates) form. (optional)
+     - parameter lat: (query) Latitude of the user&#39;s location (with lon). (optional)
+     - parameter lon: (query) Longitude of the user&#39;s location (with lat). (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func googleGoogleAiModeSearch(q: String, gl: String? = nil, hl: String? = nil, includeHtml: Bool? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return googleGoogleAiModeSearchWithRequestBuilder(q: q, gl: gl, hl: hl, includeHtml: includeHtml).execute(apiResponseQueue) { result in
+    open class func googleGoogleAiModeSearch(q: String, gl: String? = nil, hl: String? = nil, includeHtml: Bool? = nil, location: String? = nil, uule: String? = nil, lat: Double? = nil, lon: Double? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return googleGoogleAiModeSearchWithRequestBuilder(q: q, gl: gl, hl: hl, includeHtml: includeHtml, location: location, uule: uule, lat: lat, lon: lon).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -481,17 +485,21 @@ open class GoogleAPI {
     /**
      Google AI Mode search
      - GET /v1/google/ai-mode/search
-     - Get AI-generated search results from Google AI Mode.  Returns the structured `text_blocks` (paragraphs, headings, comparison `table` blocks and lists), a flat `references` source list, a compact `markdown` rendering of the whole answer and — unless `include_html` is false — the raw `answer_html` body.
+     - Get AI-generated search results from Google AI Mode.  Returns the structured `text_blocks` (paragraphs, headings, comparison `table` blocks and lists), a flat `references` source list, a compact `markdown` rendering of the whole answer and — unless `include_html` is false — the raw `answer_html` body.  `location`, `uule` or `lat`/`lon` localise the answer (\"near me\", local results) to that place, down to the city or district, wherever the request exits from. Located answers echo a `location` object.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter q: (query) Search query for AI-generated response 
-     - parameter gl: (query) Country code (optional, default to "us")
+     - parameter gl: (query) Google country (market) code. It shapes the answer; it does not pick the exit IP&#39;s country. Defaults to the &#x60;location&#x60;&#39;s country when &#x60;location&#x60; is set. (optional, default to "us")
      - parameter hl: (query) Language code (optional, default to "en")
      - parameter includeHtml: (query) Include the raw &#x60;answer_html&#x60; (full answer body HTML) in the response for maximum parity. It can be 100s of KB — set false when you only need the structured &#x60;text_blocks&#x60; + &#x60;markdown&#x60;. (optional, default to true)
+     - parameter location: (query) Answer as if the user were here: a Google canonical location name (e.g. &#x60;Wonju-si,Gangwon-do,South Korea&#x60;), a Google criteria ID, or an unambiguous short name within &#x60;gl&#x60;. Use only one of location, uule, or lat/lon. (optional)
+     - parameter uule: (query) A Google UULE value in its &#x60;w+&#x60; (canonical name) or &#x60;j+&#x60; (coordinates) form. (optional)
+     - parameter lat: (query) Latitude of the user&#39;s location (with lon). (optional)
+     - parameter lon: (query) Longitude of the user&#39;s location (with lat). (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func googleGoogleAiModeSearchWithRequestBuilder(q: String, gl: String? = nil, hl: String? = nil, includeHtml: Bool? = nil) -> RequestBuilder<AnyCodable> {
+    open class func googleGoogleAiModeSearchWithRequestBuilder(q: String, gl: String? = nil, hl: String? = nil, includeHtml: Bool? = nil, location: String? = nil, uule: String? = nil, lat: Double? = nil, lon: Double? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/google/ai-mode/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -502,6 +510,10 @@ open class GoogleAPI {
             "gl": (wrappedValue: gl?.encodeToJSON(), isExplode: true),
             "hl": (wrappedValue: hl?.encodeToJSON(), isExplode: true),
             "include_html": (wrappedValue: includeHtml?.encodeToJSON(), isExplode: true),
+            "location": (wrappedValue: location?.encodeToJSON(), isExplode: true),
+            "uule": (wrappedValue: uule?.encodeToJSON(), isExplode: true),
+            "lat": (wrappedValue: lat?.encodeToJSON(), isExplode: true),
+            "lon": (wrappedValue: lon?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [

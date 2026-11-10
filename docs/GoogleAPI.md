@@ -472,12 +472,12 @@ Name | Type | Description  | Notes
 
 # **googleGoogleAiModeSearch**
 ```swift
-    open class func googleGoogleAiModeSearch(q: String, gl: String? = nil, hl: String? = nil, includeHtml: Bool? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func googleGoogleAiModeSearch(q: String, gl: String? = nil, hl: String? = nil, includeHtml: Bool? = nil, location: String? = nil, uule: String? = nil, lat: Double? = nil, lon: Double? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Google AI Mode search
 
-Get AI-generated search results from Google AI Mode.  Returns the structured `text_blocks` (paragraphs, headings, comparison `table` blocks and lists), a flat `references` source list, a compact `markdown` rendering of the whole answer and — unless `include_html` is false — the raw `answer_html` body.
+Get AI-generated search results from Google AI Mode.  Returns the structured `text_blocks` (paragraphs, headings, comparison `table` blocks and lists), a flat `references` source list, a compact `markdown` rendering of the whole answer and — unless `include_html` is false — the raw `answer_html` body.  `location`, `uule` or `lat`/`lon` localise the answer (\"near me\", local results) to that place, down to the city or district, wherever the request exits from. Located answers echo a `location` object.
 
 ### Example
 ```swift
@@ -485,12 +485,16 @@ Get AI-generated search results from Google AI Mode.  Returns the structured `te
 import ScrapeBadger
 
 let q = "q_example" // String | Search query for AI-generated response
-let gl = "gl_example" // String | Country code (optional) (default to "us")
+let gl = "gl_example" // String | Google country (market) code. It shapes the answer; it does not pick the exit IP's country. Defaults to the `location`'s country when `location` is set. (optional) (default to "us")
 let hl = "hl_example" // String | Language code (optional) (default to "en")
 let includeHtml = true // Bool | Include the raw `answer_html` (full answer body HTML) in the response for maximum parity. It can be 100s of KB — set false when you only need the structured `text_blocks` + `markdown`. (optional) (default to true)
+let location = "location_example" // String | Answer as if the user were here: a Google canonical location name (e.g. `Wonju-si,Gangwon-do,South Korea`), a Google criteria ID, or an unambiguous short name within `gl`. Use only one of location, uule, or lat/lon. (optional)
+let uule = "uule_example" // String | A Google UULE value in its `w+` (canonical name) or `j+` (coordinates) form. (optional)
+let lat = 987 // Double | Latitude of the user's location (with lon). (optional)
+let lon = 987 // Double | Longitude of the user's location (with lat). (optional)
 
 // Google AI Mode search
-GoogleAPI.googleGoogleAiModeSearch(q: q, gl: gl, hl: hl, includeHtml: includeHtml) { (response, error) in
+GoogleAPI.googleGoogleAiModeSearch(q: q, gl: gl, hl: hl, includeHtml: includeHtml, location: location, uule: uule, lat: lat, lon: lon) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -507,9 +511,13 @@ GoogleAPI.googleGoogleAiModeSearch(q: q, gl: gl, hl: hl, includeHtml: includeHtm
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **q** | **String** | Search query for AI-generated response | 
- **gl** | **String** | Country code | [optional] [default to &quot;us&quot;]
+ **gl** | **String** | Google country (market) code. It shapes the answer; it does not pick the exit IP&#39;s country. Defaults to the &#x60;location&#x60;&#39;s country when &#x60;location&#x60; is set. | [optional] [default to &quot;us&quot;]
  **hl** | **String** | Language code | [optional] [default to &quot;en&quot;]
  **includeHtml** | **Bool** | Include the raw &#x60;answer_html&#x60; (full answer body HTML) in the response for maximum parity. It can be 100s of KB — set false when you only need the structured &#x60;text_blocks&#x60; + &#x60;markdown&#x60;. | [optional] [default to true]
+ **location** | **String** | Answer as if the user were here: a Google canonical location name (e.g. &#x60;Wonju-si,Gangwon-do,South Korea&#x60;), a Google criteria ID, or an unambiguous short name within &#x60;gl&#x60;. Use only one of location, uule, or lat/lon. | [optional] 
+ **uule** | **String** | A Google UULE value in its &#x60;w+&#x60; (canonical name) or &#x60;j+&#x60; (coordinates) form. | [optional] 
+ **lat** | **Double** | Latitude of the user&#39;s location (with lon). | [optional] 
+ **lon** | **Double** | Longitude of the user&#39;s location (with lat). | [optional] 
 
 ### Return type
 
