@@ -40,6 +40,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/InstagramAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/LeboncoinAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/LinkedInAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/LoopNetAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/MetaAiAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/NaverAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/PerplexityAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/QuoteAPI.swift
@@ -380,6 +381,7 @@ docs/LinkedInAPI.md
 docs/Location.md
 docs/LoopNetAPI.md
 docs/MarketsResponse.md
+docs/MetaAiAPI.md
 docs/MetaUrl.md
 docs/ModelData.md
 docs/ModelType.md
