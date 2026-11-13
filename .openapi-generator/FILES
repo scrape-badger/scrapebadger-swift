@@ -33,6 +33,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/GeminiAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/GitHubAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/GoogleAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/GooglePlayAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/GrokAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/GumtreeAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/IdealistaAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/ImmobiliareAPI.swift
@@ -363,6 +364,7 @@ docs/GitHubStatus.md
 docs/GitHubTextLink.md
 docs/GoogleAPI.md
 docs/GooglePlayAPI.md
+docs/GrokAPI.md
 docs/GumtreeAPI.md
 docs/HTTPValidationError.md
 docs/HTTPValidationErrorDetail.md

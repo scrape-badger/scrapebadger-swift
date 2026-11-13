@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**linkedinGetAPublicArticle**](LinkedInAPI.md#linkedingetapublicarticle) | **GET** /v1/linkedin/articles/{article_slug} | Get a public article
 [**linkedinGetAPublicPost**](LinkedInAPI.md#linkedingetapublicpost) | **GET** /v1/linkedin/posts/{post_slug} | Get a public post
 [**linkedinGetCompany**](LinkedInAPI.md#linkedingetcompany) | **GET** /v1/linkedin/companies/{universal_name} | Get company
+[**linkedinGetFullProfileThroughTheAuthenticatedProjection**](LinkedInAPI.md#linkedingetfullprofilethroughtheauthenticatedprojection) | **GET** /v1/linkedin/profiles/{public_id}/full | Get full profile through the authenticated projection
 [**linkedinGetJobDetail**](LinkedInAPI.md#linkedingetjobdetail) | **GET** /v1/linkedin/jobs/{job_id} | Get job detail
 [**linkedinGetPublicProfile**](LinkedInAPI.md#linkedingetpublicprofile) | **GET** /v1/linkedin/profiles/{public_id} | Get public profile
 [**linkedinGetSchool**](LinkedInAPI.md#linkedingetschool) | **GET** /v1/linkedin/schools/{universal_name} | Get school
@@ -263,6 +264,58 @@ LinkedInAPI.linkedinGetCompany(universalName: universalName, country: country) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **universalName** | **String** |  | 
+ **country** | **String** | Residential proxy country | [optional] [default to &quot;us&quot;]
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **linkedinGetFullProfileThroughTheAuthenticatedProjection**
+```swift
+    open class func linkedinGetFullProfileThroughTheAuthenticatedProjection(publicId: String, country: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Get full profile through the authenticated projection
+
+Full profile using the server-owned authenticated LinkedIn session.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let publicId = "publicId_example" // String | 
+let country = "country_example" // String | Residential proxy country (optional) (default to "us")
+
+// Get full profile through the authenticated projection
+LinkedInAPI.linkedinGetFullProfileThroughTheAuthenticatedProjection(publicId: publicId, country: country) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **publicId** | **String** |  | 
  **country** | **String** | Residential proxy country | [optional] [default to &quot;us&quot;]
 
 ### Return type

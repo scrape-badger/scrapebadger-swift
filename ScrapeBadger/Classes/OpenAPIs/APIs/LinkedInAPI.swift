@@ -291,6 +291,61 @@ open class LinkedInAPI {
     }
 
     /**
+     Get full profile through the authenticated projection
+     
+     - parameter publicId: (path)  
+     - parameter country: (query) Residential proxy country (optional, default to "us")
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func linkedinGetFullProfileThroughTheAuthenticatedProjection(publicId: String, country: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return linkedinGetFullProfileThroughTheAuthenticatedProjectionWithRequestBuilder(publicId: publicId, country: country).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get full profile through the authenticated projection
+     - GET /v1/linkedin/profiles/{public_id}/full
+     - Full profile using the server-owned authenticated LinkedIn session.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter publicId: (path)  
+     - parameter country: (query) Residential proxy country (optional, default to "us")
+     - returns: RequestBuilder<AnyCodable> 
+     */
+    open class func linkedinGetFullProfileThroughTheAuthenticatedProjectionWithRequestBuilder(publicId: String, country: String? = nil) -> RequestBuilder<AnyCodable> {
+        var localVariablePath = "/v1/linkedin/profiles/{public_id}/full"
+        let publicIdPreEscape = "\(APIHelper.mapValueToPathItem(publicId))"
+        let publicIdPostEscape = publicIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{public_id}", with: publicIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "country": (wrappedValue: country?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Get job detail
      
      - parameter jobId: (path)  
