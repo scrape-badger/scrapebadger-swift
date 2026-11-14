@@ -50,6 +50,7 @@ ScrapeBadger/Classes/OpenAPIs/APIs/RedditAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/RedfinAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/RequestsAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/ResultsAPI.swift
+ScrapeBadger/Classes/OpenAPIs/APIs/RufusAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/TargetAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/TikTokAPI.swift
 ScrapeBadger/Classes/OpenAPIs/APIs/TwitterAPI.swift
@@ -196,6 +197,7 @@ ScrapeBadger/Classes/OpenAPIs/Models/Rating.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Ratings.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Recipe.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Review.swift
+ScrapeBadger/Classes/OpenAPIs/Models/RufusAskRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/ScreenshotRequest.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Searchterm.swift
 ScrapeBadger/Classes/OpenAPIs/Models/SiteName.swift
@@ -423,6 +425,8 @@ docs/RedfinAPI.md
 docs/RequestsAPI.md
 docs/ResultsAPI.md
 docs/Review.md
+docs/RufusAPI.md
+docs/RufusAskRequest.md
 docs/ScreenshotRequest.md
 docs/Searchterm.md
 docs/SiteName.md
