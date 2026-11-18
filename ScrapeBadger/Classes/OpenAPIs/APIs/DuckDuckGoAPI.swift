@@ -114,12 +114,19 @@ open class DuckDuckGoAPI {
      - parameter imageType: (query) photo | clipart | gif | transparent | line (optional, default to "")
      - parameter layout: (query) Square | Tall | Wide (optional, default to "")
      - parameter license: (query) Any | Public | Share | ShareCommercially | Modify (optional, default to "")
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func duckduckgoImageSearch(query: String, region: String? = nil, safesearch: String? = nil, page: Int? = nil, size: String? = nil, color: String? = nil, imageType: String? = nil, layout: String? = nil, license: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return duckduckgoImageSearchWithRequestBuilder(query: query, region: region, safesearch: safesearch, page: page, size: size, color: color, imageType: imageType, layout: layout, license: license).execute(apiResponseQueue) { result in
+    open class func duckduckgoImageSearch(query: String, region: String? = nil, safesearch: String? = nil, page: Int? = nil, size: String? = nil, color: String? = nil, imageType: String? = nil, layout: String? = nil, license: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return duckduckgoImageSearchWithRequestBuilder(query: query, region: region, safesearch: safesearch, page: page, size: size, color: color, imageType: imageType, layout: layout, license: license, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -145,9 +152,16 @@ open class DuckDuckGoAPI {
      - parameter imageType: (query) photo | clipart | gif | transparent | line (optional, default to "")
      - parameter layout: (query) Square | Tall | Wide (optional, default to "")
      - parameter license: (query) Any | Public | Share | ShareCommercially | Modify (optional, default to "")
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func duckduckgoImageSearchWithRequestBuilder(query: String, region: String? = nil, safesearch: String? = nil, page: Int? = nil, size: String? = nil, color: String? = nil, imageType: String? = nil, layout: String? = nil, license: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func duckduckgoImageSearchWithRequestBuilder(query: String, region: String? = nil, safesearch: String? = nil, page: Int? = nil, size: String? = nil, color: String? = nil, imageType: String? = nil, layout: String? = nil, license: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/duckduckgo/images"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -163,10 +177,16 @@ open class DuckDuckGoAPI {
             "image_type": (wrappedValue: imageType?.encodeToJSON(), isExplode: true),
             "layout": (wrappedValue: layout?.encodeToJSON(), isExplode: true),
             "license": (wrappedValue: license?.encodeToJSON(), isExplode: true),
+            "async": (wrappedValue: async?.encodeToJSON(), isExplode: true),
+            "async_wait": (wrappedValue: asyncWait?.encodeToJSON(), isExplode: true),
+            "callback_url": (wrappedValue: callbackUrl?.encodeToJSON(), isExplode: true),
+            "idempotency_key": (wrappedValue: idempotencyKey2?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Prefer": prefer?.encodeToJSON(),
+            "X-Callback-URL": xCallbackURL?.encodeToJSON(),
+            "Idempotency-Key": idempotencyKey?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -180,12 +200,19 @@ open class DuckDuckGoAPI {
      Instant Answer
      
      - parameter query: (query) Query for the Instant Answer API 
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func duckduckgoInstantAnswer(query: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return duckduckgoInstantAnswerWithRequestBuilder(query: query).execute(apiResponseQueue) { result in
+    open class func duckduckgoInstantAnswer(query: String, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return duckduckgoInstantAnswerWithRequestBuilder(query: query, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -203,9 +230,16 @@ open class DuckDuckGoAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter query: (query) Query for the Instant Answer API 
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func duckduckgoInstantAnswerWithRequestBuilder(query: String) -> RequestBuilder<AnyCodable> {
+    open class func duckduckgoInstantAnswerWithRequestBuilder(query: String, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/duckduckgo/instant"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -213,10 +247,16 @@ open class DuckDuckGoAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "query": (wrappedValue: query.encodeToJSON(), isExplode: true),
+            "async": (wrappedValue: async?.encodeToJSON(), isExplode: true),
+            "async_wait": (wrappedValue: asyncWait?.encodeToJSON(), isExplode: true),
+            "callback_url": (wrappedValue: callbackUrl?.encodeToJSON(), isExplode: true),
+            "idempotency_key": (wrappedValue: idempotencyKey2?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Prefer": prefer?.encodeToJSON(),
+            "X-Callback-URL": xCallbackURL?.encodeToJSON(),
+            "Idempotency-Key": idempotencyKey?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -229,12 +269,19 @@ open class DuckDuckGoAPI {
     /**
      List supported regions
      
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func duckduckgoListSupportedRegions(apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return duckduckgoListSupportedRegionsWithRequestBuilder().execute(apiResponseQueue) { result in
+    open class func duckduckgoListSupportedRegions(prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return duckduckgoListSupportedRegionsWithRequestBuilder(prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -251,17 +298,32 @@ open class DuckDuckGoAPI {
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func duckduckgoListSupportedRegionsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
+    open class func duckduckgoListSupportedRegionsWithRequestBuilder(prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/duckduckgo/regions"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "async": (wrappedValue: async?.encodeToJSON(), isExplode: true),
+            "async_wait": (wrappedValue: asyncWait?.encodeToJSON(), isExplode: true),
+            "callback_url": (wrappedValue: callbackUrl?.encodeToJSON(), isExplode: true),
+            "idempotency_key": (wrappedValue: idempotencyKey2?.encodeToJSON(), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Prefer": prefer?.encodeToJSON(),
+            "X-Callback-URL": xCallbackURL?.encodeToJSON(),
+            "Idempotency-Key": idempotencyKey?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -279,12 +341,19 @@ open class DuckDuckGoAPI {
      - parameter safesearch: (query) on | moderate | off (optional, default to "moderate")
      - parameter timelimit: (query) day | week | month | year (optional, default to "")
      - parameter page: (query) 30 results per page (optional, default to 1)
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func duckduckgoNewsSearch(query: String, region: String? = nil, safesearch: String? = nil, timelimit: String? = nil, page: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return duckduckgoNewsSearchWithRequestBuilder(query: query, region: region, safesearch: safesearch, timelimit: timelimit, page: page).execute(apiResponseQueue) { result in
+    open class func duckduckgoNewsSearch(query: String, region: String? = nil, safesearch: String? = nil, timelimit: String? = nil, page: Int? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return duckduckgoNewsSearchWithRequestBuilder(query: query, region: region, safesearch: safesearch, timelimit: timelimit, page: page, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -306,9 +375,16 @@ open class DuckDuckGoAPI {
      - parameter safesearch: (query) on | moderate | off (optional, default to "moderate")
      - parameter timelimit: (query) day | week | month | year (optional, default to "")
      - parameter page: (query) 30 results per page (optional, default to 1)
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func duckduckgoNewsSearchWithRequestBuilder(query: String, region: String? = nil, safesearch: String? = nil, timelimit: String? = nil, page: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func duckduckgoNewsSearchWithRequestBuilder(query: String, region: String? = nil, safesearch: String? = nil, timelimit: String? = nil, page: Int? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/duckduckgo/news"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -320,10 +396,16 @@ open class DuckDuckGoAPI {
             "safesearch": (wrappedValue: safesearch?.encodeToJSON(), isExplode: true),
             "timelimit": (wrappedValue: timelimit?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
+            "async": (wrappedValue: async?.encodeToJSON(), isExplode: true),
+            "async_wait": (wrappedValue: asyncWait?.encodeToJSON(), isExplode: true),
+            "callback_url": (wrappedValue: callbackUrl?.encodeToJSON(), isExplode: true),
+            "idempotency_key": (wrappedValue: idempotencyKey2?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Prefer": prefer?.encodeToJSON(),
+            "X-Callback-URL": xCallbackURL?.encodeToJSON(),
+            "Idempotency-Key": idempotencyKey?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -338,12 +420,19 @@ open class DuckDuckGoAPI {
      
      - parameter query: (query) Partial query to complete 
      - parameter region: (query) DuckDuckGo region code (kl), e.g. us-en, uk-en, de-de. wt-wt &#x3D; all regions. (optional, default to "wt-wt")
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func duckduckgoSearchSuggestions(query: String, region: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return duckduckgoSearchSuggestionsWithRequestBuilder(query: query, region: region).execute(apiResponseQueue) { result in
+    open class func duckduckgoSearchSuggestions(query: String, region: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return duckduckgoSearchSuggestionsWithRequestBuilder(query: query, region: region, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -362,9 +451,16 @@ open class DuckDuckGoAPI {
        - name: ApiKeyAuth
      - parameter query: (query) Partial query to complete 
      - parameter region: (query) DuckDuckGo region code (kl), e.g. us-en, uk-en, de-de. wt-wt &#x3D; all regions. (optional, default to "wt-wt")
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func duckduckgoSearchSuggestionsWithRequestBuilder(query: String, region: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func duckduckgoSearchSuggestionsWithRequestBuilder(query: String, region: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/duckduckgo/autocomplete"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -373,10 +469,16 @@ open class DuckDuckGoAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "query": (wrappedValue: query.encodeToJSON(), isExplode: true),
             "region": (wrappedValue: region?.encodeToJSON(), isExplode: true),
+            "async": (wrappedValue: async?.encodeToJSON(), isExplode: true),
+            "async_wait": (wrappedValue: asyncWait?.encodeToJSON(), isExplode: true),
+            "callback_url": (wrappedValue: callbackUrl?.encodeToJSON(), isExplode: true),
+            "idempotency_key": (wrappedValue: idempotencyKey2?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Prefer": prefer?.encodeToJSON(),
+            "X-Callback-URL": xCallbackURL?.encodeToJSON(),
+            "Idempotency-Key": idempotencyKey?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -395,12 +497,19 @@ open class DuckDuckGoAPI {
      - parameter page: (query) 60 results per page (optional, default to 1)
      - parameter duration: (query) short | medium | long (optional, default to "")
      - parameter resolution: (query) high | standard (optional, default to "")
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func duckduckgoVideoSearch(query: String, region: String? = nil, safesearch: String? = nil, page: Int? = nil, duration: String? = nil, resolution: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return duckduckgoVideoSearchWithRequestBuilder(query: query, region: region, safesearch: safesearch, page: page, duration: duration, resolution: resolution).execute(apiResponseQueue) { result in
+    open class func duckduckgoVideoSearch(query: String, region: String? = nil, safesearch: String? = nil, page: Int? = nil, duration: String? = nil, resolution: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return duckduckgoVideoSearchWithRequestBuilder(query: query, region: region, safesearch: safesearch, page: page, duration: duration, resolution: resolution, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -423,9 +532,16 @@ open class DuckDuckGoAPI {
      - parameter page: (query) 60 results per page (optional, default to 1)
      - parameter duration: (query) short | medium | long (optional, default to "")
      - parameter resolution: (query) high | standard (optional, default to "")
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func duckduckgoVideoSearchWithRequestBuilder(query: String, region: String? = nil, safesearch: String? = nil, page: Int? = nil, duration: String? = nil, resolution: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func duckduckgoVideoSearchWithRequestBuilder(query: String, region: String? = nil, safesearch: String? = nil, page: Int? = nil, duration: String? = nil, resolution: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/duckduckgo/videos"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -438,10 +554,16 @@ open class DuckDuckGoAPI {
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
             "duration": (wrappedValue: duration?.encodeToJSON(), isExplode: true),
             "resolution": (wrappedValue: resolution?.encodeToJSON(), isExplode: true),
+            "async": (wrappedValue: async?.encodeToJSON(), isExplode: true),
+            "async_wait": (wrappedValue: asyncWait?.encodeToJSON(), isExplode: true),
+            "callback_url": (wrappedValue: callbackUrl?.encodeToJSON(), isExplode: true),
+            "idempotency_key": (wrappedValue: idempotencyKey2?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Prefer": prefer?.encodeToJSON(),
+            "X-Callback-URL": xCallbackURL?.encodeToJSON(),
+            "Idempotency-Key": idempotencyKey?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -459,12 +581,19 @@ open class DuckDuckGoAPI {
      - parameter safesearch: (query) on | moderate | off (optional, default to "moderate")
      - parameter timelimit: (query) day | week | month | year (optional, default to "")
      - parameter page: (query)  (optional, default to 1)
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func duckduckgoWebSearch(query: String, region: String? = nil, safesearch: String? = nil, timelimit: String? = nil, page: Int? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return duckduckgoWebSearchWithRequestBuilder(query: query, region: region, safesearch: safesearch, timelimit: timelimit, page: page).execute(apiResponseQueue) { result in
+    open class func duckduckgoWebSearch(query: String, region: String? = nil, safesearch: String? = nil, timelimit: String? = nil, page: Int? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return duckduckgoWebSearchWithRequestBuilder(query: query, region: region, safesearch: safesearch, timelimit: timelimit, page: page, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -486,9 +615,16 @@ open class DuckDuckGoAPI {
      - parameter safesearch: (query) on | moderate | off (optional, default to "moderate")
      - parameter timelimit: (query) day | week | month | year (optional, default to "")
      - parameter page: (query)  (optional, default to 1)
+     - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
+     - parameter xCallbackURL: (header) An &#x60;https&#x60; URL that receives the signed &#x60;request.completed&#x60; webhook when the call finishes. Implies async: on its own (no &#x60;Prefer&#x60;, &#x60;async&#x60; or &#x60;async_wait&#x60;) the answer is an immediate &#x60;202&#x60;; with &#x60;Prefer: respond-async&#x60; or &#x60;async&#x3D;true&#x60; the call still waits 25 s unless a wait is given. Wins over &#x60;callback_url&#x60;. (optional)
+     - parameter idempotencyKey: (header) 1-200 visible ASCII characters, per account, kept as long as the result (about 15 minutes). The same key on the same call returns that call&#39;s current state (&#x60;Idempotent-Replayed: true&#x60;) without running or billing it again; on a different call it is &#x60;409 idempotency_key_reused&#x60;. Applies to async calls only; on a synchronous call it is ignored. Wins over &#x60;idempotency_key&#x60;. (optional)
+     - parameter async: (query) Query form of &#x60;Prefer: respond-async&#x60;: &#x60;true&#x60; or &#x60;1&#x60; (also &#x60;yes&#x60;, &#x60;on&#x60;; &#x60;false&#x60;, &#x60;0&#x60;, &#x60;no&#x60;, &#x60;off&#x60; leave the call synchronous). Waits 25 s unless &#x60;async_wait&#x60; is given. Not sent to the scraper. (optional)
+     - parameter asyncWait: (query) Seconds (0-120; values outside are clamped) to wait for the result before answering &#x60;202&#x60;. Implies async. Not sent to the scraper. (optional)
+     - parameter callbackUrl: (query) Query form of &#x60;X-Callback-URL&#x60; (URL-encode it). Implies async; on its own the answer is an immediate &#x60;202&#x60; (wait 0). Not sent to the scraper. (optional)
+     - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func duckduckgoWebSearchWithRequestBuilder(query: String, region: String? = nil, safesearch: String? = nil, timelimit: String? = nil, page: Int? = nil) -> RequestBuilder<AnyCodable> {
+    open class func duckduckgoWebSearchWithRequestBuilder(query: String, region: String? = nil, safesearch: String? = nil, timelimit: String? = nil, page: Int? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/duckduckgo/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -500,10 +636,16 @@ open class DuckDuckGoAPI {
             "safesearch": (wrappedValue: safesearch?.encodeToJSON(), isExplode: true),
             "timelimit": (wrappedValue: timelimit?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
+            "async": (wrappedValue: async?.encodeToJSON(), isExplode: true),
+            "async_wait": (wrappedValue: asyncWait?.encodeToJSON(), isExplode: true),
+            "callback_url": (wrappedValue: callbackUrl?.encodeToJSON(), isExplode: true),
+            "idempotency_key": (wrappedValue: idempotencyKey2?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Prefer": prefer?.encodeToJSON(),
+            "X-Callback-URL": xCallbackURL?.encodeToJSON(),
+            "Idempotency-Key": idempotencyKey?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

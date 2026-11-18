@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**accountGetAccountInfo**](AccountAPI.md#accountgetaccountinfo) | **GET** /v1/account/me | Get account info
 [**accountGetTheWebhookSigningSecret**](AccountAPI.md#accountgetthewebhooksigningsecret) | **GET** /v1/account/webhook-secret | Get the webhook signing secret
 [**accountRotateTheWebhookSigningSecret**](AccountAPI.md#accountrotatethewebhooksigningsecret) | **POST** /v1/account/webhook-secret/rotate | Rotate the webhook signing secret
+[**accountWebhookDeliveries**](AccountAPI.md#accountwebhookdeliveries) | **GET** /v1/account/webhook-deliveries | Webhook deliveries
 
 
 # **accountGetAccountInfo**
@@ -135,6 +136,56 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**WebhookSecret**](WebhookSecret.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **accountWebhookDeliveries**
+```swift
+    open class func accountWebhookDeliveries(limit: Int? = nil, completion: @escaping (_ data: WebhookDeliveries?, _ error: Error?) -> Void)
+```
+
+Webhook deliveries
+
+This account's async-request webhook deliveries of the last 24 h, newest first. Free. Needs a full-access API key, like the webhook secret: a trial key gets `403 trial_not_allowed`, a key restricted to some APIs `403 full_access_required`.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let limit = 987 // Int | How many deliveries to return (1-200). (optional) (default to 50)
+
+// Webhook deliveries
+AccountAPI.accountWebhookDeliveries(limit: limit) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **limit** | **Int** | How many deliveries to return (1-200). | [optional] [default to 50]
+
+### Return type
+
+[**WebhookDeliveries**](WebhookDeliveries.md)
 
 ### Authorization
 

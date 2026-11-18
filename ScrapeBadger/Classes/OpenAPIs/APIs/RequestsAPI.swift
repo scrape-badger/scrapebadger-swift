@@ -13,6 +13,56 @@ import AnyCodable
 open class RequestsAPI {
 
     /**
+     Callback status
+     
+     - parameter requestId: (path)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func requestsCallbackStatus(requestId: String, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AsyncCallbackStatus?, _ error: Error?) -> Void)) -> RequestTask {
+        return requestsCallbackStatusWithRequestBuilder(requestId: requestId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Callback status
+     - GET /v1/requests/{request_id}/callback
+     - Webhook delivery state of a call submitted with `X-Callback-URL` / `callback_url`: kept for 24 h. Free. `404 callback_not_found` for a request without a callback, of another account, or older than 24 h.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter requestId: (path)  
+     - returns: RequestBuilder<AsyncCallbackStatus> 
+     */
+    open class func requestsCallbackStatusWithRequestBuilder(requestId: String) -> RequestBuilder<AsyncCallbackStatus> {
+        var localVariablePath = "/v1/requests/{request_id}/callback"
+        let requestIdPreEscape = "\(APIHelper.mapValueToPathItem(requestId))"
+        let requestIdPostEscape = requestIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{request_id}", with: requestIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AsyncCallbackStatus>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Poll an async request
      
      - parameter requestId: (path)  
@@ -34,7 +84,7 @@ open class RequestsAPI {
     /**
      Poll an async request
      - GET /v1/requests/{request_id}
-     - Status or final response of a call made with ``Prefer: respond-async``. While it runs: 202. When done: the original status, headers and body.
+     - Status or final response of a call made with ``Prefer: respond-async``. While it runs: 202. When done: the original status, headers and body.  The final response carries `X-Callback-Status`, `X-Callback-Attempts` and `X-Callback-Error` for a call submitted with a callback; while it runs, the `202` body has a `callback` object. Full delivery state: `GET /v1/requests/{request_id}/callback`.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth

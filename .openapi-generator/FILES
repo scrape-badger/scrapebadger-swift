@@ -70,9 +70,13 @@ ScrapeBadger/Classes/OpenAPIs/JSONDataEncoding.swift
 ScrapeBadger/Classes/OpenAPIs/JSONEncodingHelper.swift
 ScrapeBadger/Classes/OpenAPIs/Models.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AccountInfo.swift
+ScrapeBadger/Classes/OpenAPIs/Models/AccountWebhookDeliveries403Response.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Age.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AgentTrialInfo.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Article.swift
+ScrapeBadger/Classes/OpenAPIs/Models/AsyncAccepted.swift
+ScrapeBadger/Classes/OpenAPIs/Models/AsyncAcceptedNextAction.swift
+ScrapeBadger/Classes/OpenAPIs/Models/AsyncCallbackStatus.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AutoScout24FiltersResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AutoScout24Listing.swift
 ScrapeBadger/Classes/OpenAPIs/Models/AutoScout24ListingDetail.swift
@@ -234,6 +238,9 @@ ScrapeBadger/Classes/OpenAPIs/Models/VintedStatus.swift
 ScrapeBadger/Classes/OpenAPIs/Models/VintedUserProfile.swift
 ScrapeBadger/Classes/OpenAPIs/Models/VintedUserSummary.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookCreate.swift
+ScrapeBadger/Classes/OpenAPIs/Models/WebhookDeliveries.swift
+ScrapeBadger/Classes/OpenAPIs/Models/WebhookDelivery.swift
+ScrapeBadger/Classes/OpenAPIs/Models/WebhookEvent.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookListItem.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookListResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/WebhookResponse.swift
@@ -257,6 +264,7 @@ ScrapeBadger/Classes/OpenAPIs/Validation.swift
 docs/ASOSAPI.md
 docs/AccountAPI.md
 docs/AccountInfo.md
+docs/AccountWebhookDeliveries403Response.md
 docs/Age.md
 docs/AgentTrialInfo.md
 docs/AirbnbAPI.md
@@ -265,6 +273,9 @@ docs/AmazonAPI.md
 docs/ApartmentsAPI.md
 docs/AppStoreAPI.md
 docs/Article.md
+docs/AsyncAccepted.md
+docs/AsyncAcceptedNextAction.md
+docs/AsyncCallbackStatus.md
 docs/AutoScout24API.md
 docs/AutoScout24FiltersResponse.md
 docs/AutoScout24Listing.md
@@ -470,6 +481,9 @@ docs/WallapopAPI.md
 docs/WalmartAPI.md
 docs/WebAPI.md
 docs/WebhookCreate.md
+docs/WebhookDeliveries.md
+docs/WebhookDelivery.md
+docs/WebhookEvent.md
 docs/WebhookListItem.md
 docs/WebhookListResponse.md
 docs/WebhookResponse.md
