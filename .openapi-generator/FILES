@@ -159,6 +159,10 @@ ScrapeBadger/Classes/OpenAPIs/Models/GitHubRepositoryResponse.swift
 ScrapeBadger/Classes/OpenAPIs/Models/GitHubSocialAccount.swift
 ScrapeBadger/Classes/OpenAPIs/Models/GitHubStatus.swift
 ScrapeBadger/Classes/OpenAPIs/Models/GitHubTextLink.swift
+ScrapeBadger/Classes/OpenAPIs/Models/GoogleResolveItem.swift
+ScrapeBadger/Classes/OpenAPIs/Models/GoogleResolveRequest.swift
+ScrapeBadger/Classes/OpenAPIs/Models/GoogleResolveResponse.swift
+ScrapeBadger/Classes/OpenAPIs/Models/GoogleResolveRow.swift
 ScrapeBadger/Classes/OpenAPIs/Models/HTTPValidationError.swift
 ScrapeBadger/Classes/OpenAPIs/Models/HTTPValidationErrorDetail.swift
 ScrapeBadger/Classes/OpenAPIs/Models/Imageurl.swift
@@ -377,6 +381,10 @@ docs/GitHubStatus.md
 docs/GitHubTextLink.md
 docs/GoogleAPI.md
 docs/GooglePlayAPI.md
+docs/GoogleResolveItem.md
+docs/GoogleResolveRequest.md
+docs/GoogleResolveResponse.md
+docs/GoogleResolveRow.md
 docs/GrokAPI.md
 docs/GumtreeAPI.md
 docs/HTTPValidationError.md

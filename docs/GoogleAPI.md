@@ -31,6 +31,7 @@ Method | HTTP request | Description
 [**googleNewsByTopic**](GoogleAPI.md#googlenewsbytopic) | **GET** /v1/google/news/topics | News by topic
 [**googlePatentDetails**](GoogleAPI.md#googlepatentdetails) | **GET** /v1/google/patents/detail | Patent details
 [**googleRelatedTopicsQueries**](GoogleAPI.md#googlerelatedtopicsqueries) | **GET** /v1/google/trends/related | Related topics &amp; queries
+[**googleResolve**](GoogleAPI.md#googleresolve) | **POST** /v1/google/resolve | Resolve
 [**googleSearchGoogleImages**](GoogleAPI.md#googlesearchgoogleimages) | **GET** /v1/google/images/search | Search Google Images
 [**googleSearchGoogleJobs**](GoogleAPI.md#googlesearchgooglejobs) | **GET** /v1/google/jobs/search | Search Google Jobs
 [**googleSearchGoogleMapsPlaces**](GoogleAPI.md#googlesearchgooglemapsplaces) | **GET** /v1/google/maps/search | Search Google Maps places
@@ -2080,6 +2081,56 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **googleResolve**
+```swift
+    open class func googleResolve(googleResolveRequest: GoogleResolveRequest, completion: @escaping (_ data: GoogleResolveResponse?, _ error: Error?) -> Void)
+```
+
+Resolve
+
+Get the URLs of search results whose `link` is still a Google redirect. Costs 0 credits.  Google hides a result's URL behind a redirect (`https://www.google.com/goto?url=...`) and paces how fast a result page's links can be followed. `GET /v1/google/search` and `GET /v1/google/light/search` give every organic result whose `link` is still such a redirect a `link_token` and `retry_after_seconds` (0 means it can be resolved right away). Both are null on a result whose `link` is already the real URL. Send the results that have a `link_token` here, 1 to 25 per call.  Each row comes back in the order sent, in one of three states:  - Resolved: `link` is the result's own URL and there is no `link_token`. - Not ready: `link_token` is the token to send next time (it can differ from the one   sent) and `retry_after_seconds` is how long to wait, at least 1. - Failed: `link_token` and `error`. Do not send this token again.  The top-level `retry_after_seconds` is the smallest wait among the rows that are not ready, or null. Wait that long, then send the rows that are not ready again. A token sent early is not an error: its row comes back not ready with the wait that is left.  Typical timing: calling again after each `retry_after_seconds`, all ten links of a result page are known 45 to 70 seconds after the search. Once the result page is about 160 seconds old, one call returns every remaining link.  An invalid body answers 422. The async request forms do not apply to this endpoint.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ScrapeBadger
+
+let googleResolveRequest = GoogleResolveRequest(results: [GoogleResolveItem(linkToken: "linkToken_example")]) // GoogleResolveRequest | 
+
+// Resolve
+GoogleAPI.googleResolve(googleResolveRequest: googleResolveRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **googleResolveRequest** | [**GoogleResolveRequest**](GoogleResolveRequest.md) |  | 
+
+### Return type
+
+[**GoogleResolveResponse**](GoogleResolveResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

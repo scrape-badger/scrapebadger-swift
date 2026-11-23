@@ -2469,6 +2469,53 @@ open class GoogleAPI {
     }
 
     /**
+     Resolve
+     
+     - parameter googleResolveRequest: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func googleResolve(googleResolveRequest: GoogleResolveRequest, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: GoogleResolveResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return googleResolveWithRequestBuilder(googleResolveRequest: googleResolveRequest).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Resolve
+     - POST /v1/google/resolve
+     - Get the URLs of search results whose `link` is still a Google redirect. Costs 0 credits.  Google hides a result's URL behind a redirect (`https://www.google.com/goto?url=...`) and paces how fast a result page's links can be followed. `GET /v1/google/search` and `GET /v1/google/light/search` give every organic result whose `link` is still such a redirect a `link_token` and `retry_after_seconds` (0 means it can be resolved right away). Both are null on a result whose `link` is already the real URL. Send the results that have a `link_token` here, 1 to 25 per call.  Each row comes back in the order sent, in one of three states:  - Resolved: `link` is the result's own URL and there is no `link_token`. - Not ready: `link_token` is the token to send next time (it can differ from the one   sent) and `retry_after_seconds` is how long to wait, at least 1. - Failed: `link_token` and `error`. Do not send this token again.  The top-level `retry_after_seconds` is the smallest wait among the rows that are not ready, or null. Wait that long, then send the rows that are not ready again. A token sent early is not an error: its row comes back not ready with the wait that is left.  Typical timing: calling again after each `retry_after_seconds`, all ten links of a result page are known 45 to 70 seconds after the search. Once the result page is about 160 seconds old, one call returns every remaining link.  An invalid body answers 422. The async request forms do not apply to this endpoint.
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKeyAuth
+     - parameter googleResolveRequest: (body)  
+     - returns: RequestBuilder<GoogleResolveResponse> 
+     */
+    open class func googleResolveWithRequestBuilder(googleResolveRequest: GoogleResolveRequest) -> RequestBuilder<GoogleResolveResponse> {
+        let localVariablePath = "/v1/google/resolve"
+        let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: googleResolveRequest)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<GoogleResolveResponse>.Type = ScrapeBadgerAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Search Google Images
      
      - parameter q: (query) Image search query 
