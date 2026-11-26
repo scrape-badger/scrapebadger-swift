@@ -432,7 +432,7 @@ import ScrapeBadger
 
 let filterId = "filterId_example" // String | 
 let categoryId = 987 // Int | Category to scope options to (optional)
-let subcategoryIds = "subcategoryIds_example" // String | Comma-separated subcategory ids to scope options to (optional)
+let subcategoryIds = "subcategoryIds_example" // String | Comma-separated subcategory ids (needs their category_id) (optional)
 let query = "query_example" // String | Search text to scope options to (optional)
 let market = "market_example" // String | Market: es (Spain), it (Italy), pt (Portugal) (optional) (default to "es")
 let prefer = "prefer_example" // String | `respond-async[, wait=N]` (RFC 7240): run the call async. If it has not finished after `wait` seconds (0-120, default 25) the answer is `202` with a `request_id`; poll `GET /v1/requests/{request_id}`. Its `wait=` wins over `async_wait`; without one, `async_wait` sets the wait. (optional)
@@ -462,7 +462,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **filterId** | **String** |  | 
  **categoryId** | **Int** | Category to scope options to | [optional] 
- **subcategoryIds** | **String** | Comma-separated subcategory ids to scope options to | [optional] 
+ **subcategoryIds** | **String** | Comma-separated subcategory ids (needs their category_id) | [optional] 
  **query** | **String** | Search text to scope options to | [optional] 
  **market** | **String** | Market: es (Spain), it (Italy), pt (Portugal) | [optional] [default to &quot;es&quot;]
  **prefer** | **String** | &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. | [optional] 
@@ -565,7 +565,7 @@ The filters Wallapop offers for a category or query, with option ids.
 import ScrapeBadger
 
 let categoryId = 987 // Int | Category the filters apply to (optional)
-let subcategoryIds = "subcategoryIds_example" // String | Comma-separated subcategory ids the filters apply to (optional)
+let subcategoryIds = "subcategoryIds_example" // String | Comma-separated subcategory ids (needs their category_id) (optional)
 let query = "query_example" // String | Search text the filters apply to (optional)
 let market = "market_example" // String | Market: es (Spain), it (Italy), pt (Portugal) (optional) (default to "es")
 let prefer = "prefer_example" // String | `respond-async[, wait=N]` (RFC 7240): run the call async. If it has not finished after `wait` seconds (0-120, default 25) the answer is `202` with a `request_id`; poll `GET /v1/requests/{request_id}`. Its `wait=` wins over `async_wait`; without one, `async_wait` sets the wait. (optional)
@@ -594,7 +594,7 @@ WallapopAPI.wallapopListSearchFilters(categoryId: categoryId, subcategoryIds: su
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **categoryId** | **Int** | Category the filters apply to | [optional] 
- **subcategoryIds** | **String** | Comma-separated subcategory ids the filters apply to | [optional] 
+ **subcategoryIds** | **String** | Comma-separated subcategory ids (needs their category_id) | [optional] 
  **query** | **String** | Search text the filters apply to | [optional] 
  **market** | **String** | Market: es (Spain), it (Italy), pt (Portugal) | [optional] [default to &quot;es&quot;]
  **prefer** | **String** | &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. | [optional] 
