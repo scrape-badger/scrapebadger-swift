@@ -420,7 +420,7 @@ open class WallapopAPI {
     /**
      List categories
      - GET /v1/wallapop/categories
-     - The full category tree; ids are usable as the search category_id.
+     - The full category tree; top-level ids are the search category_id, nested subcategory ids go in subcategory_ids.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -466,6 +466,7 @@ open class WallapopAPI {
      
      - parameter filterId: (path)  
      - parameter categoryId: (query) Category to scope options to (optional)
+     - parameter subcategoryIds: (query) Comma-separated subcategory ids to scope options to (optional)
      - parameter query: (query) Search text to scope options to (optional)
      - parameter market: (query) Market: es (Spain), it (Italy), pt (Portugal) (optional, default to "es")
      - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
@@ -479,8 +480,8 @@ open class WallapopAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func wallapopListFilterOptions(filterId: String, categoryId: Int? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return wallapopListFilterOptionsWithRequestBuilder(filterId: filterId, categoryId: categoryId, query: query, market: market, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
+    open class func wallapopListFilterOptions(filterId: String, categoryId: Int? = nil, subcategoryIds: String? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return wallapopListFilterOptionsWithRequestBuilder(filterId: filterId, categoryId: categoryId, subcategoryIds: subcategoryIds, query: query, market: market, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -499,6 +500,7 @@ open class WallapopAPI {
        - name: ApiKeyAuth
      - parameter filterId: (path)  
      - parameter categoryId: (query) Category to scope options to (optional)
+     - parameter subcategoryIds: (query) Comma-separated subcategory ids to scope options to (optional)
      - parameter query: (query) Search text to scope options to (optional)
      - parameter market: (query) Market: es (Spain), it (Italy), pt (Portugal) (optional, default to "es")
      - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
@@ -510,7 +512,7 @@ open class WallapopAPI {
      - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func wallapopListFilterOptionsWithRequestBuilder(filterId: String, categoryId: Int? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func wallapopListFilterOptionsWithRequestBuilder(filterId: String, categoryId: Int? = nil, subcategoryIds: String? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
         var localVariablePath = "/v1/wallapop/filters/{filter_id}/options"
         let filterIdPreEscape = "\(APIHelper.mapValueToPathItem(filterId))"
         let filterIdPostEscape = filterIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -521,6 +523,7 @@ open class WallapopAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "category_id": (wrappedValue: categoryId?.encodeToJSON(), isExplode: true),
+            "subcategory_ids": (wrappedValue: subcategoryIds?.encodeToJSON(), isExplode: true),
             "query": (wrappedValue: query?.encodeToJSON(), isExplode: true),
             "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
             "async": (wrappedValue: async?.encodeToJSON(), isExplode: true),
@@ -613,6 +616,7 @@ open class WallapopAPI {
      List search filters
      
      - parameter categoryId: (query) Category the filters apply to (optional)
+     - parameter subcategoryIds: (query) Comma-separated subcategory ids the filters apply to (optional)
      - parameter query: (query) Search text the filters apply to (optional)
      - parameter market: (query) Market: es (Spain), it (Italy), pt (Portugal) (optional, default to "es")
      - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
@@ -626,8 +630,8 @@ open class WallapopAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func wallapopListSearchFilters(categoryId: Int? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return wallapopListSearchFiltersWithRequestBuilder(categoryId: categoryId, query: query, market: market, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
+    open class func wallapopListSearchFilters(categoryId: Int? = nil, subcategoryIds: String? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return wallapopListSearchFiltersWithRequestBuilder(categoryId: categoryId, subcategoryIds: subcategoryIds, query: query, market: market, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -645,6 +649,7 @@ open class WallapopAPI {
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
      - parameter categoryId: (query) Category the filters apply to (optional)
+     - parameter subcategoryIds: (query) Comma-separated subcategory ids the filters apply to (optional)
      - parameter query: (query) Search text the filters apply to (optional)
      - parameter market: (query) Market: es (Spain), it (Italy), pt (Portugal) (optional, default to "es")
      - parameter prefer: (header) &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. (optional)
@@ -656,7 +661,7 @@ open class WallapopAPI {
      - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func wallapopListSearchFiltersWithRequestBuilder(categoryId: Int? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func wallapopListSearchFiltersWithRequestBuilder(categoryId: Int? = nil, subcategoryIds: String? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/wallapop/filters"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -664,6 +669,7 @@ open class WallapopAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "category_id": (wrappedValue: categoryId?.encodeToJSON(), isExplode: true),
+            "subcategory_ids": (wrappedValue: subcategoryIds?.encodeToJSON(), isExplode: true),
             "query": (wrappedValue: query?.encodeToJSON(), isExplode: true),
             "market": (wrappedValue: market?.encodeToJSON(), isExplode: true),
             "async": (wrappedValue: async?.encodeToJSON(), isExplode: true),
@@ -722,6 +728,7 @@ open class WallapopAPI {
      - parameter longitude: (query) Search centre longitude (optional)
      - parameter distanceKm: (query) Search radius (optional)
      - parameter categoryId: (query) Category id from /categories (optional)
+     - parameter subcategoryIds: (query) Comma-separated subcategory ids from /categories (any level of the tree), e.g. 9447 (Smartphones) or 9447,10310 (optional)
      - parameter minPrice: (query) Minimum price (EUR) (optional)
      - parameter maxPrice: (query) Maximum price (EUR) (optional)
      - parameter condition: (query) Comma-separated: un_opened, in_box, new, as_good_as_new, good, fair, has_given_it_all (optional)
@@ -752,8 +759,8 @@ open class WallapopAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func wallapopSearchListings(query: String? = nil, market: String? = nil, latitude: Double? = nil, longitude: Double? = nil, distanceKm: Int? = nil, categoryId: Int? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, condition: String? = nil, brand: String? = nil, model: String? = nil, color: String? = nil, timeFilter: TimeFilter_wallapopSearchListings? = nil, shippable: Bool? = nil, hasWarranty: Bool? = nil, refurbished: Bool? = nil, minYear: Int? = nil, maxYear: Int? = nil, minKm: Int? = nil, maxKm: Int? = nil, gearbox: Gearbox_wallapopSearchListings? = nil, minHorsepower: Int? = nil, maxHorsepower: Int? = nil, orderBy: OrderBy_wallapopSearchListings? = nil, nextPage: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
-        return wallapopSearchListingsWithRequestBuilder(query: query, market: market, latitude: latitude, longitude: longitude, distanceKm: distanceKm, categoryId: categoryId, minPrice: minPrice, maxPrice: maxPrice, condition: condition, brand: brand, model: model, color: color, timeFilter: timeFilter, shippable: shippable, hasWarranty: hasWarranty, refurbished: refurbished, minYear: minYear, maxYear: maxYear, minKm: minKm, maxKm: maxKm, gearbox: gearbox, minHorsepower: minHorsepower, maxHorsepower: maxHorsepower, orderBy: orderBy, nextPage: nextPage, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
+    open class func wallapopSearchListings(query: String? = nil, market: String? = nil, latitude: Double? = nil, longitude: Double? = nil, distanceKm: Int? = nil, categoryId: Int? = nil, subcategoryIds: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, condition: String? = nil, brand: String? = nil, model: String? = nil, color: String? = nil, timeFilter: TimeFilter_wallapopSearchListings? = nil, shippable: Bool? = nil, hasWarranty: Bool? = nil, refurbished: Bool? = nil, minYear: Int? = nil, maxYear: Int? = nil, minKm: Int? = nil, maxKm: Int? = nil, gearbox: Gearbox_wallapopSearchListings? = nil, minHorsepower: Int? = nil, maxHorsepower: Int? = nil, orderBy: OrderBy_wallapopSearchListings? = nil, nextPage: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, apiResponseQueue: DispatchQueue = ScrapeBadgerAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+        return wallapopSearchListingsWithRequestBuilder(query: query, market: market, latitude: latitude, longitude: longitude, distanceKm: distanceKm, categoryId: categoryId, subcategoryIds: subcategoryIds, minPrice: minPrice, maxPrice: maxPrice, condition: condition, brand: brand, model: model, color: color, timeFilter: timeFilter, shippable: shippable, hasWarranty: hasWarranty, refurbished: refurbished, minYear: minYear, maxYear: maxYear, minKm: minKm, maxKm: maxKm, gearbox: gearbox, minHorsepower: minHorsepower, maxHorsepower: maxHorsepower, orderBy: orderBy, nextPage: nextPage, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -766,7 +773,7 @@ open class WallapopAPI {
     /**
      Search listings
      - GET /v1/wallapop/search
-     - Search Wallapop listings (40 per page). Needs a query, a category_id, or both.
+     - Search Wallapop listings (40 per page). Needs a query, a category_id, subcategory_ids, or a combination.
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKeyAuth
@@ -776,6 +783,7 @@ open class WallapopAPI {
      - parameter longitude: (query) Search centre longitude (optional)
      - parameter distanceKm: (query) Search radius (optional)
      - parameter categoryId: (query) Category id from /categories (optional)
+     - parameter subcategoryIds: (query) Comma-separated subcategory ids from /categories (any level of the tree), e.g. 9447 (Smartphones) or 9447,10310 (optional)
      - parameter minPrice: (query) Minimum price (EUR) (optional)
      - parameter maxPrice: (query) Maximum price (EUR) (optional)
      - parameter condition: (query) Comma-separated: un_opened, in_box, new, as_good_as_new, good, fair, has_given_it_all (optional)
@@ -804,7 +812,7 @@ open class WallapopAPI {
      - parameter idempotencyKey2: (query) Query form of &#x60;Idempotency-Key&#x60;. Not sent to the scraper. (optional)
      - returns: RequestBuilder<AnyCodable> 
      */
-    open class func wallapopSearchListingsWithRequestBuilder(query: String? = nil, market: String? = nil, latitude: Double? = nil, longitude: Double? = nil, distanceKm: Int? = nil, categoryId: Int? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, condition: String? = nil, brand: String? = nil, model: String? = nil, color: String? = nil, timeFilter: TimeFilter_wallapopSearchListings? = nil, shippable: Bool? = nil, hasWarranty: Bool? = nil, refurbished: Bool? = nil, minYear: Int? = nil, maxYear: Int? = nil, minKm: Int? = nil, maxKm: Int? = nil, gearbox: Gearbox_wallapopSearchListings? = nil, minHorsepower: Int? = nil, maxHorsepower: Int? = nil, orderBy: OrderBy_wallapopSearchListings? = nil, nextPage: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
+    open class func wallapopSearchListingsWithRequestBuilder(query: String? = nil, market: String? = nil, latitude: Double? = nil, longitude: Double? = nil, distanceKm: Int? = nil, categoryId: Int? = nil, subcategoryIds: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, condition: String? = nil, brand: String? = nil, model: String? = nil, color: String? = nil, timeFilter: TimeFilter_wallapopSearchListings? = nil, shippable: Bool? = nil, hasWarranty: Bool? = nil, refurbished: Bool? = nil, minYear: Int? = nil, maxYear: Int? = nil, minKm: Int? = nil, maxKm: Int? = nil, gearbox: Gearbox_wallapopSearchListings? = nil, minHorsepower: Int? = nil, maxHorsepower: Int? = nil, orderBy: OrderBy_wallapopSearchListings? = nil, nextPage: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil) -> RequestBuilder<AnyCodable> {
         let localVariablePath = "/v1/wallapop/search"
         let localVariableURLString = ScrapeBadgerAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -817,6 +825,7 @@ open class WallapopAPI {
             "longitude": (wrappedValue: longitude?.encodeToJSON(), isExplode: true),
             "distance_km": (wrappedValue: distanceKm?.encodeToJSON(), isExplode: true),
             "category_id": (wrappedValue: categoryId?.encodeToJSON(), isExplode: true),
+            "subcategory_ids": (wrappedValue: subcategoryIds?.encodeToJSON(), isExplode: true),
             "min_price": (wrappedValue: minPrice?.encodeToJSON(), isExplode: true),
             "max_price": (wrappedValue: maxPrice?.encodeToJSON(), isExplode: true),
             "condition": (wrappedValue: condition?.encodeToJSON(), isExplode: true),

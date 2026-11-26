@@ -359,7 +359,7 @@ Name | Type | Description  | Notes
 
 List categories
 
-The full category tree; ids are usable as the search category_id.
+The full category tree; top-level ids are the search category_id, nested subcategory ids go in subcategory_ids.
 
 ### Example
 ```swift
@@ -418,7 +418,7 @@ Name | Type | Description  | Notes
 
 # **wallapopListFilterOptions**
 ```swift
-    open class func wallapopListFilterOptions(filterId: String, categoryId: Int? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func wallapopListFilterOptions(filterId: String, categoryId: Int? = nil, subcategoryIds: String? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 List filter options
@@ -432,6 +432,7 @@ import ScrapeBadger
 
 let filterId = "filterId_example" // String | 
 let categoryId = 987 // Int | Category to scope options to (optional)
+let subcategoryIds = "subcategoryIds_example" // String | Comma-separated subcategory ids to scope options to (optional)
 let query = "query_example" // String | Search text to scope options to (optional)
 let market = "market_example" // String | Market: es (Spain), it (Italy), pt (Portugal) (optional) (default to "es")
 let prefer = "prefer_example" // String | `respond-async[, wait=N]` (RFC 7240): run the call async. If it has not finished after `wait` seconds (0-120, default 25) the answer is `202` with a `request_id`; poll `GET /v1/requests/{request_id}`. Its `wait=` wins over `async_wait`; without one, `async_wait` sets the wait. (optional)
@@ -443,7 +444,7 @@ let callbackUrl = "callbackUrl_example" // String | Query form of `X-Callback-UR
 let idempotencyKey2 = "idempotencyKey2_example" // String | Query form of `Idempotency-Key`. Not sent to the scraper. (optional)
 
 // List filter options
-WallapopAPI.wallapopListFilterOptions(filterId: filterId, categoryId: categoryId, query: query, market: market, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2) { (response, error) in
+WallapopAPI.wallapopListFilterOptions(filterId: filterId, categoryId: categoryId, subcategoryIds: subcategoryIds, query: query, market: market, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -461,6 +462,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **filterId** | **String** |  | 
  **categoryId** | **Int** | Category to scope options to | [optional] 
+ **subcategoryIds** | **String** | Comma-separated subcategory ids to scope options to | [optional] 
  **query** | **String** | Search text to scope options to | [optional] 
  **market** | **String** | Market: es (Spain), it (Italy), pt (Portugal) | [optional] [default to &quot;es&quot;]
  **prefer** | **String** | &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. | [optional] 
@@ -550,7 +552,7 @@ Name | Type | Description  | Notes
 
 # **wallapopListSearchFilters**
 ```swift
-    open class func wallapopListSearchFilters(categoryId: Int? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func wallapopListSearchFilters(categoryId: Int? = nil, subcategoryIds: String? = nil, query: String? = nil, market: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 List search filters
@@ -563,6 +565,7 @@ The filters Wallapop offers for a category or query, with option ids.
 import ScrapeBadger
 
 let categoryId = 987 // Int | Category the filters apply to (optional)
+let subcategoryIds = "subcategoryIds_example" // String | Comma-separated subcategory ids the filters apply to (optional)
 let query = "query_example" // String | Search text the filters apply to (optional)
 let market = "market_example" // String | Market: es (Spain), it (Italy), pt (Portugal) (optional) (default to "es")
 let prefer = "prefer_example" // String | `respond-async[, wait=N]` (RFC 7240): run the call async. If it has not finished after `wait` seconds (0-120, default 25) the answer is `202` with a `request_id`; poll `GET /v1/requests/{request_id}`. Its `wait=` wins over `async_wait`; without one, `async_wait` sets the wait. (optional)
@@ -574,7 +577,7 @@ let callbackUrl = "callbackUrl_example" // String | Query form of `X-Callback-UR
 let idempotencyKey2 = "idempotencyKey2_example" // String | Query form of `Idempotency-Key`. Not sent to the scraper. (optional)
 
 // List search filters
-WallapopAPI.wallapopListSearchFilters(categoryId: categoryId, query: query, market: market, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2) { (response, error) in
+WallapopAPI.wallapopListSearchFilters(categoryId: categoryId, subcategoryIds: subcategoryIds, query: query, market: market, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -591,6 +594,7 @@ WallapopAPI.wallapopListSearchFilters(categoryId: categoryId, query: query, mark
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **categoryId** | **Int** | Category the filters apply to | [optional] 
+ **subcategoryIds** | **String** | Comma-separated subcategory ids the filters apply to | [optional] 
  **query** | **String** | Search text the filters apply to | [optional] 
  **market** | **String** | Market: es (Spain), it (Italy), pt (Portugal) | [optional] [default to &quot;es&quot;]
  **prefer** | **String** | &#x60;respond-async[, wait&#x3D;N]&#x60; (RFC 7240): run the call async. If it has not finished after &#x60;wait&#x60; seconds (0-120, default 25) the answer is &#x60;202&#x60; with a &#x60;request_id&#x60;; poll &#x60;GET /v1/requests/{request_id}&#x60;. Its &#x60;wait&#x3D;&#x60; wins over &#x60;async_wait&#x60;; without one, &#x60;async_wait&#x60; sets the wait. | [optional] 
@@ -618,12 +622,12 @@ Name | Type | Description  | Notes
 
 # **wallapopSearchListings**
 ```swift
-    open class func wallapopSearchListings(query: String? = nil, market: String? = nil, latitude: Double? = nil, longitude: Double? = nil, distanceKm: Int? = nil, categoryId: Int? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, condition: String? = nil, brand: String? = nil, model: String? = nil, color: String? = nil, timeFilter: TimeFilter_wallapopSearchListings? = nil, shippable: Bool? = nil, hasWarranty: Bool? = nil, refurbished: Bool? = nil, minYear: Int? = nil, maxYear: Int? = nil, minKm: Int? = nil, maxKm: Int? = nil, gearbox: Gearbox_wallapopSearchListings? = nil, minHorsepower: Int? = nil, maxHorsepower: Int? = nil, orderBy: OrderBy_wallapopSearchListings? = nil, nextPage: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func wallapopSearchListings(query: String? = nil, market: String? = nil, latitude: Double? = nil, longitude: Double? = nil, distanceKm: Int? = nil, categoryId: Int? = nil, subcategoryIds: String? = nil, minPrice: Double? = nil, maxPrice: Double? = nil, condition: String? = nil, brand: String? = nil, model: String? = nil, color: String? = nil, timeFilter: TimeFilter_wallapopSearchListings? = nil, shippable: Bool? = nil, hasWarranty: Bool? = nil, refurbished: Bool? = nil, minYear: Int? = nil, maxYear: Int? = nil, minKm: Int? = nil, maxKm: Int? = nil, gearbox: Gearbox_wallapopSearchListings? = nil, minHorsepower: Int? = nil, maxHorsepower: Int? = nil, orderBy: OrderBy_wallapopSearchListings? = nil, nextPage: String? = nil, prefer: String? = nil, xCallbackURL: String? = nil, idempotencyKey: String? = nil, async: Bool? = nil, asyncWait: Int? = nil, callbackUrl: String? = nil, idempotencyKey2: String? = nil, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
 ```
 
 Search listings
 
-Search Wallapop listings (40 per page). Needs a query, a category_id, or both.
+Search Wallapop listings (40 per page). Needs a query, a category_id, subcategory_ids, or a combination.
 
 ### Example
 ```swift
@@ -636,6 +640,7 @@ let latitude = 987 // Double | Search centre latitude (defaults to the market ca
 let longitude = 987 // Double | Search centre longitude (optional)
 let distanceKm = 987 // Int | Search radius (optional)
 let categoryId = 987 // Int | Category id from /categories (optional)
+let subcategoryIds = "subcategoryIds_example" // String | Comma-separated subcategory ids from /categories (any level of the tree), e.g. 9447 (Smartphones) or 9447,10310 (optional)
 let minPrice = 987 // Double | Minimum price (EUR) (optional)
 let maxPrice = 987 // Double | Maximum price (EUR) (optional)
 let condition = "condition_example" // String | Comma-separated: un_opened, in_box, new, as_good_as_new, good, fair, has_given_it_all (optional)
@@ -664,7 +669,7 @@ let callbackUrl = "callbackUrl_example" // String | Query form of `X-Callback-UR
 let idempotencyKey2 = "idempotencyKey2_example" // String | Query form of `Idempotency-Key`. Not sent to the scraper. (optional)
 
 // Search listings
-WallapopAPI.wallapopSearchListings(query: query, market: market, latitude: latitude, longitude: longitude, distanceKm: distanceKm, categoryId: categoryId, minPrice: minPrice, maxPrice: maxPrice, condition: condition, brand: brand, model: model, color: color, timeFilter: timeFilter, shippable: shippable, hasWarranty: hasWarranty, refurbished: refurbished, minYear: minYear, maxYear: maxYear, minKm: minKm, maxKm: maxKm, gearbox: gearbox, minHorsepower: minHorsepower, maxHorsepower: maxHorsepower, orderBy: orderBy, nextPage: nextPage, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2) { (response, error) in
+WallapopAPI.wallapopSearchListings(query: query, market: market, latitude: latitude, longitude: longitude, distanceKm: distanceKm, categoryId: categoryId, subcategoryIds: subcategoryIds, minPrice: minPrice, maxPrice: maxPrice, condition: condition, brand: brand, model: model, color: color, timeFilter: timeFilter, shippable: shippable, hasWarranty: hasWarranty, refurbished: refurbished, minYear: minYear, maxYear: maxYear, minKm: minKm, maxKm: maxKm, gearbox: gearbox, minHorsepower: minHorsepower, maxHorsepower: maxHorsepower, orderBy: orderBy, nextPage: nextPage, prefer: prefer, xCallbackURL: xCallbackURL, idempotencyKey: idempotencyKey, async: async, asyncWait: asyncWait, callbackUrl: callbackUrl, idempotencyKey2: idempotencyKey2) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -686,6 +691,7 @@ Name | Type | Description  | Notes
  **longitude** | **Double** | Search centre longitude | [optional] 
  **distanceKm** | **Int** | Search radius | [optional] 
  **categoryId** | **Int** | Category id from /categories | [optional] 
+ **subcategoryIds** | **String** | Comma-separated subcategory ids from /categories (any level of the tree), e.g. 9447 (Smartphones) or 9447,10310 | [optional] 
  **minPrice** | **Double** | Minimum price (EUR) | [optional] 
  **maxPrice** | **Double** | Maximum price (EUR) | [optional] 
  **condition** | **String** | Comma-separated: un_opened, in_box, new, as_good_as_new, good, fair, has_given_it_all | [optional] 
